@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalService", "RentalService\RentalService.csproj", "{2CC36F4B-24FE-449F-AED4-8CED62B86FDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentalService", "RentalService\RentalService.csproj", "{2CC36F4B-24FE-449F-AED4-8CED62B86FDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopAdmin", "DesktopAdmin\DesktopAdmin.csproj", "{585E4EC7-475F-4384-9074-9D9E17110B00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2CC36F4B-24FE-449F-AED4-8CED62B86FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CC36F4B-24FE-449F-AED4-8CED62B86FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CC36F4B-24FE-449F-AED4-8CED62B86FDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{585E4EC7-475F-4384-9074-9D9E17110B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{585E4EC7-475F-4384-9074-9D9E17110B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{585E4EC7-475F-4384-9074-9D9E17110B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{585E4EC7-475F-4384-9074-9D9E17110B00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
