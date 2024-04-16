@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using RentalService.DataAccess;
 using RentalService.Models;
+using System;
 namespace RentalService.DataAccess
 {
     public class CategoryAccess : ICategoryAccess
@@ -38,8 +39,38 @@ namespace RentalService.DataAccess
 
             }
               return foundCategory;
-
         }
+
+
+
+
+
+        public Category GetCategoryById(int findId)
+        {
+            Category foundCategory;
+            //
+            string queryString = "select categoryID, categoryName from Categories where categoryID = @Id";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            {
+                // Prepace SQL
+                SqlParameter idParam = new SqlParameter("@Id", findId);
+                readCommand.Parameters.Add(idParam);
+                //
+                con.Open();
+                // Execute read
+                SqlDataReader categoryReader = readCommand.ExecuteReader();
+                foundCategory = new Category();
+                while (categoryReader.Read())
+                {
+                    foundCategory = GetCategoryFromReader(categoryReader);
+                }
+            }
+            return foundCategory;
+        }
+
+
+
 
         private Category GetCategoryFromReader(SqlDataReader categoryReader)
         {

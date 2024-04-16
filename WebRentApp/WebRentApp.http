@@ -1,0 +1,5 @@
+﻿@WebRentApp_HostAddress = https://localhost:7036
+
+GET {{WebRentApp_HostAddress}}/home/error/{id}
+
+###
