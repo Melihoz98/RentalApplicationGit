@@ -20,7 +20,7 @@ namespace RentalService.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<CategoryDto> foundCategories = _businessLogicCtrl.Get();
+            List<CategoryDto> foundCategories = _businessLogicCtrl.GetAllCategories();
 
             if (foundCategories != null && foundCategories.Count > 0)
             {
@@ -36,8 +36,18 @@ namespace RentalService.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            // Implement logic to retrieve category by id
-            return NotFound(); // Placeholder response
+            
+            CategoryDto category = _businessLogicCtrl.GetByID(id);
+
+            if (category != null)
+            {
+                return Ok(category);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
+
     }
 }
