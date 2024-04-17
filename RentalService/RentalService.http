@@ -28,3 +28,7 @@ GET {{RentalService_HostAddress}}/api/category
 GET {{RentalService_HostAddress}}/api/category
 
 ###
+
+GET {{RentalService_HostAddress}}/api/category
+
+###

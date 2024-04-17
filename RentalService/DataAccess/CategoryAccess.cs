@@ -1,88 +1,95 @@
 ﻿using Microsoft.Data.SqlClient;
-using RentalService.DataAccess;
+using Microsoft.Extensions.Configuration;
 using RentalService.Models;
 using System;
+using System.Collections.Generic;
+
 namespace RentalService.DataAccess
 {
     public class CategoryAccess : ICategoryAccess
     {
-        readonly string? _connectionString;
+        private readonly string _connectionString;
 
-        public CategoryAccess(IConfiguration inConfig)
+        public CategoryAccess(IConfiguration configuration)
         {
-            _connectionString = inConfig.GetConnectionString("RentalConnection");
-        }
-        public CategoryAccess(string inConnectionString)
-        {
-            _connectionString = inConnectionString;
-        }
-
-        public List<Category> GetCategoryAll() {
-
-            List<Category> foundCategory;
-            Category readCategory;
-
-            string queryString = "select categoryID, categoryName from Categories";
-
-            using (SqlConnection con = new SqlConnection(_connectionString))
-
-            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            _connectionString = configuration.GetConnectionString("RentalConnection");
+            if (string.IsNullOrEmpty(_connectionString))
             {
-               con.Open();
-                SqlDataReader categoryReader = readCommand.ExecuteReader();
-                foundCategory = new List<Category>();
-                while (categoryReader.Read())
-                {
-                    readCategory = GetCategoryFromReader(categoryReader);
-                    foundCategory.Add(readCategory);
-                }
-
+                throw new InvalidOperationException("Database connection string is not configured.");
             }
-              return foundCategory;
         }
 
-
-
-
-
-        public Category GetCategoryById(int findId)
+        public List<Category> GetCategoryAll()
         {
-            Category foundCategory;
-            //
-            string queryString = "select categoryID, categoryName from Categories where categoryID = @Id";
-            using (SqlConnection con = new SqlConnection(_connectionString))
-            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            List<Category> foundCategories = new List<Category>();
+
+            try
             {
-                // Prepace SQL
-                SqlParameter idParam = new SqlParameter("@Id", findId);
-                readCommand.Parameters.Add(idParam);
-                //
-                con.Open();
-                // Execute read
-                SqlDataReader categoryReader = readCommand.ExecuteReader();
-                foundCategory = new Category();
-                while (categoryReader.Read())
+                using (SqlConnection con = new SqlConnection(_connectionString))
                 {
-                    foundCategory = GetCategoryFromReader(categoryReader);
+                    con.Open();
+                    string queryString = "SELECT categoryID, categoryName FROM Categories";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Category category = GetCategoryFromReader(reader);
+                                foundCategories.Add(category);
+                            }
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                // Handle exception (log, return error response, etc.)
+                Console.WriteLine($"Error retrieving categories: {ex.Message}");
+                throw;
+            }
+
+            return foundCategories;
+        }
+
+        public Category GetCategoryById(int id)
+        {
+            Category foundCategory = null;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = "SELECT categoryID, categoryName FROM Categories WHERE categoryID = @Id";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                foundCategory = GetCategoryFromReader(reader);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception (log, return error response, etc.)
+                Console.WriteLine($"Error retrieving category by ID: {ex.Message}");
+                throw;
+            }
+
             return foundCategory;
         }
 
-
-
-
-        private Category GetCategoryFromReader(SqlDataReader categoryReader)
+        private Category GetCategoryFromReader(SqlDataReader reader)
         {
-            Category foundCategory;
-            int tempId;
-            bool differsFromNull;
-            string? tempName;
-            tempId = categoryReader.GetInt32(categoryReader.GetOrdinal("categoryID"));
-            tempName = categoryReader.GetString(categoryReader.GetOrdinal("categoryName"));
-
-            foundCategory = new Category(tempId, tempName);
-            return foundCategory;
+            int categoryId = reader.GetInt32(reader.GetOrdinal("categoryID"));
+            string categoryName = reader.GetString(reader.GetOrdinal("categoryName"));
+            return new Category(categoryId, categoryName);
         }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RentalService.DTO;
 using RentalService.Business;
-using System.Collections.Generic; // Added for List<T>
+using System.Collections.Generic;
 
 namespace RentalService.Controllers
 {
@@ -18,35 +18,26 @@ namespace RentalService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<CategoryDto>> Get() // Added missing List<>
+        public IActionResult Get()
         {
-            ActionResult<List<CategoryDto>> foundReturn;
-            List<CategoryDto>? foundCategories = _businessLogicCtrl.Get(); // Corrected method call
+            List<CategoryDto> foundCategories = _businessLogicCtrl.Get();
 
-            if (foundCategories != null)
+            if (foundCategories != null && foundCategories.Count > 0)
             {
-                if (foundCategories.Count > 0)
-                {
-                    foundReturn = Ok(foundCategories);
-                }
-                else
-                {
-                    foundReturn = NoContent(); // Changed to NoContent() for 204
-                }
+                return Ok(foundCategories);
             }
             else
             {
-                foundReturn = StatusCode(500); // Changed to StatusCode() for 500
+                return NoContent(); // No categories found
             }
-
-            return foundReturn;
         }
 
-        [HttpGet, Route("{id}")]
-        public ActionResult<CategoryDto> Get(int id)
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            return null;
+            // Implement logic to retrieve category by id
+            return NotFound(); // Placeholder response
         }
-
     }
 }
