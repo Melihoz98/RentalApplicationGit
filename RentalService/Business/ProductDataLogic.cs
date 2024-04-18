@@ -45,5 +45,45 @@ namespace RentalService.Business
             }
             return foundDtos;
         }
+        public void AddProduct(ProductDto productDto)
+        {
+            try
+            {
+                Product product = ModelConversion.ProductDtoConvert.ToProduct(productDto);
+                _productAccess.AddProduct(product);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
+        }
+
+        public void UpdateProduct(ProductDto productDto)
+        {
+            try
+            {
+                Product product = ModelConversion.ProductDtoConvert.ToProduct(productDto);
+                _productAccess.UpdateProduct(product);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
+        }
+
+        public void DeleteProduct(int id)
+        {
+            try
+            {
+                _productAccess.DeleteProduct(id);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
+        }
     }
 }

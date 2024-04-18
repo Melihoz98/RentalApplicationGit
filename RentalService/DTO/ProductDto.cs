@@ -1,11 +1,8 @@
 ﻿namespace RentalService.DTO
 {
     
-        
         public class ProductDto
-        {
-
-
+    {
             public ProductDto() { }
 
             public ProductDto(string? inproductName, string? indescription, decimal? inhourlyPrice, int? ininventory, int? incategoryID)
@@ -17,6 +14,8 @@
                 CategoryID = incategoryID;
             }
 
+
+            public int ProductID { get;  }
             public string? ProductName { get; set; }
             public string? Description { get; set; }
             public decimal? HourlyPrice { get; set; }

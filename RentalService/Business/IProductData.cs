@@ -6,5 +6,8 @@ namespace RentalService.Business
     {
         ProductDto? GetByID(int id);
         List<ProductDto?>? GetAllProducts();
+        void AddProduct(ProductDto productDto);
+        void UpdateProduct(ProductDto productDto);
+        void DeleteProduct(int id);
     }
 }
