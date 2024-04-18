@@ -83,6 +83,85 @@ namespace RentalService.DataAccess
             return foundProduct;
         }
 
+        public void AddProduct(Product product)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = "INSERT INTO Products (productName, description, hourlyPrice, inventory, categoryID) VALUES (@ProductName, @Description, @HourlyPrice, @Inventory, @CategoryID)";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@ProductName", product.ProductName);
+                        command.Parameters.AddWithValue("@Description", (object)product.Description ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
+                        command.Parameters.AddWithValue("@Inventory", product.Inventory);
+                        command.Parameters.AddWithValue("@CategoryID", (object)product.CategoryID ?? DBNull.Value);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error adding product: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = "UPDATE Products SET productName = @ProductName, description = @Description, hourlyPrice = @HourlyPrice, inventory = @Inventory, categoryID = @CategoryID WHERE productID = @ProductId";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@ProductName", product.ProductName);
+                        command.Parameters.AddWithValue("@Description", (object)product.Description ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
+                        command.Parameters.AddWithValue("@Inventory", product.Inventory);
+                        command.Parameters.AddWithValue("@CategoryID", (object)product.CategoryID ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@ProductId", product.ProductID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error updating product: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void DeleteProduct(int id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = "DELETE FROM Products WHERE productID = @ProductId";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@ProductId", id);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error deleting product: {ex.Message}");
+                throw;
+            }
+        }
+
+
         private Product GetProductFromReader(SqlDataReader reader)
         {
             int productId = reader.GetInt32(reader.GetOrdinal("productID"));

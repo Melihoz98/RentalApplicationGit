@@ -6,5 +6,9 @@ namespace RentalService.DataAccess
     {
         Product GetProductById(int id);
         List<Product> GetProductAll();
+        void AddProduct(Product product);
+        void UpdateProduct(Product product);
+        void DeleteProduct(int id);
+
     }
 }
