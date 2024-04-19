@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RentalService.Business;
 using RentalService.DTO;
+using System;
 using System.Collections.Generic;
 
 namespace RentalService.Controllers
@@ -10,40 +11,48 @@ namespace RentalService.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductData _productData;
+        private readonly IProductData _businessLogicCtrl;
 
-        public ProductController(IProductData productData)
+        public ProductController(IProductData inBusinessLogicCtrl)
         {
-            _productData = productData;
+            _businessLogicCtrl = inBusinessLogicCtrl;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<ProductDto>> Get()
         {
-            List<ProductDto?>? foundProducts = _productData.GetAllProducts();
-
-            if (foundProducts != null && foundProducts.Count > 0)
+            ActionResult<List<ProductDto>> foundReturn;
+            List<ProductDto?>? foundProducts = _businessLogicCtrl.Get();
+            if (foundProducts != null)
             {
-                return Ok(foundProducts);
+                if (foundProducts.Count > 0)
+                {
+                    foundReturn = Ok(foundProducts);
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(204);
+                }
             }
             else
             {
-                return NoContent(); // No products found
+                foundReturn = new StatusCodeResult(500);            // Internal server error
             }
+            return foundReturn;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet, Route("{id}")]
+        public ActionResult<ProductDto> Get(int id)
         {
-            ProductDto? product = _productData.GetByID(id);
+            ProductDto foundProduct = _businessLogicCtrl.Get(id);
 
-            if (product != null)
+            if (foundProduct != null)
             {
-                return Ok(product);
+                return Ok(foundProduct); // Statuscode 200
             }
             else
             {
-                return NotFound(); // Product not found
+                return NotFound(); // Statuscode 404
             }
         }
 
@@ -52,7 +61,7 @@ namespace RentalService.Controllers
         {
             try
             {
-                _productData.AddProduct(productDto);
+                _businessLogicCtrl.Add(productDto);
                 // Return 201 Created status without including ProductDto in response
                 return StatusCode(StatusCodes.Status201Created);
             }
@@ -63,36 +72,33 @@ namespace RentalService.Controllers
             }
         }
 
-
-[HttpPut("{id}")]
-public IActionResult Put(int id, [FromBody] ProductDto productDto)
-{
-    try
-    {
-        // Kontrollér, om det modtagne id matcher id'et i productDto
-        if (id != productDto.ProductID)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] ProductDto productDto)
         {
-            return BadRequest("Product ID mismatch");
+            try
+            {
+                // Kontrollér, om det modtagne id matcher id'et i productDto
+                if (id != productDto.ProductID)
+                {
+                    return BadRequest("Product ID mismatch");
+                }
+
+                _businessLogicCtrl.Put(productDto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Håndter undtagelsen
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
-
-        _productData.UpdateProduct(productDto);
-        return NoContent();
-    }
-    catch (Exception ex)
-    {
-        // Håndter undtagelsen
-        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-    }
-}
-
-
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             try
             {
-                _productData.DeleteProduct(id);
+                _businessLogicCtrl.DeleteProduct(id);
                 return NoContent();
             }
             catch (Exception ex)
@@ -101,6 +107,5 @@ public IActionResult Put(int id, [FromBody] ProductDto productDto)
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
     }
 }

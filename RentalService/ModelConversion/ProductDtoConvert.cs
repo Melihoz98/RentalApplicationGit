@@ -9,31 +9,31 @@ namespace RentalService.ModelConversion
         // Convert from Product collection to ProductDto collection
         public static List<ProductDto?>? FromProductCollection(List<Product> inProducts)
         {
-            List<ProductDto?>? productDtoList = null;
+            List<ProductDto?>? productReadDtoList = null;
             if (inProducts != null)
             {
-                productDtoList = new List<ProductDto?>();
-                foreach (Product product in inProducts)
+                productReadDtoList = new List<ProductDto?>();
+                foreach (Product aProduct in inProducts)
                 {
-                    if (product != null)
+                    if (aProduct != null)
                     {
-                        ProductDto? dto = FromProduct(product);
-                        productDtoList.Add(dto);
+                        ProductDto? dto = FromProduct(aProduct);
+                        productReadDtoList.Add(dto);
                     }
                 }
             }
-            return productDtoList;
+            return productReadDtoList;
         }
 
         // Convert from Product to ProductDto
-        public static ProductDto? FromProduct(Product product)
+        public static ProductDto? FromProduct(Product inProduct)
         {
-            ProductDto? productDto = null;
-            if (product != null)
+            ProductDto? aProductReadDto = null;
+            if (inProduct != null)
             {
-                productDto = new ProductDto(product.ProductName, product.Description, product.HourlyPrice, product.Inventory, product.CategoryID);
+                aProductReadDto = new ProductDto(inProduct.ProductName, inProduct.Description, inProduct.HourlyPrice, inProduct.Inventory, inProduct.CategoryID);
             }
-            return productDto;
+            return aProductReadDto;
         }
 
         // Convert from ProductDto to Product

@@ -40,3 +40,12 @@ GET {{RentalService_HostAddress}}/api/category/0
 GET {{RentalService_HostAddress}}/api/category
 
 ###
+
+PUT {{RentalService_HostAddress}}/api/product/1
+Content-Type: application/json
+
+{
+  //ProductDto
+}
+
+###

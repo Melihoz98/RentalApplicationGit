@@ -4,10 +4,10 @@ namespace RentalService.Business
 {
     public interface IProductData
     {
-        ProductDto? GetByID(int id);
-        List<ProductDto?>? GetAllProducts();
-        void AddProduct(ProductDto productDto);
-        void UpdateProduct(ProductDto productDto);
+        ProductDto? Get(int id);
+        List<ProductDto?>? Get();
+        int Add(ProductDto productToAdd);
+        void Put(ProductDto productToUpdate);
         void DeleteProduct(int id);
     }
 }
