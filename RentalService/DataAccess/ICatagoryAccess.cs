@@ -7,5 +7,7 @@ namespace RentalService.DataAccess
         Category GetCategoryById(int id);
         List<Category> GetCategoryAll();
 
+
+
     }
 }

@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ICategoryData, CategorydataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
-
+builder.Services.AddSingleton<IProductCopyData, ProductCopydataLogic>();
+builder.Services.AddSingleton<IProductCopyAccess, ProductCopyAccess>();
 // Add Swagger
 builder.Services.AddSwaggerGen(c =>
 {
