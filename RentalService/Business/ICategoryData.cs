@@ -4,7 +4,7 @@ namespace RentalService.Business
 {
     public interface ICategoryData
     {
-        CategoryDto? Get(int id);
-        List<CategoryDto?>? Get();
+        CategoryDto? GetByID(int id);
+        List<CategoryDto?>? GetAllCategories();
     }
 }

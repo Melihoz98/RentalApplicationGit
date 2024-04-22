@@ -14,7 +14,7 @@ namespace RentalService.Business
 
         }
 
-        public CategoryDto? Get(int idToMatch)
+        public CategoryDto? GetByID(int idToMatch)
         {
             CategoryDto? foundCategoryDto;
             try
@@ -30,7 +30,7 @@ namespace RentalService.Business
         }
 
 
-        public List<CategoryDto?>? Get() 
+        public List<CategoryDto?>? GetAllCategories() 
         {
             List<CategoryDto?>? foundDtos;
             try
