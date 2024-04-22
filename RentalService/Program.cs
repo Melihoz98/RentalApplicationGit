@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Builder;
+using RentalService.Security;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using RentalService.Business;
@@ -10,6 +12,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ICategoryData, CategorydataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
+// Configure the JWT Authentication Service
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = "JwtBearer";
+    options.DefaultChallengeScheme = "JwtBearer";
+})
+    .AddJwtBearer("JwtBearer", jwtOptions => {
+        jwtOptions.TokenValidationParameters = new TokenValidationParameters()
+        {
+            // The SigningKey is defined in the TokenController class
+            ValidateIssuerSigningKey = true,
+            // IssuerSigningKey = new SecurityHelper(configuration).GetSecurityKey(),
+            IssuerSigningKey = new SecurityHelper(builder.Configuration).GetSecurityKey(),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = "https://localhost:7023",
+            ValidAudience = "https://localhost:7023",
+            ValidateLifetime = true
+        };
+    });
 
 // Add Swagger
 builder.Services.AddSwaggerGen(c =>
@@ -26,6 +47,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
