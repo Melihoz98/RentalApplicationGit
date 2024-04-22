@@ -13,7 +13,9 @@ namespace AdminWinForm
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new ProductUI());
+            Application.Run(new AllProductsUI());
+            Application.Run(new AddProductUI());
+            Application.Run(new UpdateProductUI());
         }
     }
 }

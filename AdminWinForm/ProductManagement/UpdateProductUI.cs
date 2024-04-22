@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace AdminWinForm.ProductManagement
 {
-    public partial class ProductUI : Form
+    public partial class UpdateProductUI : Form
     {
-        public ProductUI()
+        public UpdateProductUI()
         {
             InitializeComponent();
         }
