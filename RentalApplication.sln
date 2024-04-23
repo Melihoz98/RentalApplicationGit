@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CategoryAPItest", "Category
 		{2CC36F4B-24FE-449F-AED4-8CED62B86FDE} = {2CC36F4B-24FE-449F-AED4-8CED62B86FDE}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentAppMVC", "RentAppMVC\RentAppMVC.csproj", "{8B02838C-730C-47F3-BEA4-041381199D2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{190D3BB0-148A-4D4F-A963-F83BA69DA90F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{190D3BB0-148A-4D4F-A963-F83BA69DA90F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{190D3BB0-148A-4D4F-A963-F83BA69DA90F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B02838C-730C-47F3-BEA4-041381199D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B02838C-730C-47F3-BEA4-041381199D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B02838C-730C-47F3-BEA4-041381199D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B02838C-730C-47F3-BEA4-041381199D2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
