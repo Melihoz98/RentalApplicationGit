@@ -7,5 +7,7 @@ namespace RentalService.Business
         ProductCopyDto GetBySerialNumber(string serialNumber);
 
         List<ProductCopyDto?>? GetProductCopiesAll();
+
+        void DeleteProductCopy(string serialNumber);
     }
 }

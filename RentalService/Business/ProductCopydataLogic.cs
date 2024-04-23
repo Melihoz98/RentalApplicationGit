@@ -47,6 +47,19 @@ namespace RentalService.Business
 
         }
 
-      
+        public void DeleteProductCopy(string serialnumber)
+        {
+            try
+            {
+                _productCopyAccess.DeleteProductCopy(serialnumber);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
+
+        }
     }
+
 }

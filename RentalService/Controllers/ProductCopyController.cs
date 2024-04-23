@@ -47,5 +47,23 @@ namespace RentalService.Controllers
                 return NotFound(); // Product copy with the specified serial number not found
             }
         }
+
+        [HttpDelete("{serialNumber}")]
+        public IActionResult Delete(string serialNumber)
+        {
+            try
+            {
+                _businessLogicCtrl.DeleteProductCopy(serialNumber);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+        }
     }
 }
+
+

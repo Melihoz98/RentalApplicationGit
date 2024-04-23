@@ -89,5 +89,29 @@ namespace RentalService.DataAccess
             string SerialNumber = reader.GetString(reader.GetOrdinal("serialNumber"));
             return new ProductCopy(ProductID, SerialNumber);
         }
+
+        public void DeleteProductCopy(string serialNumber)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = "DELETE FROM ProductCopies WHERE serialNumber = @SerialNumber";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@SerialNumber", serialNumber);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error deleting productCopy: {ex.Message}");
+                throw;
+            }
+        }
     }
+
 }
