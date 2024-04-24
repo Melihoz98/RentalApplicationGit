@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Builder;
+using RentalService.Security;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -11,28 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ICategoryData, CategorydataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
-builder.Services.AddSingleton<IProductData, ProductDataLogic>();
-builder.Services.AddSingleton<IProductAccess, ProductAccess>();
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = "JwtBearer";
-    options.DefaultChallengeScheme = "JwtBearer";
-})
-    .AddJwtBearer("JwtBearer", jwtOptions => {
-        jwtOptions.TokenValidationParameters = new TokenValidationParameters()
-        {
-            // The SigningKey is defined in the TokenController class
-            ValidateIssuerSigningKey = true,
-            // IssuerSigningKey = new SecurityHelper(configuration).GetSecurityKey(),
-            IssuerSigningKey = new SecurityHelper(builder.Configuration).GetSecurityKey(),
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = "https://localhost:7023/",
-            ValidAudience = "https://localhost:7023/",
-            ValidateLifetime = true
-        };
-    });
 
 // Add Swagger
 builder.Services.AddSwaggerGen(c =>
