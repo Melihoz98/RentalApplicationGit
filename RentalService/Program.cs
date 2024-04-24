@@ -10,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ICategoryData, CategorydataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
+builder.Services.AddSingleton<IBusinessCustomerData, BusinessCustomerdataLogic>();
+builder.Services.AddSingleton<IBusinessCustomerAccess, BusinessCustomerAccess>();
+builder.Services.AddSingleton<IPrivateCustomerData, PrivateCustomerdataLogic>();
+builder.Services.AddSingleton<IPrivateCustomerAccess, PrivateCustomerAccess>();
 
 // Add Swagger
 builder.Services.AddSwaggerGen(c =>
