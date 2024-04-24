@@ -15,6 +15,10 @@ builder.Services.AddSingleton<ICategoryData, CategorydataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
 builder.Services.AddSingleton<IProductData, ProductDataLogic>();
 builder.Services.AddSingleton<IProductAccess, ProductAccess>();
+//builder.Services.AddSingleton<IBusinessCustomerdata, BusinessCustomerdataLogic>();
+//builder.Services.AddSingleton<IBusinessCustomerAccess, BusinessCustomerAccess>();
+//builder.Services.AddSingleton<IPrivateCustomerdata, PrivateCustomerdataLogic>();
+//builder.Services.AddSingleton<IPrivateCustomerAccess, PrivateCustomerAccess>();
 // Configure the JWT Authentication Service
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = "JwtBearer";
