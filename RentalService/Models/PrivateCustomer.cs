@@ -2,9 +2,11 @@
 {
     public class PrivateCustomer
     {
-        public int CustomerID { get; set; }
+        public int PrivateCustomerID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string UserID { get; set; }
+
         public string PhoneNumber { get; set; }
     }
 

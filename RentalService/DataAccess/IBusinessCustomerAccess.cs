@@ -6,10 +6,10 @@ namespace RentalService.DataAccess
     {
 
         BusinessCustomer GetBusinessCustomerById(int id);
-        List<BusinessCustomer> GetBusinessCustomerAll();
+        List<BusinessCustomer> GetAllBusinessCustomers();
         int AddBusinessCustomer(BusinessCustomer businessCustomer);
-        void UpdateBusinessCustomer(BusinessCustomer businessCustomer);
-        void DeleteBusinessCustomer(int id);
+       
+        
 
     }
 }

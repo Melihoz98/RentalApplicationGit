@@ -6,10 +6,9 @@ namespace RentalService.DataAccess
     {
 
         PrivateCustomer GetPrivateCustomerById(int id);
-        List<PrivateCustomer> GetPrivateCustomerAll();
-        int AddPrivateCustomer(PrivateCustomer privateCustomer);
-        void UpdatePrivateCustomer(PrivateCustomer privateCustomer);
-        void DeletePrivateCustomert(int id);
+        List<PrivateCustomer> GetAllPrivateCustomers();
+        public int AddPrivateCustomer(PrivateCustomer privateCustomer);
+    
 
     }
 }
