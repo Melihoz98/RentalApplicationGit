@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ICategoryData, CategorydataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
+builder.Services.AddSingleton<IProductData, ProductDataLogic>();
+builder.Services.AddSingleton<IProductAccess, ProductAccess>();
 // Configure the JWT Authentication Service
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = "JwtBearer";
