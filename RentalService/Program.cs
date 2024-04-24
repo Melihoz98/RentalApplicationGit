@@ -17,6 +17,7 @@ builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = "JwtBearer";
     options.DefaultChallengeScheme = "JwtBearer";
 })
+    //amo kefak
     .AddJwtBearer("JwtBearer", jwtOptions => {
         jwtOptions.TokenValidationParameters = new TokenValidationParameters()
         {
