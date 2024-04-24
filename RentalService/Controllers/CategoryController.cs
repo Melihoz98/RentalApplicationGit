@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using RentalService.DTO;
 using RentalService.Business;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentalService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryData _businessLogicCtrl;
