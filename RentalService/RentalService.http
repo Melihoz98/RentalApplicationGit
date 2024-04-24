@@ -49,3 +49,7 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{RentalService_HostAddress}}/api/productcopy
+
+###
