@@ -1,14 +1,14 @@
 ﻿using RentalService.Models;
-using System;
+using System.Collections.Generic;
+
 namespace RentalService.DataAccess
 {
     public interface IProductCopyAccess
     {
-        ProductCopy GetBySerialNumber(string serialNumber);
-
-        List<ProductCopy> GetProductCopiesAll();
-  void DeleteProductCopy(string serialNumber);
+        List<ProductCopy> GetProductCopyAll();
+        ProductCopy GetProductCopyBySerialNumber(string serialNumber);
+        void AddProductCopy(ProductCopy productCopy);
+        void UpdateProductCopy(ProductCopy productCopy);
+        void DeleteProductCopy(string serialNumber);
     }
-
-  
 }

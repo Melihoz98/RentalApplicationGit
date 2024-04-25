@@ -1,65 +1,90 @@
 ﻿using RentalService.DataAccess;
 using RentalService.DTO;
 using RentalService.Models;
-using System.Collections.Generic;
+using RentalService.ModelConversion;
 using System;
+using System.Collections.Generic;
+
 namespace RentalService.Business
 {
-    public class ProductCopydataLogic : IProductCopyData
+    public class ProductCopyDataLogic : IProductCopyData
     {
         private readonly IProductCopyAccess _productCopyAccess;
 
-        public ProductCopydataLogic(IProductCopyAccess inProductCopyAccess)
+        public ProductCopyDataLogic(IProductCopyAccess productCopyAccess)
         {
-            _productCopyAccess = inProductCopyAccess;
-
+            _productCopyAccess = productCopyAccess;
         }
 
-        public ProductCopyDto? GetBySerialNumber(string SerialNumberToMatch)
+        public ProductCopyDto? GetBySerialNumber(string serialNumber)
         {
-            ProductCopyDto? foundProductCopyDto;
             try
             {
-                ProductCopy? foundProductCopy = _productCopyAccess.GetBySerialNumber(SerialNumberToMatch);
-                foundProductCopyDto = ModelConversion.ProductCopyDtoConvert.FromProductCopy(foundProductCopy);
-            }
-            catch
-            {
-                foundProductCopyDto = null;
-            }
-            return foundProductCopyDto;
-        }
-
-        public List<ProductCopyDto?>? GetProductCopiesAll()
-        {
-            List<ProductCopyDto?>? foundDtos;
-            try
-            {
-                List<ProductCopy>? foundProductCopies = _productCopyAccess.GetProductCopiesAll();
-                foundDtos = ModelConversion.ProductCopyDtoConvert.FromProductCopyCollection(foundProductCopies);
+                ProductCopy productCopy = _productCopyAccess.GetProductCopyBySerialNumber(serialNumber);
+                return ProductCopyDtoConvert.FromProductCopy(productCopy);
             }
             catch (Exception ex)
             {
-                foundDtos = null;
-                string xx = ex.Message;
-            }
-            return foundDtos;
-
-        }
-
-        public void DeleteProductCopy(string serialnumber)
-        {
-            try
-            {
-                _productCopyAccess.DeleteProductCopy(serialnumber);
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
                 // Handle exception
+                Console.WriteLine($"Error getting product copy by serial number: {ex.Message}");
+                return null;
             }
+        }
 
+        public List<ProductCopyDto?>? GetAllProductCopies()
+        {
+            try
+            {
+                List<ProductCopy> productCopies = _productCopyAccess.GetProductCopyAll();
+                return ProductCopyDtoConvert.FromProductCopyCollection(productCopies);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error getting all product copies: {ex.Message}");
+                return null;
+            }
+        }
+
+        public void CreateProductCopy(ProductCopyDto productCopyToAdd)
+        {
+            try
+            {
+                ProductCopy productCopy = ProductCopyDtoConvert.ToProductCopy(productCopyToAdd);
+                _productCopyAccess.AddProductCopy(productCopy);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error adding product copy: {ex.Message}");
+            }
+        }
+
+        public void UpdateProductCopy(ProductCopyDto productCopyToUpdate)
+        {
+            try
+            {
+                ProductCopy productCopy = ProductCopyDtoConvert.ToProductCopy(productCopyToUpdate);
+                _productCopyAccess.UpdateProductCopy(productCopy);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error updating product copy: {ex.Message}");
+            }
+        }
+
+        public void DeleteProductCopy(string serialNumber)
+        {
+            try
+            {
+                _productCopyAccess.DeleteProductCopy(serialNumber);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error deleting product copy: {ex.Message}");
+            }
         }
     }
-
 }

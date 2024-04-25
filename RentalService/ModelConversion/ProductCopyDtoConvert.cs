@@ -1,39 +1,40 @@
 ﻿using RentalService.Models;
 using RentalService.DTO;
-using System;
 using System.Collections.Generic;
 
 namespace RentalService.ModelConversion
 {
     public class ProductCopyDtoConvert
     {
-        public static List<ProductCopyDto?>? FromProductCopyCollection(List<ProductCopy> inProductCopies)
+        // Convert from ProductCopy collection to ProductCopyDto collection
+        public static List<ProductCopyDto> FromProductCopyCollection(List<ProductCopy> productCopies)
         {
-            List<ProductCopyDto?>? aProductCopyReadDtoList = null;
-            if (inProductCopies != null)
+            List<ProductCopyDto> productCopyDtos = new List<ProductCopyDto>();
+            foreach (var productCopy in productCopies)
             {
-                aProductCopyReadDtoList = new List<ProductCopyDto?>();
-                ProductCopyDto? tempDto;
-                foreach (ProductCopy aProductCopy in inProductCopies)
-                {
-                    if (aProductCopy != null)
-                    {
-                        tempDto = FromProductCopy(aProductCopy);
-                        aProductCopyReadDtoList.Add(tempDto);
-                    }
-                }
+                productCopyDtos.Add(FromProductCopy(productCopy));
             }
-            return aProductCopyReadDtoList;
+            return productCopyDtos;
         }
 
-        public static ProductCopyDto? FromProductCopy(ProductCopy inProductCopy)
+        // Convert from ProductCopy to ProductCopyDto
+        public static ProductCopyDto FromProductCopy(ProductCopy productCopy)
         {
-            ProductCopyDto? aProductCopyDto = null;
-            if (inProductCopy != null)
+            return new ProductCopyDto
             {
-                aProductCopyDto = new ProductCopyDto(inProductCopy.SerialNumber);
-            }
-            return aProductCopyDto;
+                ProductID = productCopy.ProductID,
+                SerialNumber = productCopy.SerialNumber
+            };
+        }
+
+        // Convert from ProductCopyDto to ProductCopy
+        public static ProductCopy ToProductCopy(ProductCopyDto productCopyDto)
+        {
+            return new ProductCopy
+            {
+                ProductID = productCopyDto.ProductID,
+                SerialNumber = productCopyDto.SerialNumber
+            };
         }
     }
 }

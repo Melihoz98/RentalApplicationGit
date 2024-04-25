@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RentalService.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
 using RentalService.Business;
+using RentalService.DTO;
+using System;
 using System.Collections.Generic;
-
 
 namespace RentalService.Controllers
 {
@@ -11,59 +10,110 @@ namespace RentalService.Controllers
     [ApiController]
     public class ProductCopyController : ControllerBase
     {
-        private readonly IProductCopyData _businessLogicCtrl;
+        private readonly IProductCopyData _productCopyData;
 
-        public ProductCopyController(IProductCopyData inBusinessLogicCtrl)
+        public ProductCopyController(IProductCopyData productCopyData)
         {
-            _businessLogicCtrl = inBusinessLogicCtrl;
-        }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            List<ProductCopyDto> foundProductCopies = _businessLogicCtrl.GetProductCopiesAll();
-
-            if (foundProductCopies != null && foundProductCopies.Count > 0)
-            {
-                return Ok(foundProductCopies);
-            }
-            else
-            {
-                return NoContent(); // No product copies found
-            }
+            _productCopyData = productCopyData;
         }
 
         [HttpGet("{serialNumber}")]
-        public IActionResult Get(string serialNumber)
-        {
-            ProductCopyDto productCopy = _businessLogicCtrl.GetBySerialNumber(serialNumber);
-
-            if (productCopy != null)
-            {
-                return Ok(productCopy);
-            }
-            else
-            {
-                return NotFound(); // Product copy with the specified serial number not found
-            }
-        }
-
-        [HttpDelete("{serialNumber}")]
-        public IActionResult Delete(string serialNumber)
+        public IActionResult GetBySerialNumber(string serialNumber)
         {
             try
             {
-                _businessLogicCtrl.DeleteProductCopy(serialNumber);
+                ProductCopyDto productCopyDto = _productCopyData.GetBySerialNumber(serialNumber);
+                if (productCopyDto != null)
+                {
+                    return Ok(productCopyDto);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error getting product copy by serial number: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetAllProductCopies()
+        {
+            try
+            {
+                List<ProductCopyDto?>? productCopyDtos = _productCopyData.GetAllProductCopies();
+                if (productCopyDtos != null)
+                {
+                    return Ok(productCopyDtos);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error getting all product copies: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateProductCopy([FromBody] ProductCopyDto productCopyDto)
+        {
+            try
+            {
+                _productCopyData.CreateProductCopy(productCopyDto);
+                return CreatedAtAction(nameof(GetBySerialNumber), new { serialNumber = productCopyDto.SerialNumber }, productCopyDto);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error creating product copy: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut("{serialNumber}")]
+        public IActionResult UpdateProductCopy(string serialNumber, [FromBody] ProductCopyDto productCopyDto)
+        {
+            try
+            {
+                if (serialNumber != productCopyDto.SerialNumber)
+                {
+                    return BadRequest("Serial number mismatch");
+                }
+
+                _productCopyData.UpdateProductCopy(productCopyDto);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                // Handle exception
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                // Log the error
+                Console.WriteLine($"Error updating product copy: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
+        }
 
+        [HttpDelete("{serialNumber}")]
+        public IActionResult DeleteProductCopy(string serialNumber)
+        {
+            try
+            {
+                _productCopyData.DeleteProductCopy(serialNumber);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error deleting product copy: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
-
-

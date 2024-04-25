@@ -5,6 +5,12 @@
        
         public ProductCopy() { }
 
+        public ProductCopy(int productID, string serialNumber)
+        {
+            ProductID = productID;
+            SerialNumber = serialNumber;
+        }
+
         public ProductCopy(string? serialNumber, int productID, bool rented = false)
         {
             SerialNumber = serialNumber;

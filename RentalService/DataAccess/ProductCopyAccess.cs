@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using RentalService.Models;
 using System;
 using System.Collections.Generic;
+
 namespace RentalService.DataAccess
 {
     public class ProductCopyAccess : IProductCopyAccess
@@ -18,7 +19,7 @@ namespace RentalService.DataAccess
             }
         }
 
-        public List<ProductCopy> GetProductCopiesAll()
+        public List<ProductCopy> GetProductCopyAll()
         {
             List<ProductCopy> foundProductCopies = new List<ProductCopy>();
 
@@ -44,14 +45,14 @@ namespace RentalService.DataAccess
             catch (Exception ex)
             {
                 // Handle exception (log, return error response, etc.)
-                Console.WriteLine($"Error retrieving categories: {ex.Message}");
+                Console.WriteLine($"Error retrieving product copies: {ex.Message}");
                 throw;
             }
 
             return foundProductCopies;
         }
-        
-        public ProductCopy GetBySerialNumber(string serialNumber)
+
+        public ProductCopy GetProductCopyBySerialNumber(string serialNumber)
         {
             ProductCopy foundProductCopy = null;
 
@@ -63,7 +64,7 @@ namespace RentalService.DataAccess
                     string queryString = "SELECT productID, serialNumber FROM ProductCopies WHERE serialNumber = @SerialNumber";
                     using (SqlCommand command = new SqlCommand(queryString, con))
                     {
-                        command.Parameters.AddWithValue("@Id", serialNumber);
+                        command.Parameters.AddWithValue("@SerialNumber", serialNumber);
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())
@@ -77,17 +78,41 @@ namespace RentalService.DataAccess
             catch (Exception ex)
             {
                 // Handle exception (log, return error response, etc.)
-                Console.WriteLine($"Error retrieving category by ID: {ex.Message}");
+                Console.WriteLine($"Error retrieving product copy by serial number: {ex.Message}");
                 throw;
             }
 
             return foundProductCopy;
         }
-        private ProductCopy GetProductCopyFromReader(SqlDataReader reader)
+
+        public void AddProductCopy(ProductCopy productCopy)
         {
-            int ProductID = reader.GetInt32(reader.GetOrdinal("productID"));
-            string SerialNumber = reader.GetString(reader.GetOrdinal("serialNumber"));
-            return new ProductCopy(ProductID, SerialNumber);
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = "INSERT INTO ProductCopies (productID, serialNumber) VALUES (@ProductId, @SerialNumber)";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@ProductId", productCopy.ProductID);
+                        command.Parameters.AddWithValue("@SerialNumber", productCopy.SerialNumber);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error adding product copy: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void UpdateProductCopy(ProductCopy productCopy)
+        {
+            // Implement update logic if needed
+            throw new NotImplementedException();
         }
 
         public void DeleteProductCopy(string serialNumber)
@@ -108,10 +133,16 @@ namespace RentalService.DataAccess
             catch (Exception ex)
             {
                 // Handle exception
-                Console.WriteLine($"Error deleting productCopy: {ex.Message}");
+                Console.WriteLine($"Error deleting product copy: {ex.Message}");
                 throw;
             }
         }
-    }
 
+        private ProductCopy GetProductCopyFromReader(SqlDataReader reader)
+        {
+            int productID = reader.GetInt32(reader.GetOrdinal("productID"));
+            string serialNumber = reader.GetString(reader.GetOrdinal("serialNumber"));
+            return new ProductCopy(productID, serialNumber);
+        }
+    }
 }
