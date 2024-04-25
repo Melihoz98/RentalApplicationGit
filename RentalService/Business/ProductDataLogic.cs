@@ -1,7 +1,9 @@
 ﻿using RentalService.DataAccess;
 using RentalService.DTO;
 using RentalService.Models;
-
+using RentalService.ModelConversion;
+using System;
+using System.Collections.Generic;
 
 namespace RentalService.Business
 {
@@ -14,100 +16,62 @@ namespace RentalService.Business
             _productAccess = productAccess;
         }
 
-        public ProductDto? Get(int idToMatch)
+        public ProductDto? GetById(int id)
         {
-            ProductDto? foundProductDto;
             try
             {
-                Product? foundProduct = _productAccess.GetProductById(idToMatch);
-                foundProductDto = ModelConversion.ProductDtoConvert.FromProduct(foundProduct);
-            }
-            catch
-            {
-                foundProductDto = null;
-            }
-            return foundProductDto;
-        }
-
-        public List<ProductDto?>? Get()
-        {
-            List<ProductDto?>? foundDtos;
-            try
-            {
-                List<Product>? foundProducts = _productAccess.GetProductAll();
-                foundDtos = ModelConversion.ProductDtoConvert.FromProductCollection(foundProducts);
+                Product product = _productAccess.GetProductById(id);
+                return ProductDtoConvert.FromProduct(product);
             }
             catch (Exception ex)
             {
-                foundDtos = null;
-                string errorMessage = ex.Message;
                 // Handle exception
+                Console.WriteLine($"Error getting product by ID: {ex.Message}");
+                return null;
             }
-            return foundDtos;
         }
-        public int Add(ProductDto productDto)
+
+        public List<ProductDto?>? GetAllProducts()
         {
-            int insertedId = 0;
             try
             {
-                Product? dbProduct = ModelConversion.ProductDtoConvert.ToProduct(productDto);
-                if (dbProduct != null)
-                {
-                    insertedId = _productAccess.AddProduct(dbProduct);
-                }
+                List<Product> products = _productAccess.GetProductAll();
+                return ProductDtoConvert.FromProductCollection(products);
             }
             catch (Exception ex)
             {
-                string errorMessage = ex.Message;
                 // Handle exception
+                Console.WriteLine($"Error getting all products: {ex.Message}");
+                return null;
             }
-            return insertedId;
         }
 
-        public void Put(ProductDto productDto)
+        public int CreateProduct(ProductDto productToAdd)
         {
             try
             {
-                // Hent det eksisterende produkt baseret på ID
-                Product existingProduct = _productAccess.GetProductById(productDto.ProductID);
-
-                if (existingProduct != null)
-                {
-                    // Sammenlign og opdater kun ændrede felter
-                    if (productDto.ProductName != null && productDto.ProductName != existingProduct.ProductName)
-                    {
-                        existingProduct.ProductName = productDto.ProductName;
-                    }
-
-                    if (productDto.Description != null && productDto.Description != existingProduct.Description)
-                    {
-                        existingProduct.Description = productDto.Description;
-                    }
-
-                    if (productDto.HourlyPrice != null && productDto.HourlyPrice != existingProduct.HourlyPrice)
-                    {
-                        existingProduct.HourlyPrice = productDto.HourlyPrice;
-                    }
-
-                    if (productDto.Inventory != null && productDto.Inventory != existingProduct.Inventory)
-                    {
-                        existingProduct.Inventory = productDto.Inventory;
-                    }
-
-                    if (productDto.CategoryID != null && productDto.CategoryID != existingProduct.CategoryID)
-                    {
-                        existingProduct.CategoryID = productDto.CategoryID;
-                    }
-
-                    // Opdater produktet i databasen med kun ændrede felter
-                    _productAccess.UpdateProduct(existingProduct);
-                }
+                Product product = ProductDtoConvert.ToProduct(productToAdd);
+                return _productAccess.AddProduct(product);
             }
             catch (Exception ex)
             {
-                // Håndter undtagelsen
+                // Handle exception
+                Console.WriteLine($"Error adding product: {ex.Message}");
+                return 0;
+            }
+        }
+
+        public void UpdateProduct(ProductDto productToUpdate)
+        {
+            try
+            {
+                Product product = ProductDtoConvert.ToProduct(productToUpdate);
+                _productAccess.UpdateProduct(product);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
                 Console.WriteLine($"Error updating product: {ex.Message}");
-                throw;
             }
         }
 
@@ -119,8 +83,8 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                string errorMessage = ex.Message;
                 // Handle exception
+                Console.WriteLine($"Error deleting product: {ex.Message}");
             }
         }
     }

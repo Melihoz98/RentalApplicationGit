@@ -1,50 +1,48 @@
 ﻿using RentalService.Models;
 using RentalService.DTO;
-
+using System.Collections.Generic;
 
 namespace RentalService.ModelConversion
 {
     public class ProductDtoConvert
     {
         // Convert from Product collection to ProductDto collection
-        public static List<ProductDto?>? FromProductCollection(List<Product> inProducts)
+        public static List<ProductDto> FromProductCollection(List<Product> products)
         {
-            List<ProductDto?>? productReadDtoList = null;
-            if (inProducts != null)
+            List<ProductDto> productDtos = new List<ProductDto>();
+            foreach (var product in products)
             {
-                productReadDtoList = new List<ProductDto?>();
-                foreach (Product aProduct in inProducts)
-                {
-                    if (aProduct != null)
-                    {
-                        ProductDto? dto = FromProduct(aProduct);
-                        productReadDtoList.Add(dto);
-                    }
-                }
+                productDtos.Add(FromProduct(product));
             }
-            return productReadDtoList;
+            return productDtos;
         }
 
         // Convert from Product to ProductDto
-        public static ProductDto? FromProduct(Product inProduct)
+        public static ProductDto FromProduct(Product product)
         {
-            ProductDto? aProductReadDto = null;
-            if (inProduct != null)
+            return new ProductDto
             {
-                aProductReadDto = new ProductDto(inProduct.ProductName, inProduct.Description, inProduct.HourlyPrice, inProduct.Inventory, inProduct.CategoryID);
-            }
-            return aProductReadDto;
+                ProductID = product.ProductID,
+                ProductName = product.ProductName,
+                Description = product.Description,
+                HourlyPrice = (decimal)product.HourlyPrice,
+                CategoryID = (int)product.CategoryID,
+                ImagePath = product.ImagePath
+            };
         }
 
         // Convert from ProductDto to Product
-        public static Product? ToProduct(ProductDto inDto)
+        public static Product ToProduct(ProductDto productDto)
         {
-            Product? aProduct = null;
-            if (inDto != null)
+            return new Product
             {
-                aProduct = new Product(inDto.ProductName, inDto.Description, inDto.HourlyPrice, inDto.Inventory, inDto.CategoryID);
-            }
-            return aProduct;
+                ProductID = productDto.ProductID,
+                ProductName = productDto.ProductName,
+                Description = productDto.Description,
+                HourlyPrice = productDto.HourlyPrice,
+                CategoryID = productDto.CategoryID,
+                ImagePath = productDto.ImagePath
+            };
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RentalService.Business;
 using RentalService.DTO;
 using System;
@@ -11,100 +10,105 @@ namespace RentalService.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductData _businessLogicCtrl;
+        private readonly IProductData _productData;
 
-        public ProductController(IProductData inBusinessLogicCtrl)
+        public ProductController(IProductData productData)
         {
-            _businessLogicCtrl = inBusinessLogicCtrl;
+            _productData = productData;
         }
 
-        [HttpGet]
-        public ActionResult<List<ProductDto>> Get()
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
         {
-            ActionResult<List<ProductDto>> foundReturn;
-            List<ProductDto?>? foundProducts = _businessLogicCtrl.Get();
-            if (foundProducts != null)
+            try
             {
-                if (foundProducts.Count > 0)
+                ProductDto productDto = _productData.GetById(id);
+                if (productDto != null)
                 {
-                    foundReturn = Ok(foundProducts);
+                    return Ok(productDto);
                 }
                 else
                 {
-                    foundReturn = new StatusCodeResult(204);
+                    return NotFound();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                foundReturn = new StatusCodeResult(500);            // Internal server error
+                // Log the error
+                Console.WriteLine($"Error getting product by ID: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
-            return foundReturn;
         }
 
-        [HttpGet, Route("{id}")]
-        public ActionResult<ProductDto> Get(int id)
+        [HttpGet]
+        public IActionResult GetAllProducts()
         {
-            ProductDto foundProduct = _businessLogicCtrl.Get(id);
-
-            if (foundProduct != null)
+            try
             {
-                return Ok(foundProduct); // Statuscode 200
+                List<ProductDto?>? productDtos = _productData.GetAllProducts();
+                if (productDtos != null)
+                {
+                    return Ok(productDtos);
+                }
+                else
+                {
+                    return NoContent();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(); // Statuscode 404
+                // Log the error
+                Console.WriteLine($"Error getting all products: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] ProductDto productDto)
+        public IActionResult CreateProduct([FromBody] ProductDto productDto)
         {
             try
             {
-                _businessLogicCtrl.Add(productDto);
-                // Return 201 Created status without including ProductDto in response
-                return StatusCode(StatusCodes.Status201Created);
+                int insertedId = _productData.CreateProduct(productDto);
+                return CreatedAtAction(nameof(GetById), new { id = insertedId }, productDto);
             }
             catch (Exception ex)
             {
-                // Handle exception
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                // Log the error
+                Console.WriteLine($"Error creating product: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ProductDto productDto)
+        public IActionResult UpdateProduct(int id, [FromBody] ProductDto productDto)
         {
             try
             {
-                // Kontrollér, om det modtagne id matcher id'et i productDto
-                if (id != productDto.ProductID)
-                {
-                    return BadRequest("Product ID mismatch");
-                }
-
-                _businessLogicCtrl.Put(productDto);
+                productDto.ProductID = id;
+                _productData.UpdateProduct(productDto);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                // Håndter undtagelsen
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                // Log the error
+                Console.WriteLine($"Error updating product: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteProduct(int id)
         {
             try
             {
-                _businessLogicCtrl.DeleteProduct(id);
+                _productData.DeleteProduct(id);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                // Handle exception
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                // Log the error
+                Console.WriteLine($"Error deleting product: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
-using RentalService.DTO;
+using Microsoft.Extensions.Configuration;
 using RentalService.Models;
 using System;
-
+using System.Collections.Generic;
 
 namespace RentalService.DataAccess
 {
@@ -21,11 +21,11 @@ namespace RentalService.DataAccess
 
         public List<Product> GetProductAll()
         {
-            List<Product> foundProducts;
+            List<Product> foundProducts = new List<Product>();
 
             try
             {
-                string queryString = "SELECT productID, productName, description, hourlyPrice, inventory, categoryID FROM Products";
+                string queryString = "SELECT productID, productName, description, hourlyPrice, categoryID, imagePath FROM Products";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -33,8 +33,6 @@ namespace RentalService.DataAccess
                     con.Open();
 
                     SqlDataReader productReader = readCommand.ExecuteReader();
-
-                    foundProducts = new List<Product>();
 
                     while (productReader.Read())
                     {
@@ -53,13 +51,13 @@ namespace RentalService.DataAccess
             return foundProducts;
         }
 
-
         public Product GetProductById(int findId)
         {
-            Product foundProduct;
+            Product foundProduct = null;
+
             try
             {
-                string queryString = "SELECT productID, productName, description, hourlyPrice, inventory, categoryID FROM Products WHERE productID = @Id";
+                string queryString = "SELECT productID, productName, description, hourlyPrice, categoryID, imagePath FROM Products WHERE productID = @Id";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -69,11 +67,11 @@ namespace RentalService.DataAccess
 
                     con.Open();
 
-                    SqlDataReader personReader = readCommand.ExecuteReader();
-                    foundProduct = new Product();
-                    while (personReader.Read())
+                    SqlDataReader productReader = readCommand.ExecuteReader();
+
+                    if (productReader.Read())
                     {
-                        foundProduct = GetProductFromReader(personReader);
+                        foundProduct = GetProductFromReader(productReader);
                     }
                 }
             }
@@ -87,35 +85,26 @@ namespace RentalService.DataAccess
             return foundProduct;
         }
 
-
-
         public int AddProduct(Product product)
         {
             int insertedId = -1;
 
             try
             {
-                string insertString = "INSERT INTO Products (productName, description, hourlyPrice, inventory, categoryID) OUTPUT INSERTED.productID VALUES (@ProductName, @Description, @HourlyPrice, @Inventory, @CategoryID)";
+                string insertString = "INSERT INTO Products (productName, description, hourlyPrice, categoryID, imagePath) OUTPUT INSERTED.productID VALUES (@ProductName, @Description, @HourlyPrice, @CategoryID, @ImagePath)";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand CreateCommand = new SqlCommand(insertString, con))
-                {                    
-                    // Prepare SQL
-                    SqlParameter productName = new("@ProductName", product.ProductName);
-                    CreateCommand.Parameters.Add(productName);
-                    SqlParameter productDescription = new("@Description", product.Description);
-                    CreateCommand.Parameters.Add(productDescription);
-                    SqlParameter productHourlyPrice = new("@HourlyPrice", product.HourlyPrice);
-                    CreateCommand.Parameters.Add(productHourlyPrice);
-                    SqlParameter productInventory = new("@Inventory", product.Inventory);
-                    CreateCommand.Parameters.Add(productInventory);
-                    SqlParameter productCategoryID = new("@CategoryID", product.CategoryID);
-                    CreateCommand.Parameters.Add(productCategoryID);
-
+                using (SqlCommand createCommand = new SqlCommand(insertString, con))
+                {
+                    createCommand.Parameters.AddWithValue("@ProductName", product.ProductName);
+                    createCommand.Parameters.AddWithValue("@Description", product.Description);
+                    createCommand.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
+                    createCommand.Parameters.AddWithValue("@CategoryID", product.CategoryID ?? (object)DBNull.Value);
+                    createCommand.Parameters.AddWithValue("@ImagePath", product.ImagePath);
 
                     con.Open();
-                    // Execute save and read generated key (ID)
-                    insertedId = (int)CreateCommand.ExecuteScalar();
+
+                    insertedId = (int)createCommand.ExecuteScalar();
                 }
             }
             catch (Exception ex)
@@ -128,25 +117,23 @@ namespace RentalService.DataAccess
             return insertedId;
         }
 
-
         public void UpdateProduct(Product product)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand command = con.CreateCommand())
                 {
+                    command.CommandText = "UPDATE Products SET productName = @ProductName, description = @Description, hourlyPrice = @HourlyPrice, categoryID = @CategoryID, imagePath = @ImagePath WHERE productID = @ProductId";
+                    command.Parameters.AddWithValue("@ProductName", product.ProductName);
+                    command.Parameters.AddWithValue("@Description", product.Description);
+                    command.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
+                    command.Parameters.AddWithValue("@CategoryID", product.CategoryID ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@ImagePath", product.ImagePath);
+                    command.Parameters.AddWithValue("@ProductId", product.ProductID);
+
                     con.Open();
-                    string queryString = "UPDATE Products SET productName = @ProductName, description = @Description, hourlyPrice = @HourlyPrice, inventory = @Inventory, categoryID = @CategoryID WHERE productID = @ProductId";
-                    using (SqlCommand command = new SqlCommand(queryString, con))
-                    {
-                        command.Parameters.AddWithValue("@ProductName", product.ProductName);
-                        command.Parameters.AddWithValue("@Description", product.Description);
-                        command.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
-                        command.Parameters.AddWithValue("@Inventory", product.Inventory);
-                        command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
-                        command.Parameters.AddWithValue("@ProductId", product.ProductID);
-                        command.ExecuteNonQuery();
-                    }
+                    command.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
@@ -162,14 +149,13 @@ namespace RentalService.DataAccess
             try
             {
                 using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand command = con.CreateCommand())
                 {
+                    command.CommandText = "DELETE FROM Products WHERE productID = @ProductId";
+                    command.Parameters.AddWithValue("@ProductId", id);
+
                     con.Open();
-                    string queryString = "DELETE FROM Products WHERE productID = @ProductId";
-                    using (SqlCommand command = new SqlCommand(queryString, con))
-                    {
-                        command.Parameters.AddWithValue("@ProductId", id);
-                        command.ExecuteNonQuery();
-                    }
+                    command.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
@@ -180,23 +166,16 @@ namespace RentalService.DataAccess
             }
         }
 
-
         private Product GetProductFromReader(SqlDataReader productReader)
         {
-            Product foundProduct;
             int productId = productReader.GetInt32(productReader.GetOrdinal("productID"));
             string productName = productReader.GetString(productReader.GetOrdinal("productName"));
             string description = productReader.IsDBNull(productReader.GetOrdinal("description")) ? null : productReader.GetString(productReader.GetOrdinal("description"));
             decimal hourlyPrice = productReader.GetDecimal(productReader.GetOrdinal("hourlyPrice"));
-            int inventory = productReader.GetInt32(productReader.GetOrdinal("inventory"));
             int? categoryID = productReader.IsDBNull(productReader.GetOrdinal("categoryID")) ? null : (int?)productReader.GetInt32(productReader.GetOrdinal("categoryID"));
+            string imagePath = productReader.IsDBNull(productReader.GetOrdinal("imagePath")) ? null : productReader.GetString(productReader.GetOrdinal("imagePath"));
 
-            foundProduct = new Product(productId, productName, description, hourlyPrice, inventory, categoryID);
-
-            return foundProduct;
-
+            return new Product(productId, productName, description, hourlyPrice, categoryID, imagePath);
         }
-  
-
     }
 }

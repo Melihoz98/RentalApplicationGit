@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddSingleton<ICategoryData, CategorydataLogic>();
+builder.Services.AddSingleton<ICategoryData, CategoryDataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
 builder.Services.AddSingleton<IProductData, ProductDataLogic>();
 builder.Services.AddSingleton<IProductAccess, ProductAccess>();
