@@ -1,61 +1,53 @@
 ﻿using RentalService.Models;
 using RentalService.DTO;
-using System;
+using System.Collections.Generic;
 
 namespace RentalService.ModelConversion
 {
     public class CategoryDtoConvert
     {
-
+        // Convert from Category collection to CategoryDto collection
         public static List<CategoryDto?>? FromCategoryCollection(List<Category> inCategories)
         {
-            List<CategoryDto?>? aCategoryReadDtoList = null;
+            List<CategoryDto?>? categoryDtoList = null;
             if (inCategories != null)
             {
-                aCategoryReadDtoList = new List<CategoryDto?>();
-                CategoryDto? tempDto;
-                foreach (Category aCategory in inCategories)
+                categoryDtoList = new List<CategoryDto?>();
+                foreach (Category category in inCategories)
                 {
-                    if (aCategory != null)
+                    if (category != null)
                     {
-                        tempDto = FromCategory(aCategory);
-                        aCategoryReadDtoList.Add(tempDto);
+                        CategoryDto? dto = FromCategory(category);
+                        categoryDtoList.Add(dto);
                     }
                 }
             }
-            return aCategoryReadDtoList;
+            return categoryDtoList;
         }
 
-
-
-        public static CategoryDto? FromCategory(Category inCategory)
+        // Convert from Category to CategoryDto
+        public static CategoryDto? FromCategory(Category category)
         {
-            CategoryDto? aCategoryReadDto = null;
-            if (inCategory != null)
+            CategoryDto? categoryDto = null;
+            if (category != null)
             {
-                aCategoryReadDto = new CategoryDto(inCategory.CategoryName);
+                categoryDto = new CategoryDto(category.CategoryName, category.ImagePath)
+                {
+                    CategoryID = category.CategoryID
+                };
             }
-            return aCategoryReadDto;
+            return categoryDto;
         }
 
-
-
-
-
-
-        // Convert from PersonDTO object to Person object
-        public static Category? ToCategory(CategoryDto inDto)
+        // Convert from CategoryDto to Category
+        public static Category? ToCategory(CategoryDto dto)
         {
-            Category? aCategory = null;
-            if (inDto != null)
+            Category? category = null;
+            if (dto != null)
             {
-                aCategory = new Category(inDto.CategoryName);
+                category = new Category(dto.CategoryID, dto.CategoryName, dto.ImagePath);
             }
-            return aCategory;
+            return category;
         }
-
-
-
-
     }
 }

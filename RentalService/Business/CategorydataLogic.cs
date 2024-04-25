@@ -2,19 +2,20 @@
 using RentalService.DTO;
 using RentalService.Models;
 using System;
+using System.Collections.Generic;
+
 namespace RentalService.Business
 {
-    public class CategorydataLogic : ICategoryData
+    public class CategoryDataLogic : ICategoryData
     {
         private readonly ICategoryAccess _categoryAccess;
 
-        public CategorydataLogic(ICategoryAccess inCategoryAccess)
+        public CategoryDataLogic(ICategoryAccess categoryAccess)
         {
-            _categoryAccess = inCategoryAccess;
-
+            _categoryAccess = categoryAccess;
         }
 
-        public CategoryDto? GetByID(int idToMatch)
+        public CategoryDto? GetById(int idToMatch)
         {
             CategoryDto? foundCategoryDto;
             try
@@ -29,22 +30,81 @@ namespace RentalService.Business
             return foundCategoryDto;
         }
 
-
-        public List<CategoryDto?>? GetAllCategories() 
+        public List<CategoryDto?>? GetAllCategories()
         {
             List<CategoryDto?>? foundDtos;
             try
             {
-                List<Category>? foundCategories = _categoryAccess.GetCategoryAll();
+                List<Category>? foundCategories = _categoryAccess.GetCategories();
                 foundDtos = ModelConversion.CategoryDtoConvert.FromCategoryCollection(foundCategories);
             }
             catch (Exception ex)
             {
                 foundDtos = null;
-                string xx = ex.Message;
+                string errorMessage = ex.Message;
+                // Handle exception
             }
             return foundDtos;
+        }
 
+        public int CreateCategory(CategoryDto categoryDto)
+        {
+            int insertedId = 0;
+            try
+            {
+                Category? dbCategory = ModelConversion.CategoryDtoConvert.ToCategory(categoryDto);
+                if (dbCategory != null)
+                {
+                    insertedId = _categoryAccess.AddCategory(dbCategory);
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
+            return insertedId;
+        }
+
+        public void UpdateCategory(CategoryDto categoryDto)
+        {
+            try
+            {
+                Category existingCategory = _categoryAccess.GetCategoryById(categoryDto.CategoryID);
+
+                if (existingCategory != null)
+                {
+                    if (categoryDto.CategoryName != null && categoryDto.CategoryName != existingCategory.CategoryName)
+                    {
+                        existingCategory.CategoryName = categoryDto.CategoryName;
+                    }
+
+                    if (categoryDto.ImagePath != null && categoryDto.ImagePath != existingCategory.ImagePath)
+                    {
+                        existingCategory.ImagePath = categoryDto.ImagePath;
+                    }
+
+                    _categoryAccess.UpdateCategory(existingCategory);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating category: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void DeleteCategory(int id)
+        {
+            try
+            {
+                _categoryAccess.DeleteCategory(id);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
         }
     }
 }

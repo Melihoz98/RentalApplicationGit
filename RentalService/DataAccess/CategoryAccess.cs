@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using RentalService.Models;
 using System;
-using System.Collections.Generic;
 
 namespace RentalService.DataAccess
 {
@@ -19,26 +18,25 @@ namespace RentalService.DataAccess
             }
         }
 
-        public List<Category> GetCategoryAll()
+        public List<Category> GetCategories()
         {
-            List<Category> foundCategories = new List<Category>();
+            List<Category> categories = new List<Category>();
 
             try
             {
+                string queryString = "SELECT CategoryID, CategoryName, ImagePath FROM Categories";
+
                 using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, con))
                 {
                     con.Open();
-                    string queryString = "SELECT categoryID, categoryName FROM Categories";
-                    using (SqlCommand command = new SqlCommand(queryString, con))
+
+                    SqlDataReader categoryReader = readCommand.ExecuteReader();
+
+                    while (categoryReader.Read())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Category category = GetCategoryFromReader(reader);
-                                foundCategories.Add(category);
-                            }
-                        }
+                        Category category = GetCategoryFromReader(categoryReader);
+                        categories.Add(category);
                     }
                 }
             }
@@ -49,47 +47,126 @@ namespace RentalService.DataAccess
                 throw;
             }
 
-            return foundCategories;
+            return categories;
         }
 
-        public Category GetCategoryById(int id)
+        public int AddCategory(Category category)
+        {
+            int insertedId = -1;
+
+            try
+            {
+                string insertString = "INSERT INTO Categories (CategoryName, ImagePath) OUTPUT INSERTED.CategoryID VALUES (@CategoryName, @ImagePath)";
+
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand createCommand = new SqlCommand(insertString, con))
+                {
+                    createCommand.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                    createCommand.Parameters.AddWithValue("@ImagePath", category.ImagePath ?? (object)DBNull.Value);
+
+                    con.Open();
+                    insertedId = (int)createCommand.ExecuteScalar();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error adding category: {ex.Message}");
+                throw;
+            }
+
+            return insertedId;
+        }
+
+        public void DeleteCategory(int categoryId)
+        {
+            try
+            {
+                string deleteString = "DELETE FROM Categories WHERE CategoryID = @CategoryId";
+
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand deleteCommand = new SqlCommand(deleteString, con))
+                {
+                    deleteCommand.Parameters.AddWithValue("@CategoryId", categoryId);
+
+                    con.Open();
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error deleting category: {ex.Message}");
+                throw;
+            }
+        }
+
+        public Category GetCategoryById(int categoryId)
         {
             Category foundCategory = null;
 
             try
             {
+                string queryString = "SELECT CategoryID, CategoryName, ImagePath FROM Categories WHERE CategoryID = @CategoryId";
+
                 using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, con))
                 {
+                    readCommand.Parameters.AddWithValue("@CategoryId", categoryId);
+
                     con.Open();
-                    string queryString = "SELECT categoryID, categoryName FROM Categories WHERE categoryID = @Id";
-                    using (SqlCommand command = new SqlCommand(queryString, con))
+
+                    using (SqlDataReader categoryReader = readCommand.ExecuteReader())
                     {
-                        command.Parameters.AddWithValue("@Id", id);
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        if (categoryReader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                foundCategory = GetCategoryFromReader(reader);
-                            }
+                            foundCategory = GetCategoryFromReader(categoryReader);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
-                Console.WriteLine($"Error retrieving category by ID: {ex.Message}");
+                // Handle exception
+                Console.WriteLine($"Error retrieving category: {ex.Message}");
                 throw;
             }
 
             return foundCategory;
         }
 
-        private Category GetCategoryFromReader(SqlDataReader reader)
+        public void UpdateCategory(Category category)
         {
-            int categoryId = reader.GetInt32(reader.GetOrdinal("categoryID"));
-            string categoryName = reader.GetString(reader.GetOrdinal("categoryName"));
-            return new Category(categoryId, categoryName);
+            try
+            {
+                string updateString = "UPDATE Categories SET CategoryName = @CategoryName, ImagePath = @ImagePath WHERE CategoryID = @CategoryId";
+
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand updateCommand = new SqlCommand(updateString, con))
+                {
+                    updateCommand.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                    updateCommand.Parameters.AddWithValue("@ImagePath", category.ImagePath ?? (object)DBNull.Value);
+                    updateCommand.Parameters.AddWithValue("@CategoryId", category.CategoryID);
+
+                    con.Open();
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error updating category: {ex.Message}");
+                throw;
+            }
+        }
+
+        private Category GetCategoryFromReader(SqlDataReader categoryReader)
+        {
+            int categoryId = categoryReader.GetInt32(categoryReader.GetOrdinal("CategoryID"));
+            string categoryName = categoryReader.GetString(categoryReader.GetOrdinal("CategoryName"));
+            string imagePath = categoryReader.IsDBNull(categoryReader.GetOrdinal("ImagePath")) ? null : categoryReader.GetString(categoryReader.GetOrdinal("ImagePath"));
+
+            return new Category(categoryId, categoryName, imagePath);
         }
     }
 }

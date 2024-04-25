@@ -1,13 +1,14 @@
 ﻿using RentalService.Models;
-using System;
+using System.Collections.Generic;
+
 namespace RentalService.DataAccess
 {
     public interface ICategoryAccess
     {
-        Category GetCategoryById(int id);
-        List<Category> GetCategoryAll();
-
-
-
+        List<Category> GetCategories();
+        Category GetCategoryById(int categoryId);
+        int AddCategory(Category category);
+        void UpdateCategory(Category category);
+        void DeleteCategory(int categoryId);
     }
 }

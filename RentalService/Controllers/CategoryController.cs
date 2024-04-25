@@ -1,57 +1,114 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using RentalService.Business;
 using RentalService.DTO;
-using RentalService.Business;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 
 namespace RentalService.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryData _businessLogicCtrl;
+        private readonly ICategoryData _categoryData;
 
-        public CategoryController(ICategoryData inBusinessLogicCtrl)
+        public CategoryController(ICategoryData categoryData)
         {
-            _businessLogicCtrl = inBusinessLogicCtrl;
+            _categoryData = categoryData;
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                CategoryDto? categoryDto = _categoryData.GetById(id);
+                if (categoryDto != null)
+                {
+                    return Ok(categoryDto);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAllCategories()
         {
-            List<CategoryDto> foundCategories = _businessLogicCtrl.GetAllCategories();
-
-            if (foundCategories != null && foundCategories.Count > 0)
+            try
             {
-                return Ok(foundCategories);
+                List<CategoryDto?>? categories = _categoryData.GetAllCategories();
+                if (categories != null)
+                {
+                    return Ok(categories);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NoContent(); // No categories found
+                // Log exception
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
 
-
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpPost]
+        public IActionResult CreateCategory([FromBody] CategoryDto categoryDto)
         {
-            
-            CategoryDto category = _businessLogicCtrl.GetByID(id);
-
-            if (category != null)
+            try
             {
-                return Ok(category);
+                int insertedId = _categoryData.CreateCategory(categoryDto);
+                return CreatedAtAction(nameof(GetById), new { id = insertedId }, null);
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                // Log exception
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
 
-        //new branch
+        [HttpPut("{id}")]
+        public IActionResult UpdateCategory(int id, [FromBody] CategoryDto categoryDto)
+        {
+            try
+            {
+                if (id != categoryDto.CategoryID)
+                {
+                    return BadRequest("Category ID mismatch");
+                }
 
+                _categoryData.UpdateCategory(categoryDto);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategory(int id)
+        {
+            try
+            {
+                _categoryData.DeleteCategory(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
     }
 }
