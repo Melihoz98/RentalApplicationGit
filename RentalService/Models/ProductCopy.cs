@@ -3,27 +3,18 @@
     public class ProductCopy
     {
        
+        public ProductCopy() { }
+
+        public ProductCopy(string? serialNumber, int productID, bool rented = false)
+        {
+            SerialNumber = serialNumber;
+            ProductID = productID;
+            Rented = rented;
+        }
 
         public string SerialNumber { get; set; }
         public int ProductID { get; set; }
-
-        public ProductCopy() { }
-
-        public ProductCopy(string? serialNumber) {
-
-            SerialNumber = serialNumber;
-        }
-
-
-        public ProductCopy( int productID, string? serialNumber)
-        {
-
-            SerialNumber = serialNumber;
-            ProductID = productID;
-
-        }
-
-
+        public bool Rented { get; set; }
     }
 
 

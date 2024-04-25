@@ -2,12 +2,16 @@
 {
     public class OrderLine
     {
-        public int OrderLineID { get; set; }
+
+        public OrderLine(int orderID, string serialNumber)
+        {
+            OrderID = orderID;
+            SerialNumber = serialNumber;
+        }
+
         public int OrderID { get; set; }
         public string SerialNumber { get; set; }
-        public decimal HourlyPrice { get; set; }
-        public decimal TotalHours { get; set; }
-        public decimal TotalPrice { get; set; }
+
     }
 
 }
