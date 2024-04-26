@@ -7,16 +7,16 @@ using System.Collections.Generic;
 
 namespace RentalService.Business
 {
-    public class PrivateCustomerdataLogic : IPrivateCustomerdata
+    public class PrivateCustomerDataLogic : IPrivateCustomerData
     {
         private readonly IPrivateCustomerAccess _privateCustomerAccess;
 
-        public PrivateCustomerdataLogic(IPrivateCustomerAccess privateCustomerAccess)
+        public PrivateCustomerDataLogic(IPrivateCustomerAccess privateCustomerAccess)
         {
             _privateCustomerAccess = privateCustomerAccess;
         }
 
-        public PrivateCustomerDto? GetById(int id)
+        public PrivateCustomerDto? GetPrivateCustomerById(string id)
         {
             PrivateCustomerDto? foundCustomerDto;
             try
@@ -31,7 +31,7 @@ namespace RentalService.Business
             return foundCustomerDto;
         }
 
-        public List<PrivateCustomerDto?>? GetAll()
+        public List<PrivateCustomerDto?>? GetAllPrivateCustomers()
         {
             List<PrivateCustomerDto?>? foundDtos;
             try
@@ -48,7 +48,7 @@ namespace RentalService.Business
             return foundDtos;
         }
 
-        public int Add(PrivateCustomerDto privateCustomerDto)
+        public int createPrivateCustomer(PrivateCustomerDto privateCustomerDto)
         {
             int insertedId = 0;
             try
@@ -66,5 +66,33 @@ namespace RentalService.Business
             }
             return insertedId;
         }
+
+        public void UpdatePrivateCustomer(PrivateCustomerDto privateCustomerDto)
+        {
+            try
+            {
+                PrivateCustomer dbCustomer = PrivateCustomerDtoConvert.ToPrivateCustomer(privateCustomerDto);
+                _privateCustomerAccess.UpdatePrivateCustomer(dbCustomer);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
+        }
+
+        public void DeletePrivateCustomer(string id)
+        {
+            try
+            {
+                _privateCustomerAccess.DeletePrivateCustomer(id);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+                // Handle exception
+            }
+        }
+
     }
 }

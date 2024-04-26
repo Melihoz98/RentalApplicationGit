@@ -29,10 +29,9 @@ namespace RentalService.ModelConversion
             {
                 dto = new PrivateCustomerDto
                 {
-                    PrivateCustomerID = customer.PrivateCustomerID,
+                    CustomerID = customer.CustomerID,
                     FirstName = customer.FirstName,
                     LastName = customer.LastName,
-                    UserID = customer.UserID,
                     PhoneNumber = customer.PhoneNumber
                 };
             }
@@ -46,12 +45,13 @@ namespace RentalService.ModelConversion
 
             return new PrivateCustomer
             {
-                PrivateCustomerID = dto.PrivateCustomerID,
+                CustomerID = dto.CustomerID,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                UserID = dto.UserID,
                 PhoneNumber = dto.PhoneNumber
             };
         }
+
+
     }
 }

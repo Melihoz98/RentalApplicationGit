@@ -10,7 +10,7 @@
 
 
 
-        public BusinessCustomer(string companyName, string cvr, string phoneNumber)
+        public BusinessCustomer(string? companyName, string? cvr, string? phoneNumber)
         {
            
             CompanyName = companyName;
@@ -26,9 +26,9 @@
         }
 
         public string CustomerID { get; set; }
-        public string CompanyName { get; set; }
-        public string CVR { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? CompanyName { get; set; }
+        public string? CVR { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 
 }

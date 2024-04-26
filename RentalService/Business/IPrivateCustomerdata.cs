@@ -2,13 +2,12 @@
 
 namespace RentalService.Business
 {
-    public interface IPrivateCustomerdata
+    public interface IPrivateCustomerData
     {
-
-        PrivateCustomerDto? GetById(int id);
-
-        List<PrivateCustomerDto?>? GetAll();
-        int Add(PrivateCustomerDto privateCustomerDto);
-
+        List<PrivateCustomerDto?>? GetAllPrivateCustomers();
+        PrivateCustomerDto? GetPrivateCustomerById(string id);
+        int createPrivateCustomer(PrivateCustomerDto privateCustomerDto);
+        void UpdatePrivateCustomer(PrivateCustomerDto privateCustomerDto);
+        void DeletePrivateCustomer(string id);
     }
 }

@@ -11,9 +11,9 @@ namespace RentalService.Controllers
     [ApiController]
     public class PrivateCustomerController : ControllerBase
     {
-        private readonly IPrivateCustomerdata _privateCustomerLogicCtrl;
+        private readonly IPrivateCustomerData _privateCustomerLogicCtrl;
 
-        public PrivateCustomerController(IPrivateCustomerdata privateCustomerLogicCtrl)
+        public PrivateCustomerController(IPrivateCustomerData privateCustomerLogicCtrl)
         {
             _privateCustomerLogicCtrl = privateCustomerLogicCtrl;
         }
@@ -22,7 +22,7 @@ namespace RentalService.Controllers
         public ActionResult<List<PrivateCustomerDto>> Get()
         {
             ActionResult<List<PrivateCustomerDto>> foundReturn;
-            List<PrivateCustomerDto?>? foundCustomers = _privateCustomerLogicCtrl.GetAll();
+            List<PrivateCustomerDto?>? foundCustomers = _privateCustomerLogicCtrl.GetAllPrivateCustomers();
             if (foundCustomers != null)
             {
                 if (foundCustomers.Count > 0)
@@ -42,9 +42,9 @@ namespace RentalService.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult<PrivateCustomerDto> Get(int id)
+        public ActionResult<PrivateCustomerDto> Get(string id)
         {
-            PrivateCustomerDto foundCustomer = _privateCustomerLogicCtrl.GetById(id);
+            PrivateCustomerDto foundCustomer = _privateCustomerLogicCtrl.GetPrivateCustomerById(id);
 
             if (foundCustomer != null)
             {
@@ -61,7 +61,7 @@ namespace RentalService.Controllers
         {
             try
             {
-                _privateCustomerLogicCtrl.Add(privateCustomerDto);
+                _privateCustomerLogicCtrl.createPrivateCustomer(privateCustomerDto);
                 // Return 201 Created status without including PrivateCustomerDto in response
                 return StatusCode(StatusCodes.Status201Created);
             }

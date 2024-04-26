@@ -4,18 +4,17 @@
     {
         public PrivateCustomerDto() { }
 
-        public PrivateCustomerDto(string? firstName, string? lastName, string? userID, string? phoneNumber)
+        public PrivateCustomerDto(string customerID, string? firstName, string? lastName, string? phoneNumber)
         {
+            CustomerID = customerID;
             FirstName = firstName;
             LastName = lastName;
-            UserID = userID;
             PhoneNumber = phoneNumber;
         }
 
-        public int PrivateCustomerID { get; set; }
+        public string CustomerID { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? UserID { get; set; }
         public string? PhoneNumber { get; set; }
     }
 }

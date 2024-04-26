@@ -25,7 +25,7 @@ namespace RentalService.DataAccess
 
             try
             {
-                string insertString = "INSERT INTO PrivateCustomers (firstName, lastName, userID, phoneNumber) OUTPUT INSERTED.privateCustomerID VALUES (@FirstName, @LastName, @UserID, @PhoneNumber)";
+                string insertString = "INSERT INTO PrivateCustomers (firstName, lastName, phoneNumber) OUTPUT INSERTED.customerID VALUES (@FirstName, @LastName, @PhoneNumber)";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand createCommand = new SqlCommand(insertString, con))
@@ -33,7 +33,6 @@ namespace RentalService.DataAccess
                     // Prepare SQL
                     createCommand.Parameters.AddWithValue("@FirstName", privateCustomer.FirstName);
                     createCommand.Parameters.AddWithValue("@LastName", privateCustomer.LastName);
-                    createCommand.Parameters.AddWithValue("@UserID", privateCustomer.UserID);
                     createCommand.Parameters.AddWithValue("@PhoneNumber", privateCustomer.PhoneNumber);
 
                     con.Open();
@@ -51,13 +50,13 @@ namespace RentalService.DataAccess
             return insertedId;
         }
 
-        public PrivateCustomer GetPrivateCustomerById(int id)
+        public PrivateCustomer GetPrivateCustomerById(string id)
         {
             PrivateCustomer foundCustomer = null;
 
             try
             {
-                string queryString = "SELECT privateCustomerID, firstName, lastName, userID, phoneNumber FROM PrivateCustomers WHERE privateCustomerID = @Id";
+                string queryString = "SELECT customerID, firstName, lastName, phoneNumber FROM PrivateCustomers WHERE customerID = @Id";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -90,7 +89,7 @@ namespace RentalService.DataAccess
 
             try
             {
-                string queryString = "SELECT privateCustomerID, firstName, lastName, userID, phoneNumber FROM PrivateCustomers";
+                string queryString = "SELECT customerID, firstName, lastName, phoneNumber FROM PrivateCustomers";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
@@ -116,24 +115,24 @@ namespace RentalService.DataAccess
             return foundCustomers;
         }
 
+        public void UpdatePrivateCustomer(PrivateCustomer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeletePrivateCustomer(string customerID)
+        {
+            throw new NotImplementedException();
+        }
+
         private PrivateCustomer GetPrivateCustomerFromReader(SqlDataReader customerReader)
         {
-            int customerId = customerReader.GetInt32(customerReader.GetOrdinal("privateCustomerID"));
+            string customerID = customerReader.GetString(customerReader.GetOrdinal("customerID"));
             string firstName = customerReader.GetString(customerReader.GetOrdinal("firstName"));
             string lastName = customerReader.GetString(customerReader.GetOrdinal("lastName"));
-            string userId = customerReader.GetString(customerReader.GetOrdinal("userID"));
             string phoneNumber = customerReader.GetString(customerReader.GetOrdinal("phoneNumber"));
 
-            PrivateCustomer customer = new PrivateCustomer
-            {
-                PrivateCustomerID = customerId,
-                FirstName = firstName,
-                LastName = lastName,
-                UserID = userId,
-                PhoneNumber = phoneNumber
-            };
-
-            return customer;
+            return new PrivateCustomer(customerID, firstName, lastName, phoneNumber);
         }
     }
 }
