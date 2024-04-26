@@ -1,56 +1,43 @@
 ﻿using RentalService.Models;
 using RentalService.DTO;
-using System;
 using System.Collections.Generic;
 
 namespace RentalService.ModelConversion
 {
     public class BusinessCustomerDtoConvert
     {
-        public static List<BusinessCustomerDto?>? FromBusinessCustomerCollection(List<BusinessCustomer> inCustomers)
+        // Convert from BusinessCustomer collection to BusinessCustomerDto collection
+        public static List<BusinessCustomerDto> FromBusinessCustomerCollection(List<BusinessCustomer> customers)
         {
-            List<BusinessCustomerDto?>? customerDtos = null;
-            if (inCustomers != null)
+            List<BusinessCustomerDto> customerDtos = new List<BusinessCustomerDto>();
+            foreach (var customer in customers)
             {
-                customerDtos = new List<BusinessCustomerDto?>();
-                foreach (BusinessCustomer customer in inCustomers)
-                {
-                    BusinessCustomerDto? dto = FromBusinessCustomer(customer);
-                    customerDtos.Add(dto);
-                }
+                customerDtos.Add(FromBusinessCustomer(customer));
             }
             return customerDtos;
         }
 
-        public static BusinessCustomerDto? FromBusinessCustomer(BusinessCustomer customer)
+        // Convert from BusinessCustomer to BusinessCustomerDto
+        public static BusinessCustomerDto FromBusinessCustomer(BusinessCustomer customer)
         {
-            BusinessCustomerDto? dto = null;
-            if (customer != null)
+            return new BusinessCustomerDto
             {
-                dto = new BusinessCustomerDto
-                {
-                    BusinessCustomerID = customer.BusinessCustomerID,
-                    CompanyName = customer.CompanyName,
-                    CVR = customer.CVR,
-                    UserID = customer.UserID,
-                    PhoneNumber = customer.PhoneNumber
-                };
-            }
-            return dto;
+                CustomerID = customer.CustomerID,
+                CompanyName = customer.CompanyName,
+                CVR = customer.CVR,
+                PhoneNumber = customer.PhoneNumber
+            };
         }
 
-        public static BusinessCustomer ToBusinessCustomer(BusinessCustomerDto dto)
+        // Convert from BusinessCustomerDto to BusinessCustomer (not recommended for data integrity)
+        public static BusinessCustomer ToBusinessCustomer(BusinessCustomerDto customerDto)
         {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
-
             return new BusinessCustomer
             {
-                BusinessCustomerID = dto.BusinessCustomerID,
-                CompanyName = dto.CompanyName,
-                CVR = dto.CVR,
-                UserID = dto.UserID,
-                PhoneNumber = dto.PhoneNumber
+                CustomerID = customerDto.CustomerID,
+                CompanyName = customerDto.CompanyName,
+                CVR = customerDto.CVR,
+                PhoneNumber = customerDto.PhoneNumber
             };
         }
     }

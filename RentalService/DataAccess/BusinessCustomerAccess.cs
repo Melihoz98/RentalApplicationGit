@@ -1,12 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using RentalService.Models;
+using RentalService.Models; // Assuming this namespace holds your BusinessCustomer model
 using System;
 using System.Collections.Generic;
 
 namespace RentalService.DataAccess
 {
-    public class BusinessCustomerAccess : IBusinessCustomerAccess
+    public class BusinessCustomerAccess : IBusinessCustomerAccess // Implement an interface for future flexibility
     {
         private readonly string _connectionString;
 
@@ -19,86 +19,17 @@ namespace RentalService.DataAccess
             }
         }
 
-        public int AddBusinessCustomer(BusinessCustomer businessCustomer)
-        {
-            int insertedId = -1;
-
-            try
-            {
-                string insertString = "INSERT INTO BusinessCustomers (companyName, CVR, userID, phoneNumber) OUTPUT INSERTED.businessCustomerID VALUES (@CompanyName, @CVR, @UserID, @PhoneNumber)";
-
-                using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand createCommand = new SqlCommand(insertString, con))
-                {
-                    // Prepare SQL
-                    createCommand.Parameters.AddWithValue("@CompanyName", businessCustomer.CompanyName);
-                    createCommand.Parameters.AddWithValue("@CVR", businessCustomer.CVR);
-                    createCommand.Parameters.AddWithValue("@UserID", businessCustomer.UserID);
-                    createCommand.Parameters.AddWithValue("@PhoneNumber", businessCustomer.PhoneNumber);
-
-                    con.Open();
-                    // Execute save and read generated key (ID)
-                    insertedId = (int)createCommand.ExecuteScalar();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error adding business customer: {ex.Message}");
-                throw;
-            }
-
-            return insertedId;
-        }
-
-        public BusinessCustomer GetBusinessCustomerById(int id)
-        {
-            BusinessCustomer foundCustomer = null;
-
-            try
-            {
-                string queryString = "SELECT businessCustomerID, companyName, CVR, userID, phoneNumber FROM BusinessCustomers WHERE businessCustomerID = @Id";
-
-                using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand readCommand = new SqlCommand(queryString, con))
-                {
-                    readCommand.Parameters.AddWithValue("@Id", id);
-
-                    con.Open();
-
-                    SqlDataReader customerReader = readCommand.ExecuteReader();
-
-                    if (customerReader.Read())
-                    {
-                        foundCustomer = GetBusinessCustomerFromReader(customerReader);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error retrieving business customer by ID: {ex.Message}");
-                throw;
-            }
-
-            return foundCustomer;
-        }
-
         public List<BusinessCustomer> GetAllBusinessCustomers()
         {
             List<BusinessCustomer> foundCustomers = new List<BusinessCustomer>();
-
             try
             {
-                string queryString = "SELECT businessCustomerID, companyName, CVR, userID, phoneNumber FROM BusinessCustomers";
-
+                string queryString = "SELECT customerID, companyName, CVR, phoneNumber FROM BusinessCustomers";
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
                 {
                     con.Open();
-
                     SqlDataReader customerReader = readCommand.ExecuteReader();
-
                     while (customerReader.Read())
                     {
                         BusinessCustomer customer = GetBusinessCustomerFromReader(customerReader);
@@ -108,32 +39,72 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
-                Console.WriteLine($"Error retrieving all business customers: {ex.Message}");
+                // Handle exception (log, return error response, etc.)
+                Console.WriteLine($"Error retrieving business customers: {ex.Message}");
                 throw;
             }
-
             return foundCustomers;
+        }
+
+        public BusinessCustomer GetBusinessCustomerByCustomerID(string customerID)
+        {
+            BusinessCustomer foundCustomer = null;
+            try
+            {
+                string queryString = "SELECT customerID, companyName, CVR, phoneNumber FROM BusinessCustomers WHERE customerID = @CustomerID";
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, con))
+                {
+                    SqlParameter idParam = new SqlParameter("@CustomerID", customerID);
+                    readCommand.Parameters.Add(idParam);
+                    con.Open();
+                    SqlDataReader customerReader = readCommand.ExecuteReader();
+                    if (customerReader.Read())
+                    {
+                        foundCustomer = GetBusinessCustomerFromReader(customerReader);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception (log, return error response, etc.)
+                Console.WriteLine($"Error retrieving business customer by ID: {ex.Message}");
+                throw;
+            }
+            return foundCustomer;
+        }
+
+        public void CreateBusinessCustomer(BusinessCustomer customer)
+        {
+            try
+            {
+                string insertString = "INSERT INTO BusinessCustomers (customerID, companyName, CVR, phoneNumber) VALUES (@CustomerID, @CompanyName, @CVR, @PhoneNumber)";
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand createCommand = new SqlCommand(insertString, con))
+                {
+                    createCommand.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                    createCommand.Parameters.AddWithValue("@CompanyName", customer.CompanyName);
+                    createCommand.Parameters.AddWithValue("@CVR", customer.CVR);
+                    createCommand.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
+                    con.Open();
+                    createCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception (log, return error response, etc.)
+                Console.WriteLine($"Error creating business customer: {ex.Message}");
+                throw;
+            }
         }
 
         private BusinessCustomer GetBusinessCustomerFromReader(SqlDataReader customerReader)
         {
-            int customerId = customerReader.GetInt32(customerReader.GetOrdinal("businessCustomerID"));
+            string customerID = customerReader.GetString(customerReader.GetOrdinal("customerID"));
             string companyName = customerReader.GetString(customerReader.GetOrdinal("companyName"));
-            string cvr = customerReader.GetString(customerReader.GetOrdinal("CVR"));
-            string userId = customerReader.GetString(customerReader.GetOrdinal("userID"));
+            string CVR = customerReader.GetString(customerReader.GetOrdinal("CVR"));
             string phoneNumber = customerReader.GetString(customerReader.GetOrdinal("phoneNumber"));
-
-            BusinessCustomer customer = new BusinessCustomer
-            {
-                BusinessCustomerID = customerId,
-                CompanyName = companyName,
-                CVR = cvr,
-                UserID = userId,
-                PhoneNumber = phoneNumber
-            };
-
-            return customer;
+            return new BusinessCustomer(customerID, companyName, CVR, phoneNumber);
         }
     }
 }

@@ -4,18 +4,17 @@
     {
         public BusinessCustomerDto() { }
 
-        public BusinessCustomerDto(string? companyName, string? cvr, string? userID, string? phoneNumber)
+        public BusinessCustomerDto(string customerID, string companyName, string _CVR, string phoneNumber)
         {
+            CustomerID = customerID;
             CompanyName = companyName;
-            CVR = cvr;
-            UserID = userID;
+            CVR = _CVR;
             PhoneNumber = phoneNumber;
         }
 
-        public int BusinessCustomerID { get; set; }
-        public string? CompanyName { get; set; }
-        public string? CVR { get; set; }
-        public string? UserID { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string CustomerID { get; set; }
+        public string CompanyName { get; set; }
+        public string CVR { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

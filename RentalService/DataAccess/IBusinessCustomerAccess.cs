@@ -1,15 +1,11 @@
 ﻿using RentalService.Models;
 
-namespace RentalService.DataAccess
+namespace RentalService.DataAccess // Assuming this namespace holds your interfaces
 {
     public interface IBusinessCustomerAccess
     {
-
-        BusinessCustomer GetBusinessCustomerById(int id);
         List<BusinessCustomer> GetAllBusinessCustomers();
-        int AddBusinessCustomer(BusinessCustomer businessCustomer);
-       
-        
-
+        BusinessCustomer GetBusinessCustomerByCustomerID(string customerID);
+        void CreateBusinessCustomer(BusinessCustomer customer);
     }
 }

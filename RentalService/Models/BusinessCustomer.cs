@@ -2,11 +2,26 @@
 {
     public class BusinessCustomer
     {
-        public BusinessCustomer(string customerID, string companyName, string cVR, string phoneNumber)
+
+        public BusinessCustomer()
+        {
+
+        }
+
+
+
+        public BusinessCustomer(string companyName, string cvr, string phoneNumber)
+        {
+           
+            CompanyName = companyName;
+            CVR = cvr;
+            PhoneNumber = phoneNumber;
+        }
+        public BusinessCustomer(string customerID, string companyName, string cvr, string phoneNumber)
         {
             CustomerID = customerID;
             CompanyName = companyName;
-            CVR = cVR;
+            CVR = cvr;
             PhoneNumber = phoneNumber;
         }
 

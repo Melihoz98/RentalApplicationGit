@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RentalService.Business;
 using RentalService.DTO;
 using System;
-using System.Collections.Generic;
 
 namespace RentalService.Controllers
 {
@@ -11,64 +9,65 @@ namespace RentalService.Controllers
     [ApiController]
     public class BusinessCustomerController : ControllerBase
     {
-        private readonly IBusinessCustomerdata _businessCustomerLogicCtrl;
+        private readonly IBusinessCustomerData _businessCustomerData;
 
-        public BusinessCustomerController(IBusinessCustomerdata businessCustomerLogicCtrl)
+        public BusinessCustomerController(IBusinessCustomerData businessCustomerData)
         {
-            _businessCustomerLogicCtrl = businessCustomerLogicCtrl;
+            _businessCustomerData = businessCustomerData;
         }
 
         [HttpGet]
-        public ActionResult<List<BusinessCustomerDto>> Get()
+        public IActionResult GetAllBusinessCustomers()
         {
-            ActionResult<List<BusinessCustomerDto>> foundReturn;
-            List<BusinessCustomerDto?>? foundCustomers = _businessCustomerLogicCtrl.GetAll();
-            if (foundCustomers != null)
+            try
             {
-                if (foundCustomers.Count > 0)
+                List<BusinessCustomerDto> customers = _businessCustomerData.GetAllBusinessCustomers();
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error getting all business customers: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("{customerID}")]
+        public IActionResult GetBusinessCustomerByCustomerID(string customerID)
+        {
+            try
+            {
+                BusinessCustomerDto customerDto = _businessCustomerData.GetBusinessCustomerByCustomerID(customerID);
+                if (customerDto != null)
                 {
-                    foundReturn = Ok(foundCustomers);
+                    return Ok(customerDto);
                 }
                 else
                 {
-                    foundReturn = new StatusCodeResult(204); // No Content
+                    return NotFound();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                foundReturn = new StatusCodeResult(500); // Internal server error
-            }
-            return foundReturn;
-        }
-
-        [HttpGet, Route("{id}")]
-        public ActionResult<BusinessCustomerDto> Get(int id)
-        {
-            BusinessCustomerDto foundCustomer = _businessCustomerLogicCtrl.GetById(id);
-
-            if (foundCustomer != null)
-            {
-                return Ok(foundCustomer); // Statuscode 200
-            }
-            else
-            {
-                return NotFound(); // Statuscode 404
+                // Log the error
+                Console.WriteLine($"Error getting business customer by ID: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] BusinessCustomerDto businessCustomerDto)
+        public IActionResult CreateBusinessCustomer([FromBody] BusinessCustomerDto customerDto)
         {
             try
             {
-                _businessCustomerLogicCtrl.Add(businessCustomerDto);
-                // Return 201 Created status without including BusinessCustomerDto in response
-                return StatusCode(StatusCodes.Status201Created);
+                _businessCustomerData.CreateBusinessCustomer(customerDto);
+                return CreatedAtRoute("GetBusinessCustomerByCustomerID", new { customerID = customerDto.CustomerID }, customerDto);
             }
             catch (Exception ex)
             {
-                // Handle exception
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                // Log the error
+                Console.WriteLine($"Error creating business customer: {ex.Message}");
+                return StatusCode(500, "Internal server error");
             }
         }
     }

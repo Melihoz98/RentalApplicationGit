@@ -1,70 +1,68 @@
 ﻿using RentalService.DataAccess;
 using RentalService.DTO;
-using RentalService.ModelConversion;
 using RentalService.Models;
+using RentalService.ModelConversion;
 using System;
 using System.Collections.Generic;
 
 namespace RentalService.Business
 {
-    public class BusinessCustomerdataLogic : IBusinessCustomerdata
+    public class BusinessCustomerDataLogic : IBusinessCustomerData
     {
         private readonly IBusinessCustomerAccess _businessCustomerAccess;
 
-        public BusinessCustomerdataLogic(IBusinessCustomerAccess businessCustomerAccess)
+        public BusinessCustomerDataLogic(IBusinessCustomerAccess businessCustomerAccess)
         {
             _businessCustomerAccess = businessCustomerAccess;
         }
 
-        public BusinessCustomerDto? GetById(int id)
+        public List<BusinessCustomerDto> GetAllBusinessCustomers()
         {
-            BusinessCustomerDto? foundCustomerDto;
             try
             {
-                BusinessCustomer? foundCustomer = _businessCustomerAccess.GetBusinessCustomerById(id);
-                foundCustomerDto = BusinessCustomerDtoConvert.FromBusinessCustomer(foundCustomer);
-            }
-            catch
-            {
-                foundCustomerDto = null;
-            }
-            return foundCustomerDto;
-        }
-
-        public List<BusinessCustomerDto?>? GetAll()
-        {
-            List<BusinessCustomerDto?>? foundDtos;
-            try
-            {
-                List<BusinessCustomer>? foundCustomers = _businessCustomerAccess.GetAllBusinessCustomers();
-                foundDtos = BusinessCustomerDtoConvert.FromBusinessCustomerCollection(foundCustomers);
+                List<BusinessCustomer> customers = _businessCustomerAccess.GetAllBusinessCustomers();
+                return BusinessCustomerDtoConvert.FromBusinessCustomerCollection(customers);
             }
             catch (Exception ex)
             {
-                foundDtos = null;
-                string errorMessage = ex.Message;
-                // Handle exception
+                // Handle exception (log, return error message, etc.)
+                Console.WriteLine($"Error getting all business customers: {ex.Message}");
+                throw; // Re-throw for caller to handle
             }
-            return foundDtos;
         }
 
-        public int Add(BusinessCustomerDto businessCustomerDto)
+        public BusinessCustomerDto GetBusinessCustomerByCustomerID(string customerID)
         {
-            int insertedId = 0;
             try
             {
-                BusinessCustomer? dbCustomer = BusinessCustomerDtoConvert.ToBusinessCustomer(businessCustomerDto);
-                if (dbCustomer != null)
+                BusinessCustomer customer = _businessCustomerAccess.GetBusinessCustomerByCustomerID(customerID);
+                if (customer == null)
                 {
-                    insertedId = _businessCustomerAccess.AddBusinessCustomer(dbCustomer);
+                    return null; // Indicate customer not found
                 }
+                return BusinessCustomerDtoConvert.FromBusinessCustomer(customer);
             }
             catch (Exception ex)
             {
-                string errorMessage = ex.Message;
-                // Handle exception
+                // Handle exception (log, return error message, etc.)
+                Console.WriteLine($"Error getting business customer by ID: {ex.Message}");
+                throw; // Re-throw for caller to handle
             }
-            return insertedId;
+        }
+
+        public void CreateBusinessCustomer(BusinessCustomerDto customerToAdd)
+        {
+            try
+            {
+                BusinessCustomer customer = BusinessCustomerDtoConvert.ToBusinessCustomer(customerToAdd);
+                _businessCustomerAccess.CreateBusinessCustomer(customer);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception (log, return error message, etc.)
+                Console.WriteLine($"Error creating business customer: {ex.Message}");
+                throw; // Re-throw for caller to handle
+            }
         }
     }
 }
