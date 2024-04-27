@@ -13,11 +13,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BusinessLogic\" />
-    <Folder Include="Service\" />
+    <Folder Include="BusinessLogicLayer\" />
   </ItemGroup>
 
 </Project>
