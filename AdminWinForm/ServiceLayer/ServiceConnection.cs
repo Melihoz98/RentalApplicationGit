@@ -58,5 +58,24 @@ namespace AdminWinForm.ServiceLayer
             }
             return hrm;
         }
+
+        public async Task<HttpResponseMessage?> CallServiceDelete(string deleteUrl)
+        {
+            using (var client = new HttpClient())
+            {
+                string url = $"{BaseUrl}/{deleteUrl}";
+
+                try
+                {
+                    return await client.DeleteAsync(url);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while making DELETE request: {ex.Message}");
+                    return null;
+                }
+            }
+        }
+
     }
 }

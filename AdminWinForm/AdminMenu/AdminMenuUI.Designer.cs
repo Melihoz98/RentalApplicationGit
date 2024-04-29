@@ -68,8 +68,9 @@
             button4.Name = "button4";
             button4.Size = new Size(334, 130);
             button4.TabIndex = 3;
-            button4.Text = " Management";
+            button4.Text = " Product Copy Management";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += productCopyManagement_Click;
             // 
             // AdminMenuUI
             // 
