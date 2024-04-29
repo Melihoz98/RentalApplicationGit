@@ -3,25 +3,35 @@ using Microsoft.AspNetCore.Mvc;
 using RentAppMVC.BusinessLogicLayer;
 using RentAppMVC.Models;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace RentAppMVC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly CategoryLogic _categoryLogic;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _categoryLogic = new CategoryLogic();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categoryLogic = new CategoryLogic();
-            var categories = categoryLogic.GetAllCategories().Result;
-
+            var categories = await _categoryLogic.GetAllCategories();
             return View(categories);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoriesPartial()
+        {
+            var categories = await _categoryLogic.GetAllCategories();
+            return PartialView("_CategoriesPartial", categories);
+        }
+
+    
 
         [Authorize]
         public IActionResult Privacy()

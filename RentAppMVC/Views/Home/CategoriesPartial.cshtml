@@ -1,0 +1,17 @@
+﻿@model List<Category>
+
+@{
+    ViewData["Title"] = "CategoriesPartial";
+}
+
+<h1 class="display-4">Categories</h1>
+
+@foreach (var category in Model)
+{
+    <form asp-action="YourActionName" method="post" class="big-square-form">
+        <input type="hidden" name="categoryId" value="@category.CategoryID" />
+        <button type="submit" class="btn btn-primary btn-lg">
+            @category.CategoryName
+        </button>
+    </form>
+}

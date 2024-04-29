@@ -5,24 +5,9 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Categories</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Category ID</th>
-                <th>Category Name</th>
-                <!-- Add more columns as needed -->
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model)
-            {
-                <tr>
-                    <td>@category.CategoryID</td>
-                    <td>@category.CategoryName</td>
-                    <!-- Add more columns as needed -->
-                </tr>
-            }
-        </tbody>
-    </table>
+    <h1>HIIII</h1>
+</div>
+
+<div id="categoriesPartial">
+    @Html.Partial("CategoriesPartial")
 </div>
