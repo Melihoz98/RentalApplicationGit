@@ -61,6 +61,7 @@
             button3.TabIndex = 2;
             button3.Text = "Order Management";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += orderManagement_Click;
             // 
             // button4
             // 
