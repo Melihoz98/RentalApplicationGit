@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentAppMVC.BusinessLogicLayer;
 using RentAppMVC.Models;
 using System.Diagnostics;
 
@@ -16,7 +17,10 @@ namespace RentAppMVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var categoryLogic = new CategoryLogic();
+            var categories = categoryLogic.GetAllCategories().Result;
+
+            return View(categories);
         }
 
         [Authorize]

@@ -6,12 +6,12 @@ using RentAppMVC.Models;
 
 namespace RentAppMVC.ServiceLayer
 {
-    public class CategoryServiceAccess : ICategoryAccess
+    public class CategoryAccess : ICategoryAccess
     {
-        readonly IServiceConnection _categoryService;
-        readonly string _serviceBaseUrl = "https://localhost:7023/api/Categories/";
+        private readonly IServiceConnection _categoryService;
+        private readonly string _serviceBaseUrl = "https://localhost:7023/api/Category/";
 
-        public CategoryServiceAccess()
+        public CategoryAccess()
         {
             _categoryService = new ServiceConnection(_serviceBaseUrl);
         }
@@ -20,8 +20,7 @@ namespace RentAppMVC.ServiceLayer
         {
             List<Category>? categories = null;
 
-            HttpResponseMessage? response = await _categoryService.CallServiceGet(_serviceBaseUrl); // Use full base URL for GetCategories
-
+            HttpResponseMessage? response = await _categoryService.CallServiceGet();
             if (response != null && response.IsSuccessStatusCode)
             {
                 string jsonString = await response.Content.ReadAsStringAsync();
@@ -35,10 +34,7 @@ namespace RentAppMVC.ServiceLayer
         {
             Category category = new Category();
 
-            string url = $"{_serviceBaseUrl}/{categoryId}";
-
-            HttpResponseMessage? response = await _categoryService.CallServiceGet(url);  // Use specific URL with categoryId
-
+            HttpResponseMessage? response = await _categoryService.GetById(categoryId.ToString());
             if (response != null && response.IsSuccessStatusCode)
             {
                 string jsonString = await response.Content.ReadAsStringAsync();

@@ -1,11 +1,13 @@
-﻿namespace RentAppMVC.ServiceLayer
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RentAppMVC.ServiceLayer
 {
     public class ServiceConnection : IServiceConnection
     {
-        private readonly HttpClient HttpEnabler; // Consider making public with setter for flexibility
-        public string? BaseUrl { get; init; }
-        public string? UseUrl { get; set; }
-
         public ServiceConnection(string inBaseUrl)
         {
             HttpEnabler = new HttpClient();
@@ -13,15 +15,9 @@
             UseUrl = BaseUrl;
         }
 
-        public async Task<HttpResponseMessage?> CallServiceGet(string url)
-        {
-            HttpResponseMessage? hrm = null;
-            if (url != null)
-            {
-                hrm = await HttpEnabler.GetAsync(url);
-            }
-            return hrm;
-        }
+        public HttpClient HttpEnabler { private get; init; }
+        public string? BaseUrl { get; init; }
+        public string? UseUrl { get; set; }
 
         public async Task<HttpResponseMessage?> CallServiceGet()
         {
@@ -45,7 +41,6 @@
 
         public async Task<HttpResponseMessage?> CallServicePut(StringContent postJson)
         {
-            // Basic implementation for Put. You might need to modify based on your API requirements
             HttpResponseMessage? hrm = null;
             if (UseUrl != null)
             {
@@ -56,13 +51,24 @@
 
         public async Task<HttpResponseMessage?> CallServiceDelete()
         {
-            // Basic implementation for Delete. You might need to modify based on your API requirements
             HttpResponseMessage? hrm = null;
             if (UseUrl != null)
             {
                 hrm = await HttpEnabler.DeleteAsync(UseUrl);
             }
             return hrm;
+        }
+
+        public async Task<HttpResponseMessage?> GetById(string id)
+        {
+            if (UseUrl != null)
+            {
+                // Assuming your ID is part of the URL
+                UseUrl = $"{BaseUrl}/{id}";
+                HttpResponseMessage? hrm = await HttpEnabler.GetAsync(UseUrl);
+                return hrm;
+            }
+            return null;
         }
     }
 }
