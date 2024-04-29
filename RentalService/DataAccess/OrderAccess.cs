@@ -94,7 +94,7 @@ namespace RentalService.DataAccess
             {
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 {
-                    string queryString = "SELECT * FROM Orders";
+                    string queryString = "SELECT orderID, CustomerID, orderDate, starteDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice FROM Orders";
 
                     using (SqlCommand command = new SqlCommand(queryString, con))
                     {
