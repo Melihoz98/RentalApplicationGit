@@ -9,5 +9,27 @@
 </div>
 
 <div id="categoriesPartial">
-    @Html.Partial("CategoriesPartial")
+    <!-- Categories section will be dynamically updated using JavaScript -->
 </div>
+
+@section scripts {
+    <script>
+        // Load categories section initially
+        $(document).ready(function () {
+            $('#categoriesPartial').load('@Url.Action("CategoriesPartial")');
+        });
+
+        // Function to handle category selection
+        function selectCategory(categoryId) {
+            $.post('@Url.Action("SelectCategory", "Home")', { categoryId: categoryId })
+                .done(function (data) {
+                    window.location.href = data.url; // Redirect using URL from response
+                })
+                .fail(function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                });
+        }
+
+
+    </script>
+}

@@ -31,7 +31,13 @@ namespace RentAppMVC.Controllers
             return PartialView("_CategoriesPartial", categories);
         }
 
-    
+        [HttpPost]
+        public IActionResult SelectCategory(int categoryId)
+        {
+            var url = Url.Action("ProductsByCategory", "ProductController", new { categoryId });
+            return Json(new { url = url }); // Return URL as JSON data
+        }
+
 
         [Authorize]
         public IActionResult Privacy()
@@ -46,4 +52,5 @@ namespace RentAppMVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
 }
