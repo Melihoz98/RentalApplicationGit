@@ -2,6 +2,8 @@
 using RentAppMVC.BusinessLogicLayer;
 using RentAppMVC.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace RentAppMVC.Controllers
 {
@@ -19,15 +21,26 @@ namespace RentAppMVC.Controllers
             return View();
         }
 
-        // ProductController.cs
         public async Task<IActionResult> ProductsByCategory(int categoryId)
         {
-            // Retrieve products by categoryId
             List<Product> products = await _productLogic.GetProductsByCategoryId(categoryId);
-
-            // Pass products to the view
             return View(products);
         }
 
+        [HttpPost]
+        public IActionResult AddToCart(int productId)
+        {
+            // Retrieve existing cart from session or create new cart
+            List<int> cart = HttpContext.Session.Get<List<int>>("Cart") ?? new List<int>();
+
+            // Add productId to cart
+            cart.Add(productId);
+
+            // Update cart in session
+            HttpContext.Session.Set("Cart", cart);
+
+            // Redirect back to the product list or wherever appropriate
+            return RedirectToAction("Index");
+        }
     }
 }
