@@ -26,9 +26,9 @@ namespace AdminWinForm.BusinesslogicLayer
             return foundCategories;
         }
 
-        public async Task<int> AddCategory(int categoryID, string categoryName, string imagePath)
+        public async Task<int> AddCategory( string categoryName, string imagePath)
         {
-            Category newCategory = new Category( categoryID, categoryName, imagePath);
+            Category newCategory = new Category(categoryName, imagePath);
             int insertedCategoryId = await _categoryAccess.AddCategory(newCategory);
              return insertedCategoryId;   
         }
