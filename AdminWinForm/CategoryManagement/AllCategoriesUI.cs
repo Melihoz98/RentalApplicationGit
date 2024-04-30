@@ -1,4 +1,5 @@
 ﻿using AdminWinForm.BusinesslogicLayer;
+using AdminWinForm.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,25 +27,6 @@ namespace AdminWinForm.CategoryManagement
 
 
 
-        private void updateCategory_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-
-                int categoryID = Convert.ToInt32(selectedRow.Cells["Column1"].Value);
-                string categoryName = Convert.ToString(selectedRow.Cells["Column2"].Value);
-                string imagePath = Convert.ToString(selectedRow.Cells["Column6"].Value);
-
-                UpdateCategoryUI updateCategoryFrom = new UpdateCategoryUI(categoryID, categoryName, imagePath);
-                updateCategoryFrom.Show();
-
-            }
-            else
-            {
-                MessageBox.Show("Please select a category to update.");
-            }
-        }
 
         private void back_Click(object sender, EventArgs e)
         {
@@ -53,8 +35,28 @@ namespace AdminWinForm.CategoryManagement
 
         private void addCategory_Click(object sender, EventArgs e)
         {
-            AddCategoryUI addCategory = new AddCategoryUI();    
+            AddCategoryUI addCategory = new AddCategoryUI();
             addCategory.Show();
+        }
+
+        private void updateCategory_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+
+                int categoryID = Convert.ToInt32(selectedRow.Cells["Column1"].Value);
+                string categoryName = Convert.ToString(selectedRow.Cells["Column2"].Value);
+                string imagePath = Convert.ToString(selectedRow.Cells["Column3"].Value);
+
+                UpdateCategoryUI updateCategoryFrom = new UpdateCategoryUI(categoryID,categoryName, imagePath);
+                updateCategoryFrom.Show();
+
+            }
+            else
+            {
+                MessageBox.Show("Please select a category to update.");
+            }
         }
     }
 
