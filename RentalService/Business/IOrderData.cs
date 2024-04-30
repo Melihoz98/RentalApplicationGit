@@ -5,7 +5,7 @@ namespace RentalService.Business
 {
     public interface IOrderData
     {
-        OrderDto GetById(int orderId);
-        List<OrderDto> GetAllOrders();
+        OrderDto? GetById(int id);
+        List<OrderDto?>? GetAllOrders();
     }
 }

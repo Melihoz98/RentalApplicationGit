@@ -21,14 +21,8 @@ namespace RentalService.Business
             try
             {
                 Order order = _orderAccess.GetOrderById(orderId);
-                if (order != null)
-                {
-                    return OrderDtoConvert.FromOrder(order);
-                }
-                else
-                {
-                    return null;
-                }
+                return OrderDtoConvert.FromOrder(order);
+              
             }
             catch (Exception ex)
             {

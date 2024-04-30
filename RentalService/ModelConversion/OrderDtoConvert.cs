@@ -12,14 +12,14 @@ namespace RentalService.ModelConversion
             {
                 OrderID = order.OrderID,
                 CustomerID = order.CustomerID,
-                OrderDate = order.OrderDate,
-                StartDate = order.StartDate,
-                EndDate = order.EndDate,
-                StartTime = order.StartTime,
-                EndTime = order.EndTime,
-                TotalHours = order.TotalHours,
-                SubTotalPrice = order.SubTotalPrice,
-                TotalOrderPrice = order.TotalOrderPrice
+                OrderDate = (DateTime)order.OrderDate,
+                StartDate = (DateTime)order.StartDate,
+                EndDate = (DateTime)order.EndDate,
+                StartTime = (TimeSpan)order.StartTime,
+                EndTime = (TimeSpan)order.EndTime,
+                TotalHours = (int)order.TotalHours,
+                SubTotalPrice = (decimal)order.SubTotalPrice,
+                TotalOrderPrice = (decimal)order.TotalOrderPrice
             };
         }
 

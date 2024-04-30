@@ -46,7 +46,7 @@ namespace RentalService.Controllers
             try
             {
                 List<OrderDto?>? orderDtos = _orderData.GetAllOrders();
-                if (orderDtos != null && orderDtos.Count > 0)
+                if (orderDtos != null)
                 {
                     return Ok(orderDtos);
                 }
