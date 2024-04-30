@@ -27,20 +27,5 @@ namespace RentAppMVC.Controllers
             return View(products);
         }
 
-        [HttpPost]
-        public IActionResult AddToCart(int productId)
-        {
-            // Retrieve existing cart from session or create new cart
-            List<int> cart = HttpContext.Session.Get<List<int>>("Cart") ?? new List<int>();
-
-            // Add productId to cart
-            cart.Add(productId);
-
-            // Update cart in session
-            HttpContext.Session.Set("Cart", cart);
-
-            // Redirect back to the product list or wherever appropriate
-            return RedirectToAction("Index");
-        }
     }
 }
