@@ -19,10 +19,15 @@ namespace RentAppMVC.Controllers
             return View();
         }
 
+        // ProductController.cs
         public async Task<IActionResult> ProductsByCategory(int categoryId)
         {
+            // Retrieve products by categoryId
             List<Product> products = await _productLogic.GetProductsByCategoryId(categoryId);
+
+            // Pass products to the view
             return View(products);
         }
+
     }
 }
