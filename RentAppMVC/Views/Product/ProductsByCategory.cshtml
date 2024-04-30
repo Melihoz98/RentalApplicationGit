@@ -6,10 +6,21 @@
 
 <h1>Products By Category</h1>
 
-@foreach (var product in Model)
-{
-    <div>
-        <h2>@product.ProductName</h2>
-     
-    </div>
-}
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="@product.ImagePath" class="card-img-top" alt="@product.ProductName">
+                <div class="card-body">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <p class="card-text">@product.Description</p>
+                    <p class="card-text">Price: $@product.HourlyPrice</p>
+                    <button type="button" class="btn btn-primary">
+                        Add to Cart <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
