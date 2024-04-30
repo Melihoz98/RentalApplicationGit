@@ -52,50 +52,5 @@ namespace RentalService.Business
                 throw;
             }
         }
-
-        public int CreateOrder(OrderDto orderToAdd)
-        {
-            try
-            {
-                Order order = OrderDtoConvert.ToOrder(orderToAdd);
-                _orderAccess.AddOrder(order);
-                return order.OrderID;
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error creating order: {ex.Message}");
-                throw;
-            }
-        }
-
-        public void UpdateOrder(OrderDto orderToUpdate)
-        {
-            try
-            {
-                Order order = OrderDtoConvert.ToOrder(orderToUpdate);
-                _orderAccess.UpdateOrder(order);
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating order: {ex.Message}");
-                throw;
-            }
-        }
-
-        public void DeleteOrder(int orderId)
-        {
-            try
-            {
-                _orderAccess.DeleteOrder(orderId);
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error deleting order: {ex.Message}");
-                throw;
-            }
-        }
     }
 }

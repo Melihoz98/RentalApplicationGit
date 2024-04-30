@@ -4,7 +4,7 @@
     {
         public OrderDto() { }
 
-        public OrderDto(int customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
+        public OrderDto(string customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
         {
             CustomerID = customerID;
             OrderDate = orderDate;
@@ -18,7 +18,7 @@
         }
 
         public int OrderID { get; set; }
-        public int CustomerID { get; set; }
+        public string CustomerID { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
