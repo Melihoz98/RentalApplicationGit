@@ -1,4 +1,5 @@
 ﻿using AdminWinForm.CategoryManagement;
+using AdminWinForm.CustomerManagement;
 using AdminWinForm.ProductManagement;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,14 @@ namespace AdminWinForm.AdminMenu
 
         private void categoryManagement_Click(object sender, EventArgs e)
         {
-            AllCategoriesUI  allCategoriesUI = new AllCategoriesUI();
+            AllCategoriesUI allCategoriesUI = new AllCategoriesUI();
             allCategoriesUI.Show();
+        }
+
+        private void customers_Click(object sender, EventArgs e)
+        {
+            CustomerUI customerUI = new CustomerUI();
+            customerUI.Show();
         }
     }
 }
