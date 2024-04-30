@@ -24,11 +24,4 @@
         </li>
     }
 
-    <!-- Cart icon and count -->
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="badge bg-secondary">@HttpContext.Session.Get<List<int>>("Cart")?.Count ?? 0</span> <!-- Display number of products -->
-        </a>
-    </li>
 </ul>
