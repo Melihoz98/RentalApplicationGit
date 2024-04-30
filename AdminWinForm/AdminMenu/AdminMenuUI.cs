@@ -1,4 +1,5 @@
-﻿using AdminWinForm.ProductManagement;
+﻿using AdminWinForm.CategoryManagement;
+using AdminWinForm.ProductManagement;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,12 @@ namespace AdminWinForm.AdminMenu
             // Åbn AllProductsUI-vinduet
             AllProductsUI allProductsForm = new AllProductsUI();
             allProductsForm.Show();
+        }
+
+        private void categoryManagement_Click(object sender, EventArgs e)
+        {
+            AllCategoriesUI  allCategoriesUI = new AllCategoriesUI();
+            allCategoriesUI.Show();
         }
     }
 }

@@ -36,9 +36,10 @@
             // 
             // button1
             // 
-            button1.Location = new Point(22, 80);
+            button1.Location = new Point(18, 64);
+            button1.Margin = new Padding(2, 2, 2, 2);
             button1.Name = "button1";
-            button1.Size = new Size(327, 130);
+            button1.Size = new Size(262, 104);
             button1.TabIndex = 0;
             button1.Text = "Product Management";
             button1.UseVisualStyleBackColor = true;
@@ -46,40 +47,45 @@
             // 
             // button2
             // 
-            button2.Location = new Point(432, 80);
+            button2.Location = new Point(346, 64);
+            button2.Margin = new Padding(2, 2, 2, 2);
             button2.Name = "button2";
-            button2.Size = new Size(334, 130);
+            button2.Size = new Size(267, 104);
             button2.TabIndex = 1;
             button2.Text = "Category Management";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += categoryManagement_Click;
             // 
             // button3
             // 
-            button3.Location = new Point(22, 251);
+            button3.Location = new Point(18, 201);
+            button3.Margin = new Padding(2, 2, 2, 2);
             button3.Name = "button3";
-            button3.Size = new Size(327, 130);
+            button3.Size = new Size(262, 104);
             button3.TabIndex = 2;
             button3.Text = "Order Management";
             button3.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
-            button4.Location = new Point(432, 251);
+            button4.Location = new Point(346, 201);
+            button4.Margin = new Padding(2, 2, 2, 2);
             button4.Name = "button4";
-            button4.Size = new Size(334, 130);
+            button4.Size = new Size(267, 104);
             button4.TabIndex = 3;
             button4.Text = " Management";
             button4.UseVisualStyleBackColor = true;
             // 
             // AdminMenuUI
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(640, 360);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "AdminMenuUI";
             Text = "AdminMenuUI";
             ResumeLayout(false);
