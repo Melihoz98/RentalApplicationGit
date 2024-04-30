@@ -10,23 +10,38 @@
         font-family: 'Roboto', sans-serif;
         font-weight: 700;
         font-size: 300;
+        color: white; /* Set text color to white */
     }
 
-    .big-square-form .btn {
+    .big-square-form {
+        display: inline-block;
+        margin: 10px;
     }
 
-
+        .big-square-form button {
+            width: 400px; /* Set the width of the button */
+            height: 400px; /* Set the height of the button */
+            background-color: black; /* Set the background color to black */
+            color: white; /* Set text color to white */
+            font-size: 32px; /* Adjust font size as needed */
+            border: none; /* Remove border */
+            cursor: pointer; /* Add pointer cursor */
+            border-radius: 10px; /* Add some border-radius for rounded corners */
+            display: flex; /* Align text vertically and horizontally */
+            justify-content: center; /* Center text horizontally */
+            align-items: center; /* Center text vertically */
+        }
 </style>
 
 <h3 class="display-4">CATEGORIES</h3>
 
 @foreach (var category in Model)
 {
-    <div>
-        <form asp-controller="Home" asp-action="SelectCategory"  class="big-square-form">
+    <div class="big-square-form">
+        <form asp-controller="Home" asp-action="SelectCategory">
             <input type="hidden" name="categoryId" value="@category.CategoryID" />
-            <button type="submit" class="btn btn-primary btn-lg">
-                @category.CategoryName.ToUpper();
+            <button type="submit">
+                @category.CategoryName.ToUpper()
             </button>
         </form>
     </div>
