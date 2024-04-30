@@ -3,12 +3,36 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    body {
+      
+        color: black;
+        font-family: Arial, sans-serif;
+    }
+
+    .logo-imgHome {
+        width: 300px; /* Adjust the width as needed */
+        height: 250px; /* Maintain aspect ratio */
+        display: block; /* Center the image */
+        margin: 0 auto; /* Center the image */
+    }
+
+    .text-center {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+</style>
 
 <div class="text-center">
-    <h1>HIIII</h1>
-    <img src="~/images/HandyRent.png" alt="RentAppMVC Logo" class="logo-img" />
+    <img src="~/images/HandyRent.png" alt="RentAppMVC Logo" class="logo-imgHome" />
 </div>
-
+<h1>RENT YOUR TOOLS HERE AT HANDY RENT</h1>
+<h2>WE PROVIDE THE BEST SELECTION FOR YOUR HANDY SITUATION</h2>
+<h2>CHECK OUT THE CATEGORIES DOWN BELOW</h2>
 <div id="categoriesPartial">
     <!-- Categories section will be dynamically updated using JavaScript -->
 </div>
@@ -30,7 +54,5 @@
                     console.error(xhr.responseText);
                 });
         }
-
-
     </script>
 }
