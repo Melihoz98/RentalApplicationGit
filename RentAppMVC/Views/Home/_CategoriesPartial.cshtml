@@ -1,0 +1,33 @@
+﻿@model List<Category>
+
+@{
+    ViewData["Title"] = "_CategoriesPartial";
+}
+
+<style>
+    .display-4 {
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+        font-size: 300;
+    }
+
+    .big-square-form .btn {
+    }
+
+
+</style>
+
+<h3 class="display-4">CATEGORIES</h3>
+
+@foreach (var category in Model)
+{
+    <div>
+        <form asp-controller="Home" asp-action="SelectCategory"  class="big-square-form">
+            <input type="hidden" name="categoryId" value="@category.CategoryID" />
+            <button type="submit" class="btn btn-primary btn-lg">
+                @category.CategoryName.ToUpper();
+            </button>
+        </form>
+    </div>
+}
