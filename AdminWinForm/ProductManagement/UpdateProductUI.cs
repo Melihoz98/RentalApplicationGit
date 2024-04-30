@@ -13,11 +13,11 @@ namespace AdminWinForm.ProductManagement
 {
     public partial class UpdateProductUI : Form
     {
-        public UpdateProductUI(int productId, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
+        public UpdateProductUI(string productId, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
         {
             InitializeComponent();
 
-            textBox6.Text = productId.ToString();
+            textBox6.Text = productId;
             textBox1.Text = productName;
             textBox2.Text = description;
             textBox3.Text = hourlyPrice.ToString();

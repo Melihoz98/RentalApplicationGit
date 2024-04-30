@@ -41,11 +41,11 @@ namespace AdminWinForm.ProductManagement
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
 
                 // Extract product details from the selected row
-                int productId = Convert.ToInt32(selectedRow.Cells["Column1"].Value);
+                string productId = Convert.ToString(selectedRow.Cells["Column1"].Value);
                 string productName = Convert.ToString(selectedRow.Cells["Column2"].Value);
                 string description = Convert.ToString(selectedRow.Cells["Column3"].Value);
                 decimal hourlyPrice = Convert.ToDecimal(selectedRow.Cells["Column4"].Value);
-                int categoryID = Convert.ToInt32(selectedRow.Cells["Column5"].Value);
+                var categoryID = Convert.ToInt32(selectedRow.Cells["Column5"].Value);
                 string imagePath = Convert.ToString(selectedRow.Cells["Column6"].Value);
 
                 // Open the UpdateProductUI form and pass the product details
@@ -56,6 +56,7 @@ namespace AdminWinForm.ProductManagement
             {
                 MessageBox.Show("Please select a product to update.");
             }
+            LoadProducts();
         }
 
         private void back_Click(object sender, EventArgs e)
