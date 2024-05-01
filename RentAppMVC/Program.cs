@@ -20,7 +20,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 // Register ProductLogic as a scoped service
 builder.Services.AddScoped<ProductLogic>();
-
+builder.Services.AddScoped<PrivateCustomerLogic>();
+builder.Services.AddScoped<BusinessCustomerLogic>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -1,0 +1,46 @@
+﻿@model ProfileViewModel
+
+<h2>Profile</h2>
+
+<form id="customerTypeForm">
+    <div class="form-group">
+        <label class="form-check-label">
+            <input type="radio" name="customerType" value="private" checked> Private Customer
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="form-check-label">
+            <input type="radio" name="customerType" value="business"> Business Customer
+        </label>
+    </div>
+</form>
+
+<div id="privateCustomerForm" style="display:block;">
+    @Html.Partial("Private/_PrivateCustomerForm")
+</div>
+
+<div id="businessCustomerForm" style="display:none;">
+    @Html.Partial("Business/_BusinessCustomerForm")
+</div>
+
+<button type="button" id="saveButton" class="btn btn-primary">Save</button>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('input[type=radio][name=customerType]').change(function () {
+                if (this.value === 'private') {
+                    $('#privateCustomerForm').show();
+                    $('#businessCustomerForm').hide();
+                } else if (this.value === 'business') {
+                    $('#privateCustomerForm').hide();
+                    $('#businessCustomerForm').show();
+                }
+            });
+
+            $('#saveButton').click(function () {
+                alert('Data saved to the database!');
+            });
+        });
+    </script>
+}
