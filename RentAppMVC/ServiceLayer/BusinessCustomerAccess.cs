@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RentAppMVC.ServiceLayer
 {
-    public class BusinessCustomerAccess
+    public class BusinessCustomerAccess : IBusinessCustomerAccess
     {
         readonly IServiceConnection _businessCustomerService;
         readonly string _serviceBaseUrl = "https://localhost:7023/api/BusinessCustomer/";
