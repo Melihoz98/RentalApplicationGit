@@ -4,12 +4,12 @@ using System.Text;
 
 namespace RentAppMVC.ServiceLayer
 {
-    public class PrivateCustomerServiceAccess : IPrivateCustomerAccess
+    public class PrivateCustomerAccess : IPrivateCustomerAccess
     {
         readonly IServiceConnection _privateCustomerService;
         readonly string _serviceBaseUrl = "https://localhost:7023/api/PrivateCustomer/";
 
-        public PrivateCustomerServiceAccess()
+        public PrivateCustomerAccess()
         {
             _privateCustomerService = new ServiceConnection(_serviceBaseUrl);
         }
