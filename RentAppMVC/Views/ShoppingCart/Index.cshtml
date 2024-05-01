@@ -1,0 +1,34 @@
+﻿@model List<ShoppingCartItem>  // Specify the model type
+
+<h1>Shopping Cart</h1>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+              
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Price.ToString("C")</td>
+                 
+                    <td>@(item.Price * 1).ToString("C")</td>  // Total price for 1 item
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Your shopping cart is empty.</p>
+}
+
+<a href="@Url.Action("Index", "Home")">Continue Shopping</a>
