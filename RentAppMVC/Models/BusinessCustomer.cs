@@ -24,7 +24,6 @@
         }
 
         public string CustomerID { get; set; }
-        public string CustomerId { get; internal set; }
         public string? CompanyName { get; set; }
         public string? CVR { get; set; }
         public string? PhoneNumber { get; set; }
