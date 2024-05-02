@@ -1,4 +1,5 @@
-﻿using AdminWinForm.ProductCopyManagement;
+﻿using AdminWinForm.OrderManagement;
+using AdminWinForm.ProductCopyManagement;
 using AdminWinForm.CategoryManagement;
 using AdminWinForm.CustomerManagement;
 using AdminWinForm.ProductManagement;
@@ -45,6 +46,12 @@ namespace AdminWinForm.AdminMenu
         {
             CustomerUI customerUI = new CustomerUI();
             customerUI.Show();
+        }
+
+        private void orderManagement_Click(object sender, EventArgs e)
+        {
+            AllOrdersUI allOrdersUI = new AllOrdersUI();
+            allOrdersUI.Show();
         }
     }
 }

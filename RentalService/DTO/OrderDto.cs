@@ -2,8 +2,23 @@
 {
     public class OrderDto
     {
+        public OrderDto() { }
+
+        public OrderDto(string customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
+        {
+            CustomerID = customerID;
+            OrderDate = orderDate;
+            StartDate = startDate;
+            EndDate = endDate;
+            StartTime = startTime;
+            EndTime = endTime;
+            TotalHours = totalHours;
+            SubTotalPrice = subTotalPrice;
+            TotalOrderPrice = totalOrderPrice;
+        }
+
         public int OrderID { get; set; }
-        public int CustomerID { get; set; }
+        public string CustomerID { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

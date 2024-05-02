@@ -25,7 +25,7 @@ namespace RentalService.DataAccess
 
             try
             {
-                string queryString = "SELECT productID, productName, description, hourlyPrice, categoryID, imagePath FROM Products";
+                string queryString = "SELECT * FROM Products";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))

@@ -21,14 +21,8 @@ namespace RentalService.Business
             try
             {
                 Order order = _orderAccess.GetOrderById(orderId);
-                if (order != null)
-                {
-                    return OrderDtoConvert.FromOrder(order);
-                }
-                else
-                {
-                    return null;
-                }
+                return OrderDtoConvert.FromOrder(order);
+              
             }
             catch (Exception ex)
             {
@@ -49,51 +43,6 @@ namespace RentalService.Business
             {
                 // Log the error
                 Console.WriteLine($"Error getting all orders: {ex.Message}");
-                throw;
-            }
-        }
-
-        public int CreateOrder(OrderDto orderToAdd)
-        {
-            try
-            {
-                Order order = OrderDtoConvert.ToOrder(orderToAdd);
-                _orderAccess.AddOrder(order);
-                return order.OrderID;
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error creating order: {ex.Message}");
-                throw;
-            }
-        }
-
-        public void UpdateOrder(OrderDto orderToUpdate)
-        {
-            try
-            {
-                Order order = OrderDtoConvert.ToOrder(orderToUpdate);
-                _orderAccess.UpdateOrder(order);
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating order: {ex.Message}");
-                throw;
-            }
-        }
-
-        public void DeleteOrder(int orderId)
-        {
-            try
-            {
-                _orderAccess.DeleteOrder(orderId);
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error deleting order: {ex.Message}");
                 throw;
             }
         }
