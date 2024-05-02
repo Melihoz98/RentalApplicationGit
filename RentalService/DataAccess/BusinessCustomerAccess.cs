@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace RentalService.DataAccess
 {
-    public class BusinessCustomerAccess : IBusinessCustomerAccess // Implement an interface for future flexibility
+    public class BusinessCustomerAccess : IBusinessCustomerAccess 
     {
         private readonly string _connectionString;
 
