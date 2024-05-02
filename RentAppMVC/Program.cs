@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentAppMVC.Data;
-using RentAppMVC.BusinessLogicLayer; // Import your ProductLogic namespace
+using RentAppMVC.BusinessLogicLayer;
+using RentAppMVC.ServiceLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddScoped<ProductLogic>();
 builder.Services.AddScoped<PrivateCustomerLogic>();
 builder.Services.AddScoped<BusinessCustomerLogic>();
+builder.Services.AddScoped<IAspNetUserAccess, AspNetUserAccess>();
+builder.Services.AddScoped<AspNetUserLogic>();
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
