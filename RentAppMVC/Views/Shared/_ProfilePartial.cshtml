@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+       
+        <li class="nav-item">
+            <a href="@Url.Action("Index", "Profile")" class="nav-link text-dark">PROFILE</a>
+        </li>
+        
+    }</ul>
