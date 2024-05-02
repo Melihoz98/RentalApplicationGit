@@ -4,13 +4,6 @@
     {
         public PrivateCustomer() { }
 
-        public PrivateCustomer(string customerID, string firstName, string lastName, string phoneNumber)
-        {
-            CustomerID = customerID;
-            FirstName = firstName;
-            LastName = lastName;
-            PhoneNumber = phoneNumber;
-        }
 
         public PrivateCustomer(string? firstName, string? lastName, string? phoneNumber)
         {
@@ -19,6 +12,13 @@
             PhoneNumber = phoneNumber;
         }
 
+        public PrivateCustomer(string customerID, string firstName, string lastName, string phoneNumber)
+        {
+            CustomerID = customerID;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+        }
 
         public string CustomerID { get; set; }
         public string? FirstName { get; set; }

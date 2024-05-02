@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using RentalService.Models; // Assuming this namespace holds your BusinessCustomer model
+using RentalService.Models; 
 using System;
 using System.Collections.Generic;
 
@@ -59,6 +59,7 @@ namespace RentalService.DataAccess
                     readCommand.Parameters.Add(idParam);
                     con.Open();
                     SqlDataReader customerReader = readCommand.ExecuteReader();
+                   
                     if (customerReader.Read())
                     {
                         foundCustomer = GetBusinessCustomerFromReader(customerReader);

@@ -1,48 +1,37 @@
 ﻿using RentalService.Models;
 using RentalService.DTO;
-using System;
 using System.Collections.Generic;
 
 namespace RentalService.ModelConversion
 {
     public class PrivateCustomerDtoConvert
     {
-        public static List<PrivateCustomerDto?>? FromPrivateCustomerCollection(List<PrivateCustomer> inCustomers)
+        public static List<PrivateCustomerDto> FromPrivateCustomerCollection(List<PrivateCustomer> customers)
         {
-            List<PrivateCustomerDto?>? customerDtos = null;
-            if (inCustomers != null)
+            List<PrivateCustomerDto> customerDtos = new List<PrivateCustomerDto>();
+            foreach (var customer in customers)
             {
-                customerDtos = new List<PrivateCustomerDto?>();
-                foreach (PrivateCustomer customer in inCustomers)
-                {
-                    PrivateCustomerDto? dto = FromPrivateCustomer(customer);
-                    customerDtos.Add(dto);
-                }
-            }
+                customerDtos.Add(FromPrivateCustomer(customer));
+             }
+
             return customerDtos;
         }
 
         public static PrivateCustomerDto? FromPrivateCustomer(PrivateCustomer customer)
         {
-            PrivateCustomerDto? dto = null;
-            if (customer != null)
+            return new PrivateCustomerDto
             {
-                dto = new PrivateCustomerDto
-                {
                     CustomerID = customer.CustomerID,
                     FirstName = customer.FirstName,
                     LastName = customer.LastName,
                     PhoneNumber = customer.PhoneNumber
-                };
-            }
-            return dto;
+            };
+            
+
         }
 
         public static PrivateCustomer ToPrivateCustomer(PrivateCustomerDto dto)
         {
-            if (dto == null)
-                throw new ArgumentNullException(nameof(dto));
-
             return new PrivateCustomer
             {
                 CustomerID = dto.CustomerID,
@@ -51,7 +40,5 @@ namespace RentalService.ModelConversion
                 PhoneNumber = dto.PhoneNumber
             };
         }
-
-
     }
 }

@@ -5,9 +5,9 @@ namespace RentalService.DataAccess
     public interface IPrivateCustomerAccess
     {
 
-        PrivateCustomer GetPrivateCustomerById(string id);
+        PrivateCustomer GetPrivateCustomerById(string customerID);
         List<PrivateCustomer> GetAllPrivateCustomers();
-        int AddPrivateCustomer(PrivateCustomer privateCustomer);
+        void CeatePrivateCustomer(PrivateCustomer customer);
         void UpdatePrivateCustomer(PrivateCustomer customer);
         void DeletePrivateCustomer(string customerID);
 

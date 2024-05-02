@@ -1,6 +1,6 @@
 ﻿using RentalService.Models;
 
-namespace RentalService.DataAccess // Assuming this namespace holds your interfaces
+namespace RentalService.DataAccess 
 {
     public interface IBusinessCustomerAccess
     {

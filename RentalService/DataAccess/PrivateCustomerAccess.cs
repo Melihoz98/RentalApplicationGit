@@ -19,70 +19,6 @@ namespace RentalService.DataAccess
             }
         }
 
-        public int AddPrivateCustomer(PrivateCustomer privateCustomer)
-        {
-            int insertedId = -1;
-
-            try
-            {
-                string insertString = "INSERT INTO PrivateCustomers (firstName, lastName, phoneNumber) OUTPUT INSERTED.customerID VALUES (@FirstName, @LastName, @PhoneNumber)";
-
-                using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand createCommand = new SqlCommand(insertString, con))
-                {
-                    // Prepare SQL
-                    createCommand.Parameters.AddWithValue("@FirstName", privateCustomer.FirstName);
-                    createCommand.Parameters.AddWithValue("@LastName", privateCustomer.LastName);
-                    createCommand.Parameters.AddWithValue("@PhoneNumber", privateCustomer.PhoneNumber);
-
-                    con.Open();
-                    // Execute save and read generated key (ID)
-                    insertedId = (int)createCommand.ExecuteScalar();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error adding private customer: {ex.Message}");
-                throw;
-            }
-
-            return insertedId;
-        }
-
-        public PrivateCustomer GetPrivateCustomerById(string id)
-        {
-            PrivateCustomer foundCustomer = null;
-
-            try
-            {
-                string queryString = "SELECT customerID, firstName, lastName, phoneNumber FROM PrivateCustomers WHERE customerID = @Id";
-
-                using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand readCommand = new SqlCommand(queryString, con))
-                {
-                    readCommand.Parameters.AddWithValue("@Id", id);
-
-                    con.Open();
-
-                    SqlDataReader customerReader = readCommand.ExecuteReader();
-
-                    if (customerReader.Read())
-                    {
-                        foundCustomer = GetPrivateCustomerFromReader(customerReader);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error retrieving private customer by ID: {ex.Message}");
-                throw;
-            }
-
-            return foundCustomer;
-        }
-
         public List<PrivateCustomer> GetAllPrivateCustomers()
         {
             List<PrivateCustomer> foundCustomers = new List<PrivateCustomer>();
@@ -90,7 +26,6 @@ namespace RentalService.DataAccess
             try
             {
                 string queryString = "SELECT customerID, firstName, lastName, phoneNumber FROM PrivateCustomers";
-
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
                 {
@@ -114,6 +49,62 @@ namespace RentalService.DataAccess
 
             return foundCustomers;
         }
+
+        public PrivateCustomer GetPrivateCustomerById(string customerID)
+        {
+            PrivateCustomer foundCustomer = null;
+
+            try
+            {
+                string queryString = "SELECT customerID, firstName, lastName, phoneNumber FROM PrivateCustomers WHERE customerID = @Id";
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, con))
+                {
+                    SqlParameter idParam = new SqlParameter("@CustomerID", customerID);
+                    readCommand.Parameters.Add(idParam);
+                    con.Open();
+                    SqlDataReader customerReader = readCommand.ExecuteReader();
+
+                    if (customerReader.Read())
+                    {
+                        foundCustomer = GetPrivateCustomerFromReader(customerReader);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error retrieving private customer by ID: {ex.Message}");
+                throw;
+            }
+
+            return foundCustomer;
+        }
+
+        public void CeatePrivateCustomer(PrivateCustomer customer)
+        {
+            try
+            {
+                string insertString = "INSERT INTO PrivateCustomers (customerID, firstName, lastName, phoneNumber) OUTPUT INSERTED.customerID VALUES (@CustomerID, @FirstName, @LastName, @PhoneNumber)";
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand createCommand = new SqlCommand(insertString, con))
+                {
+                    createCommand.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                    createCommand.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                    createCommand.Parameters.AddWithValue("@LastName", customer.LastName);
+                    createCommand.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
+                    con.Open();
+                    createCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error adding private customer: {ex.Message}");
+                throw;
+            }
+        }
+
 
         public void UpdatePrivateCustomer(PrivateCustomer customer)
         {

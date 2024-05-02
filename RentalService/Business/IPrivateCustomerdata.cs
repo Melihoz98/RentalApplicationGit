@@ -6,7 +6,7 @@ namespace RentalService.Business
     {
         List<PrivateCustomerDto?>? GetAllPrivateCustomers();
         PrivateCustomerDto? GetPrivateCustomerById(string id);
-        int createPrivateCustomer(PrivateCustomerDto privateCustomerDto);
+        void createPrivateCustomer(PrivateCustomerDto privateCustomerDto);
         void UpdatePrivateCustomer(PrivateCustomerDto privateCustomerDto);
         void DeletePrivateCustomer(string id);
     }
