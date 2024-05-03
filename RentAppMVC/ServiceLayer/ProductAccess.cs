@@ -34,7 +34,10 @@ namespace RentAppMVC.ServiceLayer
         {
             Product product = new Product();
 
-            HttpResponseMessage? response = await _productService.GetById(productId.ToString());
+            // Construct the URL with the correct format for retrieving a product by ID
+            string url = $"{_serviceBaseUrl}/{productId}";
+
+            HttpResponseMessage? response = await _productService.GetById(url);
             if (response != null && response.IsSuccessStatusCode)
             {
                 string jsonString = await response.Content.ReadAsStringAsync();
@@ -43,6 +46,7 @@ namespace RentAppMVC.ServiceLayer
 
             return product;
         }
+
 
         public async Task<List<Product>> GetProductsByCategoryId(int categoryId)
         {

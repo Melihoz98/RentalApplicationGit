@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentAppMVC.Data;
-using RentAppMVC.BusinessLogicLayer; // Import your ProductLogic namespace
+using RentAppMVC.BusinessLogicLayer;
+using RentAppMVC.Models; // Import your ProductLogic namespace
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<ProductLogic>();
 builder.Services.AddScoped<PrivateCustomerLogic>();
 builder.Services.AddScoped<BusinessCustomerLogic>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<ShoppingCart>();
 
 var app = builder.Build();
 

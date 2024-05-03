@@ -1,0 +1,41 @@
+﻿@model List<RentAppMVC.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<h1>Shopping Cart</h1>
+
+@if (Model.Count == 0)
+{
+    <p>Your shopping cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th></th> <!-- Remove button -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Product.Description</td>
+                    <td>@item.Product.HourlyPrice</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                            <input type="hidden" name="productId" value="@item.Product.ProductID" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
