@@ -25,6 +25,8 @@ builder.Services.AddSingleton<IOrderLineData, OrderLineDataLogic>();
 builder.Services.AddSingleton<IOrderLineAccess, OrderLineAccess>();
 builder.Services.AddSingleton<IProductCopyData, ProductCopyDataLogic>();
 builder.Services.AddSingleton<IProductCopyAccess, ProductCopyAccess>();
+builder.Services.AddSingleton<IAspNetUserData, AspNetUserDataLogic>();
+builder.Services.AddSingleton<IAspNetUserAccess, AspNetUserAccess>();
 
 // Configure the JWT Authentication Service
 builder.Services.AddAuthentication(options => {
