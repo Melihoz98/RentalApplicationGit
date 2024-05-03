@@ -30,7 +30,7 @@ public class ProfileController : Controller
                 PrivateCustomer privateCustomer = model.PrivateCustomer;
                 string userName = User.Identity.Name;
                 string userId = await _aspNetUserAccess.GetAspNetIdByUserName(userName);
-                privateCustomer.CustomerId = userId;
+                privateCustomer.CustomerID = userId;
                 await _privateCustomerLogic.AddPrivateCustomer(privateCustomer);
             }
             else if (model.CustomerType == "business")
@@ -38,7 +38,7 @@ public class ProfileController : Controller
                 BusinessCustomer businessCustomer = model.BusinessCustomer;
                 string userName = User.Identity.Name;
                 string userId = await _aspNetUserAccess.GetAspNetIdByUserName(userName);
-                businessCustomer.CustomerId = userId;
+                businessCustomer.CustomerID = userId;
                 await _businessCustomerLogic.AddBusinessCustomer(businessCustomer);
             }
             return RedirectToAction("Index");
