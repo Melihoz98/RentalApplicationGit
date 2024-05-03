@@ -1,14 +1,24 @@
 ﻿@model RentAppMVC.Models.PrivateCustomer
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-<div class="form-group">
-    <label for="firstName">First Name:</label>
-    <input type="text" class="form-control" id="firstName" name="FirstName" value="@Model?.FirstName" />
-</div>
-<div class="form-group">
-    <label for="lastName">Last Name:</label>
-    <input type="text" class="form-control" id="lastName" name="LastName" value="@Model?.LastName" />
-</div>
-<div class="form-group">
-    <label for="phoneNumber">Phone Number:</label>
-    <input type="text" class="form-control" id="phoneNumber" name="PhoneNumber" value="@Model?.PhoneNumber" />
-</div>
+<form asp-action="SavePrivateCustomer" method="post">
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" class="form-control" id="firstName" name="FirstName" value="@Model?.FirstName" />
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" class="form-control" id="lastName" name="LastName" value="@Model?.LastName" />
+    </div>
+    <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" class="form-control" id="phoneNumber" name="PhoneNumber" value="@Model?.PhoneNumber" />
+    </div>
+    <div class="form-group">
+        <label for="CustomerID">Customer ID:</label>
+        <input type="text" class="form-control" id="CustomerID" name="CustomerID" value="@UserManager.GetUserId(User)" readonly />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

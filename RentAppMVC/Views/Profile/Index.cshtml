@@ -23,23 +23,19 @@
     @Html.Partial("Business/_BusinessCustomerForm")
 </div>
 
-<button type="button" id="saveButton" class="btn btn-primary">Save</button>
-
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $('input[type=radio][name=customerType]').change(function () {
-                if (this.value === 'private') {
+            // Function to toggle visibility of forms based on radio button selection
+            $('input[name="customerType"]').change(function () {
+                var value = $(this).val();
+                if (value === 'private') {
                     $('#privateCustomerForm').show();
                     $('#businessCustomerForm').hide();
-                } else if (this.value === 'business') {
+                } else if (value === 'business') {
                     $('#privateCustomerForm').hide();
                     $('#businessCustomerForm').show();
                 }
-            });
-
-            $('#saveButton').click(function () {
-                alert('Data saved to the database!');
             });
         });
     </script>

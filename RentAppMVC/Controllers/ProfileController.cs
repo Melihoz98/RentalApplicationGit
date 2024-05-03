@@ -26,11 +26,9 @@ namespace RentAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Gem dataene for en privat kunde i databasen
-                // Eksempel: await _privateCustomerLogic.AddPrivateCustomerAsync(model);
+                await _privateCustomerLogic.AddPrivateCustomer(model);
                 return RedirectToAction("Index");
             }
-            // Hvis der er valideringsfejl, returner siden med fejl
             return View("Index", model);
         }
 
@@ -39,11 +37,9 @@ namespace RentAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Gem dataene for en erhvervskunde i databasen
-                // Eksempel: await _businessCustomerLogic.AddBusinessCustomerAsync(model);
+                await _businessCustomerLogic.AddBusinessCustomer(model);
                 return RedirectToAction("Index");
             }
-            // Hvis der er valideringsfejl, returner siden med fejl
             return View("Index", model);
         }
     }
