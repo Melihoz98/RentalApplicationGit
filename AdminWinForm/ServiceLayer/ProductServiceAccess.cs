@@ -102,7 +102,7 @@ namespace AdminWinForm.ServiceLayer
         {
             int insertedProductID = -1;
 
-            _productService.UseUrl = _productService.BaseUrl;
+            _productService.UseUrl = _productService.UseUrl;
             try
             {
                 string productJson = JsonConvert.SerializeObject(productToAdd);
@@ -114,7 +114,7 @@ namespace AdminWinForm.ServiceLayer
                 {
                     string idString = await serviceResponse.Content.ReadAsStringAsync();
                     bool idNumOk = int.TryParse(idString, out insertedProductID);
-                    if (!idNumOk)
+                    if (idNumOk)
                     {
                         insertedProductID = -2;
                     }

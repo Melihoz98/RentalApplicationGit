@@ -16,11 +16,11 @@ namespace AdminWinForm.ServiceLayer
     public class CategoryServiceAccess : ICategoryAccess
     {
         readonly IServiceConnection _categoryService;
-        readonly string _srrviceBaseUrl = "https://localhost:7023/api/Category/";
+        readonly string _serviceBaseUrl = "https://localhost:7023/api/Category/";
 
         public CategoryServiceAccess()
         {
-            _categoryService = new ServiceConnection(_srrviceBaseUrl);
+            _categoryService = new ServiceConnection(_serviceBaseUrl);
         }
         public async Task<List<Category>> GetCategories(int categoryId = -1)
         {
