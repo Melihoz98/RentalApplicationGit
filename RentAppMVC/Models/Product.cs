@@ -2,7 +2,7 @@
 {
     public class Product
     {
-        public Product(){}
+       public Product(){} 
 
         public Product(int productID, string? productName, string? description, decimal? hourlyPrice, int? categoryID, string? imagePath)
         {

@@ -9,13 +9,16 @@ namespace RentAppMVC.ServiceLayer
     public class ProductAccess : IProductAccess
     {
         private readonly IServiceConnection _productService;
-        private readonly string _serviceBaseUrl = "https://localhost:7023/api/Product/";
+        private readonly string _serviceBaseUrl = "https://localhost:7023/api/Product";
 
         public ProductAccess()
         {
             _productService = new ServiceConnection(_serviceBaseUrl);
         }
-
+        public ProductAccess(IServiceConnection productService)
+        {
+            _productService = productService;
+        }
         public async Task<List<Product>> GetAllProducts()
         {
             List<Product> products = new List<Product>();

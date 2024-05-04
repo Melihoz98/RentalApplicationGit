@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentAppMVC.Data;
 using RentAppMVC.BusinessLogicLayer;
-using RentAppMVC.Models; // Import your ProductLogic namespace
+using RentAppMVC.Models;
+using RentAppMVC.ServiceLayer; // Import your ProductLogic namespace
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.User.RequireUniqueEmail = true;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
+builder.Services.AddScoped<IProductAccess, ProductAccess>();
 // Register ProductLogic as a scoped service
 builder.Services.AddScoped<ProductLogic>();
 builder.Services.AddScoped<PrivateCustomerLogic>();
