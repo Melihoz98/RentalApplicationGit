@@ -9,9 +9,9 @@ namespace RentAppMVC.BusinessLogicLayer
     {
         private readonly IProductAccess _productAccess;
 
-        public ProductLogic(IProductAccess productAccess)
+        public ProductLogic()
         {
-            _productAccess = productAccess;
+            _productAccess = new ProductAccess();
         }
 
         public async Task<List<Product>> GetAllProducts()

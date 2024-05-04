@@ -49,9 +49,19 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Other configurations...
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "shoppingCart",
+    pattern: "ShoppingCart",
+    defaults: new { controller = "ShoppingCart", action = "Index" });
+
+// Other configurations...
+
 app.MapRazorPages();
 
 app.Run();

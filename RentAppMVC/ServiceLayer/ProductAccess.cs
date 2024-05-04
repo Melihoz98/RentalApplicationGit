@@ -9,19 +9,16 @@ namespace RentAppMVC.ServiceLayer
     public class ProductAccess : IProductAccess
     {
         private readonly IServiceConnection _productService;
-        private readonly string _serviceBaseUrl = "https://localhost:7023/api/Product";
+        private readonly string _serviceBaseUrl = "https://localhost:7023/api/Product/";
 
         public ProductAccess()
         {
             _productService = new ServiceConnection(_serviceBaseUrl);
         }
-        public ProductAccess(IServiceConnection productService)
+      
+        public async Task<List<Product>?> GetAllProducts()
         {
-            _productService = productService;
-        }
-        public async Task<List<Product>> GetAllProducts()
-        {
-            List<Product> products = new List<Product>();
+            List<Product>? products = new List<Product>();
 
             HttpResponseMessage? response = await _productService.CallServiceGet();
             if (response != null && response.IsSuccessStatusCode)
@@ -35,20 +32,19 @@ namespace RentAppMVC.ServiceLayer
 
         public async Task<Product> GetProductById(int productId)
         {
-            Product product = new Product();
-
             // Construct the URL with the correct format for retrieving a product by ID
-            string url = $"{_serviceBaseUrl}/{productId}";
-
-            HttpResponseMessage? response = await _productService.GetById(url);
+            Product product = new Product();
+            HttpResponseMessage? response = await _productService.GetById(productId);
             if (response != null && response.IsSuccessStatusCode)
             {
                 string jsonString = await response.Content.ReadAsStringAsync();
                 product = JsonConvert.DeserializeObject<Product>(jsonString);
-            }
 
+            }
             return product;
+
         }
+
 
 
         public async Task<List<Product>> GetProductsByCategoryId(int categoryId)

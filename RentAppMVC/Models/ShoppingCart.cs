@@ -1,40 +1,39 @@
-﻿namespace RentAppMVC.Models
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using RentAppMVC.BusinessLogicLayer;
+using RentAppMVC.Models;
+
+public class ShoppingCart
 {
-    public class ShoppingCart
+    private List<Product> _items;
+
+    public ShoppingCart()
     {
-        private List<CartItem> items;
+        _items = new List<Product>();
+    }
 
-
-
-        public ShoppingCart ()
+    public async Task AddItem(int productId, ProductLogic productLogic)
+    {
+        // Retrieve product by ID from API
+        Product product = await productLogic.GetProductById(productId);
+        if (product != null)
         {
-            items = new List<CartItem> ();
+            _items.Add(product);
         }
+    }
 
-        public void AddItem(Product product)
+    public void RemoveItem(int productId)
+    {
+        Product productToRemove = _items.FirstOrDefault(p => p.ProductID == productId);
+        if (productToRemove != null)
         {
-            if (!items.Any(item => item.Product.ProductID == product.ProductID))
-            {
-                items.Add(new CartItem { Product = product });
-            }
-
-        
+            _items.Remove(productToRemove);
         }
+    }
 
-        public void RemoveItem(int productId)
-        {
-            var itemToRemove = items.FirstOrDefault(item => item.Product.ProductID == productId);
-            if (itemToRemove != null)
-            {
-                items.Remove(itemToRemove);
-            }
-        }
-
-        public List<CartItem> GetItems()
-        {
-            return new List<CartItem> (items);
-        }
-
-
+    public List<Product> GetItems()
+    {
+        return _items;
     }
 }

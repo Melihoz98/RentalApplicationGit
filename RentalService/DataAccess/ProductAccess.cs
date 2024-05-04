@@ -62,17 +62,19 @@ namespace RentalService.DataAccess
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
                 {
-                    SqlParameter idParam = new SqlParameter("@Id", findId);
-                    readCommand.Parameters.Add(idParam);
+
+                    readCommand.Parameters.AddWithValue("@Id", findId);
 
                     con.Open();
 
-                    SqlDataReader productReader = readCommand.ExecuteReader();
-
-                    if (productReader.Read())
+                    using (SqlDataReader productReader = readCommand.ExecuteReader())
                     {
-                        foundProduct = GetProductFromReader(productReader);
-                    }
+                        if (productReader.Read())
+                        {
+
+                            foundProduct = GetProductFromReader(productReader);
+                        }
+                    }                
                 }
             }
             catch (Exception ex)
@@ -99,7 +101,7 @@ namespace RentalService.DataAccess
                     createCommand.Parameters.AddWithValue("@ProductName", product.ProductName);
                     createCommand.Parameters.AddWithValue("@Description", product.Description);
                     createCommand.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
-                    createCommand.Parameters.AddWithValue("@CategoryID", product.CategoryID ?? (object)DBNull.Value);
+                    createCommand.Parameters.AddWithValue("@CategoryID", product.CategoryID);
                     createCommand.Parameters.AddWithValue("@ImagePath", product.ImagePath);
 
                     con.Open();
@@ -128,7 +130,7 @@ namespace RentalService.DataAccess
                     command.Parameters.AddWithValue("@ProductName", product.ProductName);
                     command.Parameters.AddWithValue("@Description", product.Description);
                     command.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
-                    command.Parameters.AddWithValue("@CategoryID", product.CategoryID ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
                     command.Parameters.AddWithValue("@ImagePath", product.ImagePath);
                     command.Parameters.AddWithValue("@ProductId", product.ProductID);
 
@@ -172,7 +174,7 @@ namespace RentalService.DataAccess
             string productName = productReader.GetString(productReader.GetOrdinal("productName"));
             string description = productReader.IsDBNull(productReader.GetOrdinal("description")) ? null : productReader.GetString(productReader.GetOrdinal("description"));
             decimal hourlyPrice = productReader.GetDecimal(productReader.GetOrdinal("hourlyPrice"));
-            int? categoryID = productReader.IsDBNull(productReader.GetOrdinal("categoryID")) ? null : (int?)productReader.GetInt32(productReader.GetOrdinal("categoryID"));
+            int categoryID = productReader.GetInt32(productReader.GetOrdinal("categoryID"));
             string imagePath = productReader.IsDBNull(productReader.GetOrdinal("imagePath")) ? null : productReader.GetString(productReader.GetOrdinal("imagePath"));
 
             return new Product(productId, productName, description, hourlyPrice, categoryID, imagePath);

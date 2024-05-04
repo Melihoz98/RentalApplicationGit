@@ -18,17 +18,19 @@ namespace RentalService.Business
 
         public ProductDto? GetById(int id)
         {
+            ProductDto? foundProductDto;
             try
             {
-                Product product = _productAccess.GetProductById(id);
-                return ProductDtoConvert.FromProduct(product);
+                Product? foundProduct = _productAccess.GetProductById(id);
+                foundProductDto = ModelConversion.ProductDtoConvert.FromProduct(foundProduct);
             }
-            catch (Exception ex)
+            catch 
             {
                 // Handle exception
-                Console.WriteLine($"Error getting product by ID: {ex.Message}");
-                return null;
-            }
+                foundProductDto = null;
+               
+            } 
+            return foundProductDto;
         }
 
         public List<ProductDto?>? GetAllProducts()

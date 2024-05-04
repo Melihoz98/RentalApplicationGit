@@ -4,8 +4,9 @@
     {
         public ProductDto() { }
 
-        public ProductDto(string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
+        public ProductDto( string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
         {
+           
             ProductName = productName;
             Description = description;
             HourlyPrice = hourlyPrice;

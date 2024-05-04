@@ -70,5 +70,16 @@ namespace RentAppMVC.ServiceLayer
             }
             return null;
         }
+        public async Task<HttpResponseMessage?> GetById(int id)
+        {
+            if (UseUrl != null)
+            {
+                // Assuming your ID is part of the URL
+                UseUrl = $"{BaseUrl}/{id}";
+                HttpResponseMessage? hrm = await HttpEnabler.GetAsync(UseUrl);
+                return hrm;
+            }
+            return null;
+        }
     }
 }

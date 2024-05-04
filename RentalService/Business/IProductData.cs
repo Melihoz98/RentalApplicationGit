@@ -1,4 +1,5 @@
 ﻿using RentalService.DTO;
+using System.Collections.Generic;
 
 namespace RentalService.Business
 {

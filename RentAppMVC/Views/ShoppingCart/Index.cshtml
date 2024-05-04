@@ -1,17 +1,16 @@
 ﻿@model List<Product>
 
-<h1>Products By Category</h1>
+<h1>Shopping Cart</h1>
 
 @if (Model.Count == 0)
 {
-    <p>No products available in this category.</p>
+    <p>Your shopping cart is empty.</p>
 }
 else
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Product ID</th>
                 <th>Product Name</th>
                 <th>Description</th>
                 <th>Hourly Price</th>
@@ -22,16 +21,15 @@ else
             @foreach (var product in Model)
             {
                 <tr>
-                    <td>@product.ProductID</td>
                     <td>@product.ProductName</td>
                     <td>@product.Description</td>
                     <td>$@product.HourlyPrice</td>
                     <td>
-                        <form asp-controller="ShoppingCart" asp-action="AddItem" method="post">
+                        <!-- Add a form to remove the item from the cart -->
+                        <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
                             <input type="hidden" name="productId" value="@product.ProductID" />
-                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            <button type="submit" class="btn btn-danger">Remove</button>
                         </form>
-
                     </td>
                 </tr>
             }

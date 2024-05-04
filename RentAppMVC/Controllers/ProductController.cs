@@ -9,11 +9,13 @@ namespace RentAppMVC.Controllers
 {
     public class ProductController : Controller
     {
+        private readonly ILogger<ProductController> _logger;
         private readonly ProductLogic _productLogic;
 
-        public ProductController(ProductLogic productLogic)
+        public ProductController(ILogger<ProductController> logger)
         {
-            _productLogic = productLogic;
+            _logger = logger;
+            _productLogic = new ProductLogic();
         }
 
         public IActionResult Index()
