@@ -1,5 +1,7 @@
 ﻿@model List<Product>
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 <h1>Products By Category</h1>
 
 @if (Model.Count == 0)
@@ -27,11 +29,17 @@ else
                     <td>@product.Description</td>
                     <td>$@product.HourlyPrice</td>
                     <td>
-                        <form asp-controller="ShoppingCart" asp-action="AddItem" method="post">
-                            <input type="hidden" name="productId" value="@product.ProductID" />
-                            <button type="submit" class="btn btn-primary">Add to Cart</button>
-                        </form>
-
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <form asp-controller="ShoppingCart" asp-action="AddItem" method="post">
+                                <input type="hidden" name="productId" value="@product.ProductID" />
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Please login to add to cart</span>
+                        }
                     </td>
                 </tr>
             }
