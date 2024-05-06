@@ -81,5 +81,15 @@ namespace RentAppMVC.ServiceLayer
             }
             return null;
         }
+
+        public async Task<HttpResponseMessage?> Get(string url)
+        {
+            if (UseUrl != null)
+            {
+                HttpResponseMessage? hrm = await HttpEnabler.GetAsync(url);
+                return hrm;
+            }
+            return null;
+        }
     }
 }

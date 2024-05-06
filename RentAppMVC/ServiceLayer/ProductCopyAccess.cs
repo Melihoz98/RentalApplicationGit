@@ -40,5 +40,24 @@ namespace RentAppMVC.ServiceLayer
 
             return productCopies;
         }
+        public async Task<List<ProductCopy>> GetAllProductCopiesById(int productID)
+        {
+            List<ProductCopy> productCopies = new List<ProductCopy>();
+
+            HttpResponseMessage? response = await _productCopyService.Get($"{_serviceBaseUrl}productcopies/{productID}"); // Target specific endpoint
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                string jsonString = await response.Content.ReadAsStringAsync();
+                productCopies = JsonConvert.DeserializeObject<List<ProductCopy>>(jsonString);
+            }
+
+            return productCopies;
+        }
+
+
+
+
+
     }
 }

@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentAppMVC.BusinessLogicLayer;
 using RentAppMVC.Models;
+using System.Threading.Tasks;
 
 public class ShoppingCartController : Controller
 {
     private readonly ShoppingCart _shoppingCart;
-    private readonly ProductLogic _productLogic;
+    private readonly ProductCopyLogic _productCopyLogic;
 
-    public ShoppingCartController(ShoppingCart shoppingCart, ProductLogic productLogic)
+    public ShoppingCartController(ShoppingCart shoppingCart, ProductCopyLogic productCopyLogic)
     {
         _shoppingCart = shoppingCart;
-        _productLogic = productLogic;
+        _productCopyLogic = productCopyLogic;
     }
 
     public IActionResult Index()
@@ -22,14 +23,22 @@ public class ShoppingCartController : Controller
     [HttpPost]
     public async Task<ActionResult> AddItem(int productId)
     {
-        await _shoppingCart.AddItem(productId, _productLogic);
+        // Retrieve product copies by ProductID from API
+        var productCopies = await _productCopyLogic.GetAllProductCopyByID(productId);
+        if (productCopies != null && productCopies.Count > 0)
+        {
+            foreach (var productCopy in productCopies)
+            {
+                _shoppingCart.AddItem(productCopy);
+            }
+        }
         return RedirectToAction("Index");
     }
 
     [HttpPost]
-    public ActionResult RemoveItem(int productId)
+    public ActionResult RemoveItem(string serialNumber)
     {
-        _shoppingCart.RemoveItem(productId);
+        _shoppingCart.RemoveItem(serialNumber);
         return RedirectToAction("Index");
     }
 }

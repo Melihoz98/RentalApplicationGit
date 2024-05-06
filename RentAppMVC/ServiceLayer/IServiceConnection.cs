@@ -19,5 +19,8 @@ namespace RentAppMVC.ServiceLayer
         // New method to get data by ID
         Task<HttpResponseMessage?> GetById(int id);
         Task<HttpResponseMessage?> GetById(string id);
+
+        Task<HttpResponseMessage?> Get(string url);
+       
     }
 }

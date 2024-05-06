@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RentAppMVC.BusinessLogicLayer;
@@ -6,34 +7,40 @@ using RentAppMVC.Models;
 
 public class ShoppingCart
 {
-    private List<Product> _items;
+    private List<OrderLine> _items;
+    private int _fakeOrderID;
 
     public ShoppingCart()
     {
-        _items = new List<Product>();
+        _items = new List<OrderLine>();
+        _fakeOrderID = 0; // Initialize fake order ID
     }
 
-    public async Task AddItem(int productId, ProductLogic productLogic)
+    public void AddItem(ProductCopy productCopy)
     {
-        // Retrieve product by ID from API
-        Product product = await productLogic.GetProductById(productId);
-        if (product != null)
+        _items.Add(new OrderLine(_fakeOrderID, productCopy.SerialNumber));
+    }
+
+    public void RemoveItem(string serialNumber)
+    {
+        OrderLine orderLineToRemove = _items.FirstOrDefault(ol => ol.SerialNumber == serialNumber);
+        if (orderLineToRemove != null)
         {
-            _items.Add(product);
+            _items.Remove(orderLineToRemove);
         }
     }
 
-    public void RemoveItem(int productId)
-    {
-        Product productToRemove = _items.FirstOrDefault(p => p.ProductID == productId);
-        if (productToRemove != null)
-        {
-            _items.Remove(productToRemove);
-        }
-    }
-
-    public List<Product> GetItems()
+    public List<OrderLine> GetItems()
     {
         return _items;
+    }
+
+    public void PurchaseOrder(int realOrderID)
+    {
+        // Update OrderID for each order line
+        foreach (var item in _items)
+        {
+            item.OrderID = realOrderID;
+        }
     }
 }

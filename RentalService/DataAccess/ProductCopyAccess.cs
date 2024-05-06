@@ -85,7 +85,7 @@ namespace RentalService.DataAccess
             return foundProductCopy;
         }
 
-        public List<ProductCopy> GetAllProductCopiesByProductID(int productID)
+        public List<ProductCopy> GetAllProductCopiesByID(int productID)
         {
             List<ProductCopy> foundProductCopies = new List<ProductCopy>();
 
