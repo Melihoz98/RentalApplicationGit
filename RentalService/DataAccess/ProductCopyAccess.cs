@@ -85,6 +85,42 @@ namespace RentalService.DataAccess
             return foundProductCopy;
         }
 
+        public List<ProductCopy> GetAllProductCopiesByProductID(int productID)
+        {
+            List<ProductCopy> foundProductCopies = new List<ProductCopy>();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = "SELECT productID, serialNumber FROM ProductCopies WHERE productID = @productID AND rented = 1";
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@productID", productID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                ProductCopy productCopy = GetProductCopyFromReader(reader);
+                                foundProductCopies.Add(productCopy);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception (log, return error response, etc.)
+                Console.WriteLine($"Error retrieving product copies by product ID: {ex.Message}");
+                throw;
+            }
+
+            return foundProductCopies;
+        }
+
+
+
         public void AddProductCopy(ProductCopy productCopy)
         {
             try

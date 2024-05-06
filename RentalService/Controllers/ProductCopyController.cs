@@ -63,6 +63,30 @@ namespace RentalService.Controllers
             }
         }
 
+        [HttpGet("product/{productID}")]
+        public IActionResult GetAllProductCopiesByProductID(int productID)
+        {
+            try
+            {
+                List<ProductCopyDto?>? productCopyDtos = _productCopyData.GetAllProductCopiesByID(productID);
+                if (productCopyDtos != null)
+                {
+                    return Ok(productCopyDtos);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error getting all product copies by product ID: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
         [HttpPost]
         public IActionResult CreateProductCopy([FromBody] ProductCopyDto productCopyDto)
         {

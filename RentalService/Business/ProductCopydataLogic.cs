@@ -86,5 +86,20 @@ namespace RentalService.Business
                 Console.WriteLine($"Error deleting product copy: {ex.Message}");
             }
         }
+
+        public List<ProductCopyDto?>? GetAllProductCopiesByID(int productID)
+        {
+            try
+            {
+                List<ProductCopy> productCopies = _productCopyAccess.GetAllProductCopiesByProductID(productID);
+                return ProductCopyDtoConvert.FromProductCopyCollection(productCopies);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error getting all product copies by product ID: {ex.Message}");
+                return null;
+            }
+        }
     }
 }

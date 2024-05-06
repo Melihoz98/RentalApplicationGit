@@ -7,6 +7,7 @@ namespace RentalService.DataAccess
     {
         List<ProductCopy> GetProductCopyAll();
         ProductCopy GetProductCopyBySerialNumber(string serialNumber);
+        List<ProductCopy> GetAllProductCopiesByProductID(int productID);
         void AddProductCopy(ProductCopy productCopy);
         void UpdateProductCopy(ProductCopy productCopy);
         void DeleteProductCopy(string serialNumber);
