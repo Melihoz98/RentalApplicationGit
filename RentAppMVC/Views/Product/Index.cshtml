@@ -1,0 +1,53 @@
+﻿@model List<RentAppMVC.Models.Product>
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<h1>Products By Category</h1>
+
+@if (Model == null || Model.Count == 0)
+{
+    <p>No products available in this category.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Hourly Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.ProductID</td>
+                        <td>@product.ProductName</td>
+                        <td>@product.Description</td>
+                        <td>$@product.HourlyPrice</td>
+                        <td>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <form asp-controller="ShoppingCart" asp-action="AddItem" method="post">
+                                    <input type="hidden" name="productId" value="@product.ProductID" />
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Please login to add to cart</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

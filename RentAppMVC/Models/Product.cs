@@ -31,6 +31,6 @@
         public string? Description { get; set; }
         public decimal? HourlyPrice { get; set; }
         public int? CategoryID { get; set; }
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
     }
 }

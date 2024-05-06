@@ -18,12 +18,7 @@ namespace RentAppMVC.Controllers
             _productLogic = new ProductLogic();
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> ProductsByCategory(int categoryId)
+        public async Task<IActionResult> Index(int categoryId)
         {
             List<Product> products = await _productLogic.GetProductsByCategoryId(categoryId);
             return View(products);

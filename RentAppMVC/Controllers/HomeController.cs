@@ -36,7 +36,7 @@ namespace RentAppMVC.Controllers
         public IActionResult SelectCategory(int categoryId)
         {
             // Redirect to ProductsByCategory action with categoryId
-            return RedirectToAction("ProductsByCategory", "Product", new { categoryId });
+            return RedirectToAction("Index", "Product", new { categoryId });
         }
 
 
