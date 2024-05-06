@@ -26,6 +26,7 @@ builder.Services.AddScoped<PrivateCustomerLogic>();
 builder.Services.AddScoped<BusinessCustomerLogic>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ShoppingCart>();
+builder.Services.AddScoped<ProductCopyLogic>();
 
 var app = builder.Build();
 
