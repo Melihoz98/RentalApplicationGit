@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentAppMVC.BusinessLogicLayer;
 using RentAppMVC.Models;
+using System.Threading.Tasks;
 
 public class ShoppingCartController : Controller
 {
@@ -22,8 +23,17 @@ public class ShoppingCartController : Controller
     [HttpPost]
     public async Task<ActionResult> AddItem(int productId)
     {
-        await _shoppingCart.AddItem(productId, _productLogic);
-        return RedirectToAction("Index");
+        if (_shoppingCart.IsEmpty())
+        {
+            // If the shopping cart is empty, redirect to choose date and time page
+            return RedirectToAction("ChooseDateTime");
+        }
+        else
+        {
+            // If the shopping cart is not empty, add the product to the cart
+            await _shoppingCart.AddItem(productId, _productLogic);
+            return RedirectToAction("Index");
+        }
     }
 
     [HttpPost]
@@ -31,5 +41,11 @@ public class ShoppingCartController : Controller
     {
         _shoppingCart.RemoveItem(productId);
         return RedirectToAction("Index");
+    }
+
+    public IActionResult ChooseDateTime()
+    {
+        // Here you can return a view to choose date and time
+        return View();
     }
 }

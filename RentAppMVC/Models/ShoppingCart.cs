@@ -36,4 +36,23 @@ public class ShoppingCart
     {
         return _items;
     }
+
+    public bool IsEmpty()
+    {
+        return !_items.Any();
+    }
+
+    public void SetDateTime(DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+    {
+        StartDate = startDate;
+        EndDate = endDate;
+        StartTime = startTime;
+        EndTime = endTime;
+    }
+
+
+    public DateTime StartDate { get; private set; }
+    public DateTime EndDate { get; private set; }
+    public TimeSpan StartTime { get; private set; }
+    public TimeSpan EndTime { get; private set; }
 }
