@@ -49,7 +49,7 @@ namespace AdminWinForm.CategoryManagement
                 string categoryName = Convert.ToString(selectedRow.Cells["Column2"].Value);
                 string imagePath = Convert.ToString(selectedRow.Cells["Column3"].Value);
 
-                UpdateCategoryUI updateCategoryFrom = new UpdateCategoryUI(categoryID,categoryName, imagePath);
+                UpdateCategoryUI updateCategoryFrom = new UpdateCategoryUI(categoryID, categoryName, imagePath);
                 updateCategoryFrom.Show();
 
             }
@@ -58,34 +58,34 @@ namespace AdminWinForm.CategoryManagement
                 MessageBox.Show("Please select a category to update.");
             }
         }
+
+        private async void DeleteCategory_Click(object sender, EventArgs e)
+
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+                int categoryID = Convert.ToInt32(selectedRow.Cells["Column1"].Value);
+                DialogResult result = MessageBox.Show("Are you sure you want to delete this category?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    bool deleted = await _categoryLogic.DeleteCategory(categoryID);
+
+                    if (deleted)
+                    {
+                        MessageBox.Show("Category deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadCategories();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete category.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a category to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
-
-    //private async void DeleteCategory_Click(object sender, EventArgs e)
-
-    //{
-    //    if(dataGridView1.SelectedRows.Count > 0)
-    //    {
-    //        DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-    //        int categoryID = Convert.ToInt32(selectedRow.Cells["Column1"].Value);
-    //        DialogResult result = MessageBox.Show("Are you sure you want to delete this category?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-    //        if(result == DialogResult.Yes)
-    //        {
-    //            bool deleted = await _categoryLogic.DeleteCategory(categoryID);
-
-    //            if (deleted)
-    //            {
-    //                MessageBox.Show("Category deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    //                LoadCategories();
-    //            }
-    //            else
-    //            {
-    //                MessageBox.Show("Failed to delete category.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        MessageBox.Show("Please select a category to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-    //    }
-    //} 
 }

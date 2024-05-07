@@ -137,7 +137,7 @@ namespace AdminWinForm.ServiceLayer
 
             public async Task<bool> DeleteCategory(int categoryId)
             {
-                _categoryService.UseUrl += $"/{categoryId}";
+                _categoryService.UseUrl += $"{categoryId}";
 
                 HttpResponseMessage? response = await _categoryService.CallServiceDelete();
                 return response != null && response.IsSuccessStatusCode;

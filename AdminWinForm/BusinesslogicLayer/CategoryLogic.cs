@@ -48,9 +48,9 @@ namespace AdminWinForm.BusinesslogicLayer
              return false;
         }
 
-        public async Task<bool> DeletCategory(int CategoryId)
+        public async Task<bool> DeleteCategory(int categoryId)
         {
-            return await _categoryAccess.DeleteCategory(CategoryId);
+            return await _categoryAccess.DeleteCategory(categoryId);
         }
     }
 }
