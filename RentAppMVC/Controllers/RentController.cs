@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace YourAppName.Controllers
+namespace RentAppMVC.Controllers
 {
     [Route("Rent")]
     public class RentController : Controller

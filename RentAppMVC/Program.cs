@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RentAppMVC.Data;
 using RentAppMVC.BusinessLogicLayer;
 using RentAppMVC.Models;
-using RentAppMVC.ServiceLayer; // Import your ProductLogic namespace
+using RentAppMVC.ServiceLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,12 +20,17 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IProductAccess, ProductAccess>();
-// Register ProductLogic as a scoped service
 builder.Services.AddScoped<ProductLogic>();
 builder.Services.AddScoped<PrivateCustomerLogic>();
 builder.Services.AddScoped<BusinessCustomerLogic>();
-builder.Services.AddControllersWithViews();
+
+// Add session
+builder.Services.AddSession();
+
+// Register ShoppingCart as a singleton service
 builder.Services.AddSingleton<ShoppingCart>();
+
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -37,7 +42,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -49,7 +53,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Other configurations...
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
@@ -59,8 +63,6 @@ app.MapControllerRoute(
     name: "shoppingCart",
     pattern: "ShoppingCart",
     defaults: new { controller = "ShoppingCart", action = "Index" });
-
-// Other configurations...
 
 app.MapRazorPages();
 
