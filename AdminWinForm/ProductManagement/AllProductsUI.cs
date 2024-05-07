@@ -23,8 +23,6 @@ namespace AdminWinForm.ProductManagement
             this.Load += AllProductsUI_Load;
         }
 
-
-
         private void addProduct_Click(object sender, EventArgs e)
         {
             AddProductUI addProductForm = new AddProductUI();
@@ -34,27 +32,27 @@ namespace AdminWinForm.ProductManagement
 
         private void updateProduct_Click(object sender, EventArgs e)
         {
-            // Check if a row is selected in the DataGridView
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                // Get the selected row
+                // Retrieve the selected product's information
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+                int productID = Convert.ToInt32(selectedRow.Cells["productIDColumn"].Value);
+                string productName = Convert.ToString(selectedRow.Cells["productNameColumn"].Value);
+                string description = Convert.ToString(selectedRow.Cells["descriptionColumn"].Value);
+                decimal hourlyPrice = Convert.ToDecimal(selectedRow.Cells["hourlyPriceColumn"].Value);
+                int categoryID = Convert.ToInt32(selectedRow.Cells["categoryIDColumn"].Value);
+                string imagePath = Convert.ToString(selectedRow.Cells["imagePathColumn"].Value);
 
-                // Extract product details from the selected row
-                string productId = Convert.ToString(selectedRow.Cells["Column1"].Value);
-                string productName = Convert.ToString(selectedRow.Cells["Column2"].Value);
-                string description = Convert.ToString(selectedRow.Cells["Column3"].Value);
-                decimal hourlyPrice = Convert.ToDecimal(selectedRow.Cells["Column4"].Value);
-                var categoryID = Convert.ToInt32(selectedRow.Cells["Column5"].Value);
-                string imagePath = Convert.ToString(selectedRow.Cells["Column6"].Value);
+                // Create an instance of UpdateProductUI form
+                UpdateProductUI updateProductForm = new UpdateProductUI(productID, productName, description, hourlyPrice, categoryID, imagePath);
 
-                // Open the UpdateProductUI form and pass the product details
-                UpdateProductUI updateProductForm = new UpdateProductUI(productId, productName, description, hourlyPrice, categoryID, imagePath);
+                // Show the UpdateProductUI form
                 updateProductForm.Show();
+                this.Hide();
             }
             else
             {
-                MessageBox.Show("Please select a product to update.");
+                MessageBox.Show("Please select a product to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             LoadProducts();
         }

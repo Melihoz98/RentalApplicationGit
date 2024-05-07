@@ -62,19 +62,19 @@ namespace AdminWinForm.ProductManagement
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
-            Column6 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
+            productIDColumn = new DataGridViewTextBoxColumn();
+            productNameColumn = new DataGridViewTextBoxColumn();
+            descriptionColumn = new DataGridViewTextBoxColumn();
+            hourlyPriceColumn = new DataGridViewTextBoxColumn();
+            categoryIDColumn = new DataGridViewTextBoxColumn();
+            imagePathColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column6, Column2, Column3, Column4, Column1, Column5 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { productIDColumn, productNameColumn, descriptionColumn, hourlyPriceColumn, categoryIDColumn, imagePathColumn });
             dataGridView1.Location = new Point(2, 1);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
@@ -122,53 +122,53 @@ namespace AdminWinForm.ProductManagement
             button4.UseVisualStyleBackColor = true;
             button4.Click += back_Click;
             // 
-            // Column6
+            // productIDColumn
             // 
-            Column6.HeaderText = "ProductID";
-            Column6.MinimumWidth = 8;
-            Column6.Name = "Column6";
-            Column6.ReadOnly = true;
-            Column6.Width = 150;
+            productIDColumn.HeaderText = "ProductID";
+            productIDColumn.MinimumWidth = 8;
+            productIDColumn.Name = "productIDColumn";
+            productIDColumn.ReadOnly = true;
+            productIDColumn.Width = 150;
             // 
-            // Column2
+            // productNameColumn
             // 
-            Column2.HeaderText = "Product Name";
-            Column2.MinimumWidth = 8;
-            Column2.Name = "Column2";
-            Column2.ReadOnly = true;
-            Column2.Width = 150;
+            productNameColumn.HeaderText = "Product Name";
+            productNameColumn.MinimumWidth = 8;
+            productNameColumn.Name = "productNameColumn";
+            productNameColumn.ReadOnly = true;
+            productNameColumn.Width = 150;
             // 
-            // Column3
+            // descriptionColumn
             // 
-            Column3.HeaderText = "Discreption";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            Column3.ReadOnly = true;
-            Column3.Width = 150;
+            descriptionColumn.HeaderText = "Discreption";
+            descriptionColumn.MinimumWidth = 8;
+            descriptionColumn.Name = "descriptionColumn";
+            descriptionColumn.ReadOnly = true;
+            descriptionColumn.Width = 150;
             // 
-            // Column4
+            // hourlyPriceColumn
             // 
-            Column4.HeaderText = "Hourly Price";
-            Column4.MinimumWidth = 8;
-            Column4.Name = "Column4";
-            Column4.ReadOnly = true;
-            Column4.Width = 150;
+            hourlyPriceColumn.HeaderText = "Hourly Price";
+            hourlyPriceColumn.MinimumWidth = 8;
+            hourlyPriceColumn.Name = "hourlyPriceColumn";
+            hourlyPriceColumn.ReadOnly = true;
+            hourlyPriceColumn.Width = 150;
             // 
-            // Column1
+            // categoryIDColumn
             // 
-            Column1.HeaderText = "CategoryID";
-            Column1.MinimumWidth = 8;
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            Column1.Width = 150;
+            categoryIDColumn.HeaderText = "CategoryID";
+            categoryIDColumn.MinimumWidth = 8;
+            categoryIDColumn.Name = "categoryIDColumn";
+            categoryIDColumn.ReadOnly = true;
+            categoryIDColumn.Width = 150;
             // 
-            // Column5
+            // imagePathColumn
             // 
-            Column5.HeaderText = "Image path";
-            Column5.MinimumWidth = 8;
-            Column5.Name = "Column5";
-            Column5.ReadOnly = true;
-            Column5.Width = 150;
+            imagePathColumn.HeaderText = "Image path";
+            imagePathColumn.MinimumWidth = 8;
+            imagePathColumn.Name = "imagePathColumn";
+            imagePathColumn.ReadOnly = true;
+            imagePathColumn.Width = 150;
             // 
             // AllProductsUI
             // 
@@ -193,11 +193,11 @@ namespace AdminWinForm.ProductManagement
         private Button button2;
         private Button button3;
         private Button button4;
-        private DataGridViewTextBoxColumn Column6;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
-        private DataGridViewTextBoxColumn Column4;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column5;
+        private DataGridViewTextBoxColumn productIDColumn;
+        private DataGridViewTextBoxColumn productNameColumn;
+        private DataGridViewTextBoxColumn descriptionColumn;
+        private DataGridViewTextBoxColumn hourlyPriceColumn;
+        private DataGridViewTextBoxColumn categoryIDColumn;
+        private DataGridViewTextBoxColumn imagePathColumn;
     }
 }

@@ -32,9 +32,9 @@ namespace AdminWinForm.BusinesslogicLayer
             return insertedProductId;
         }
 
-        public async Task<bool> UpdateProduct(int productId, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
+        public async Task<bool> UpdateProduct(int productID, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
         {
-            Product existingProduct = await _productAccess.GetProductById(productId);
+            Product existingProduct = await _productAccess.GetProductById(productID);
 
             if (existingProduct != null)
             {
@@ -44,11 +44,26 @@ namespace AdminWinForm.BusinesslogicLayer
                 existingProduct.CategoryID = categoryID;
                 existingProduct.ImagePath = imagePath;
 
-                return await _productAccess.UpdateProduct(existingProduct);
-            }
+                bool updateSuccess = await _productAccess.UpdateProduct(existingProduct);
 
-            return false;
+                if (updateSuccess)
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Failed to update product. Please try again.");
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Product not found.");
+                return false;
+            }
         }
+
+            
 
         public async Task<bool> DeleteProduct(int productId)
         {

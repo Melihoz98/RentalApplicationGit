@@ -30,18 +30,18 @@
         {
             button2 = new Button();
             button1 = new Button();
-            label4 = new Label();
-            label3 = new Label();
-            label2 = new Label();
-            label1 = new Label();
-            textBox5 = new TextBox();
-            textBox4 = new TextBox();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            productName = new Label();
-            textBox6 = new TextBox();
-            label5 = new Label();
+            imagePathLabel = new Label();
+            categoryIDLabel = new Label();
+            hourlyPriceLabel = new Label();
+            discriptionLabel = new Label();
+            productNameLabel = new Label();
+            productIDLabel = new Label();
+            productIDBox = new TextBox();
+            productNameBox = new TextBox();
+            discriptionBox = new TextBox();
+            hourlyPriceBox = new TextBox();
+            categoryIDBox = new TextBox();
+            imagePathBox = new TextBox();
             SuspendLayout();
             // 
             // button2
@@ -64,124 +64,123 @@
             button1.TabIndex = 22;
             button1.Text = "Canncel";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            button1.Click += cancel_Click;
             // 
-            // label4
+            // imagePathLabel
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(59, 308);
-            label4.Name = "label4";
-            label4.Size = new Size(96, 25);
-            label4.TabIndex = 21;
-            label4.Text = "ImagePath";
+            imagePathLabel.AutoSize = true;
+            imagePathLabel.Location = new Point(59, 308);
+            imagePathLabel.Name = "imagePathLabel";
+            imagePathLabel.Size = new Size(96, 25);
+            imagePathLabel.TabIndex = 21;
+            imagePathLabel.Text = "ImagePath";
             // 
-            // label3
+            // categoryIDLabel
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(59, 250);
-            label3.Name = "label3";
-            label3.Size = new Size(102, 25);
-            label3.TabIndex = 20;
-            label3.Text = "CategoryID";
+            categoryIDLabel.AutoSize = true;
+            categoryIDLabel.Location = new Point(59, 250);
+            categoryIDLabel.Name = "categoryIDLabel";
+            categoryIDLabel.Size = new Size(102, 25);
+            categoryIDLabel.TabIndex = 20;
+            categoryIDLabel.Text = "CategoryID";
             // 
-            // label2
+            // hourlyPriceLabel
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(59, 193);
-            label2.Name = "label2";
-            label2.Size = new Size(107, 25);
-            label2.TabIndex = 19;
-            label2.Text = "Hourly Price";
+            hourlyPriceLabel.AutoSize = true;
+            hourlyPriceLabel.Location = new Point(59, 193);
+            hourlyPriceLabel.Name = "hourlyPriceLabel";
+            hourlyPriceLabel.Size = new Size(107, 25);
+            hourlyPriceLabel.TabIndex = 19;
+            hourlyPriceLabel.Text = "Hourly Price";
             // 
-            // label1
+            // discriptionLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(59, 137);
-            label1.Name = "label1";
-            label1.Size = new Size(97, 25);
-            label1.TabIndex = 18;
-            label1.Text = "Discription";
+            discriptionLabel.AutoSize = true;
+            discriptionLabel.Location = new Point(59, 137);
+            discriptionLabel.Name = "discriptionLabel";
+            discriptionLabel.Size = new Size(97, 25);
+            discriptionLabel.TabIndex = 18;
+            discriptionLabel.Text = "Discription";
             // 
-            // textBox5
+            // productNameLabel
             // 
-            textBox5.Location = new Point(218, 302);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(248, 31);
-            textBox5.TabIndex = 17;
+            productNameLabel.AutoSize = true;
+            productNameLabel.Location = new Point(59, 74);
+            productNameLabel.Name = "productNameLabel";
+            productNameLabel.Size = new Size(126, 25);
+            productNameLabel.TabIndex = 12;
+            productNameLabel.Text = "Product Name";
             // 
-            // textBox4
+            // productIDLabel
             // 
-            textBox4.Location = new Point(218, 244);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(248, 31);
-            textBox4.TabIndex = 16;
+            productIDLabel.AutoSize = true;
+            productIDLabel.Location = new Point(59, 25);
+            productIDLabel.Name = "productIDLabel";
+            productIDLabel.Size = new Size(92, 25);
+            productIDLabel.TabIndex = 24;
+            productIDLabel.Text = "ProductID";
             // 
-            // textBox3
+            // productIDBox
             // 
-            textBox3.Location = new Point(218, 187);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(248, 31);
-            textBox3.TabIndex = 15;
+            productIDBox.Location = new Point(284, 25);
+            productIDBox.Name = "productIDBox";
+            productIDBox.Size = new Size(211, 31);
+            productIDBox.TabIndex = 25;
             // 
-            // textBox2
+            // productNameBox
             // 
-            textBox2.Location = new Point(218, 131);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(248, 31);
-            textBox2.TabIndex = 14;
+            productNameBox.Location = new Point(284, 74);
+            productNameBox.Name = "productNameBox";
+            productNameBox.Size = new Size(211, 31);
+            productNameBox.TabIndex = 26;
             // 
-            // textBox1
+            // discriptionBox
             // 
-            textBox1.Location = new Point(218, 74);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(248, 31);
-            textBox1.TabIndex = 13;
+            discriptionBox.Location = new Point(284, 134);
+            discriptionBox.Name = "discriptionBox";
+            discriptionBox.Size = new Size(211, 31);
+            discriptionBox.TabIndex = 27;
             // 
-            // productName
+            // hourlyPriceBox
             // 
-            productName.AutoSize = true;
-            productName.Location = new Point(59, 74);
-            productName.Name = "productName";
-            productName.Size = new Size(126, 25);
-            productName.TabIndex = 12;
-            productName.Text = "Product Name";
+            hourlyPriceBox.Location = new Point(284, 193);
+            hourlyPriceBox.Name = "hourlyPriceBox";
+            hourlyPriceBox.Size = new Size(211, 31);
+            hourlyPriceBox.TabIndex = 28;
             // 
-            // textBox6
+            // categoryIDBox
             // 
-            textBox6.Location = new Point(218, 25);
-            textBox6.Name = "textBox6";
-            textBox6.ReadOnly = true;
-            textBox6.Size = new Size(248, 31);
-            textBox6.TabIndex = 25;
+            categoryIDBox.Location = new Point(284, 250);
+            categoryIDBox.Name = "categoryIDBox";
+            categoryIDBox.Size = new Size(211, 31);
+            categoryIDBox.TabIndex = 29;
             // 
-            // label5
+            // imagePathBox
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(59, 25);
-            label5.Name = "label5";
-            label5.Size = new Size(92, 25);
-            label5.TabIndex = 24;
-            label5.Text = "ProductID";
+            imagePathBox.Location = new Point(284, 308);
+            imagePathBox.Name = "imagePathBox";
+            imagePathBox.Size = new Size(211, 31);
+            imagePathBox.TabIndex = 30;
             // 
             // UpdateProductUI
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(543, 450);
-            Controls.Add(textBox6);
-            Controls.Add(label5);
+            Controls.Add(imagePathBox);
+            Controls.Add(categoryIDBox);
+            Controls.Add(hourlyPriceBox);
+            Controls.Add(discriptionBox);
+            Controls.Add(productNameBox);
+            Controls.Add(productIDBox);
+            Controls.Add(productIDLabel);
             Controls.Add(button2);
             Controls.Add(button1);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(textBox5);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(productName);
+            Controls.Add(imagePathLabel);
+            Controls.Add(categoryIDLabel);
+            Controls.Add(hourlyPriceLabel);
+            Controls.Add(discriptionLabel);
+            Controls.Add(productNameLabel);
             Name = "UpdateProductUI";
             Text = "UpdateProductUI";
             ResumeLayout(false);
@@ -192,17 +191,17 @@
 
         private Button button2;
         private Button button1;
-        private Label label4;
-        private Label label3;
-        private Label label2;
-        private Label label1;
-        private TextBox textBox5;
-        private TextBox textBox4;
-        private TextBox textBox3;
-        private TextBox textBox2;
-        private TextBox textBox1;
-        private Label productName;
-        private TextBox textBox6;
-        private Label label5;
+        private Label imagePathLabel;
+        private Label categoryIDLabel;
+        private Label hourlyPriceLabel;
+        private Label discriptionLabel;
+        private Label productNameLabel;
+        private Label productIDLabel;
+        private TextBox productIDBox;
+        private TextBox productNameBox;
+        private TextBox discriptionBox;
+        private TextBox hourlyPriceBox;
+        private TextBox categoryIDBox;
+        private TextBox imagePathBox;
     }
 }

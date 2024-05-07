@@ -13,43 +13,41 @@ namespace AdminWinForm.ProductManagement
 {
     public partial class UpdateProductUI : Form
     {
-        public UpdateProductUI(int productId, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
+        readonly ProductLogic _productLogic;
+        public UpdateProductUI(int productID, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
         {
             InitializeComponent();
+            _productLogic = new ProductLogic();
 
-            textBox6.Text = productId;
-            textBox1.Text = productName;
-            textBox2.Text = description;
-            textBox3.Text = hourlyPrice.ToString();
-            textBox4.Text = categoryID.ToString();
-            textBox5.Text = imagePath.ToString();
+            productIDBox.Text = productID.ToString();
+            productNameBox.Text = productName;
+            discriptionBox.Text = description;
+            hourlyPriceBox.Text = hourlyPrice.ToString();
+            categoryIDBox.Text = categoryID.ToString();
+            imagePathBox.Text = imagePath;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void cancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
         private async void update_Click(object sender, EventArgs e)
         {
-            // Indsaml oplysninger fra tekstbokse
-            int productId = int.Parse(textBox6.Text);
-            string productName = textBox1.Text;
-            string description = textBox2.Text;
-            decimal hourlyPrice = decimal.Parse(textBox3.Text);
-            int categoryID = int.Parse(textBox4.Text);
-            string imagePath = textBox5.Text;
+            int productID = int.Parse(productIDBox.Text);
+            string productName = productNameBox.Text;
+            string description = discriptionBox.Text;
+            decimal hourlyPrice = decimal.Parse(hourlyPriceBox.Text);
+            int categoryID = int.Parse(categoryIDBox.Text);
+            string imagePath = imagePathBox.Text;
 
-            // Opret en instans af ProductLogic
-            ProductLogic productLogic = new ProductLogic();
 
-            // Opdater produktet i databasen
-            bool success = await productLogic.UpdateProduct(productId, productName, description, hourlyPrice, categoryID, imagePath);
+            bool success = await _productLogic.UpdateProduct(productID, productName, description, hourlyPrice, categoryID, imagePath);
 
             if (success)
             {
                 MessageBox.Show("Product updated successfully!");
-                this.Close(); // Luk formen, når opdateringen er gennemført
+                this.Close(); 
             }
             else
             {
