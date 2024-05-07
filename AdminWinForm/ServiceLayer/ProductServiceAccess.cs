@@ -135,9 +135,9 @@ namespace AdminWinForm.ServiceLayer
             return response != null && response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productID)
         {
-            _productService.UseUrl += $"/{productId}";
+            _productService.UseUrl += $"{productID}";
 
             HttpResponseMessage? response = await _productService.CallServiceDelete();
             return response != null && response.IsSuccessStatusCode;

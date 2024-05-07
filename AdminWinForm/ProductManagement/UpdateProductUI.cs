@@ -13,7 +13,7 @@ namespace AdminWinForm.ProductManagement
 {
     public partial class UpdateProductUI : Form
     {
-        public UpdateProductUI(string productId, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
+        public UpdateProductUI(int productId, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
         {
             InitializeComponent();
 

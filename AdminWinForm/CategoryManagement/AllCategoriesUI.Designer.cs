@@ -71,12 +71,12 @@ namespace AdminWinForm.CategoryManagement
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
-            dataGridView1.Location = new Point(1, 1);
+            dataGridView1.Location = new Point(87, 11);
             dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(996, 229);
+            dataGridView1.Size = new Size(815, 229);
             dataGridView1.TabIndex = 1;
             // 
             // Column1
@@ -157,7 +157,7 @@ namespace AdminWinForm.CategoryManagement
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "AllCategoriesUI";
             Text = "AllCategoriesUI";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

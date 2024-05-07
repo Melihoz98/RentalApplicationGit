@@ -12,7 +12,7 @@
             Description = description;
             HourlyPrice = hourlyPrice;
             CategoryID = categoryID;
-
+            ImagePath = imagePath;
         }
         public Product(int productID, string productName, string description, decimal hourlyPrice, int categoryID, string imagePath)
         {
@@ -21,7 +21,7 @@
             Description = description;
             HourlyPrice = hourlyPrice;
             CategoryID = categoryID;
-
+            ImagePath = imagePath;
         }
         public int ProductID { get; set; }
         public string?  ProductName { get; set; }

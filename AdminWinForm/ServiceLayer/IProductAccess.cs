@@ -10,9 +10,9 @@ namespace AdminWinForm.ServiceLayer
     public interface IProductAccess
     {
         Task<List<Product>> GetProducts();
-        Task<Product> GetProductById(int productId);
+        Task<Product> GetProductById(int productID);
         Task<int> AddProduct(Product product);
         Task<bool> UpdateProduct(Product product);
-        Task<bool> DeleteProduct(int productId);
+        Task<bool> DeleteProduct(int productID);
     }
 }
