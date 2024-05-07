@@ -87,11 +87,11 @@ namespace RentalService.Business
             }
         }
 
-        public List<ProductCopyDto?>? GetAllProductCopiesByID(int productID)
+        public List<ProductCopyDto?>? GetAllProductCopiesByProductID(int productID)
         {
             try
             {
-                List<ProductCopy> productCopies = _productCopyAccess.GetAllProductCopiesByProductID(productID);
+                List<ProductCopy> productCopies = _productCopyAccess.GetAllProductCopyByProductID(productID);
                 return ProductCopyDtoConvert.FromProductCopyCollection(productCopies);
             }
             catch (Exception ex)

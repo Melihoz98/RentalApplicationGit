@@ -68,7 +68,7 @@ namespace RentalService.Controllers
         {
             try
             {
-                List<ProductCopyDto?>? productCopyDtos = _productCopyData.GetAllProductCopiesByID(productID);
+                List<ProductCopyDto?>? productCopyDtos = _productCopyData.GetAllProductCopiesByProductID(productID);
                 if (productCopyDtos != null)
                 {
                     return Ok(productCopyDtos);
