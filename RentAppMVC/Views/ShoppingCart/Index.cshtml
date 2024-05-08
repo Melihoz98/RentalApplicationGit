@@ -1,38 +1,31 @@
-﻿@model List<OrderLine> 
+﻿@model ShoppingCart
 
 <h1>Shopping Cart</h1>
 
-@if (Model.Count == 0)
-{
-    <p>Your shopping cart is empty.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Serial Number</th> <!-- Adjust column headers as per OrderLine properties -->
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var orderLine in Model) 
-            {
-                <tr>
-                    <td>@orderLine.SerialNumber</td> <!-- Display OrderLine properties -->
-                    <td>
-                        <!-- Add a form to remove the item from the cart -->
-                        <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
-                            <input type="hidden" name="serialNumber" value="@orderLine.SerialNumber" /> <!-- Adjust form input as per OrderLine properties -->
-                            <button type="submit" class="btn btn-danger">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<p>Start Date: @Model.StartDate.ToShortDateString()</p>
+<p>Start Time: @Model.StartTime.ToString("hh':'mm")</p>
+<p>End Date: @Model.EndDate.ToShortDateString()</p>
+<p>End Time: @Model.EndTime.ToString("hh':'mm")</p>
 
-    <form asp-controller="Rent" asp-action="Index" method="get">
-        <button type="submit" class="btn btn-primary">Proceed to select date and time for rent</button>
-    </form>
-}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Serial Number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderLine in Model.GetItems())
+        {
+            <tr>
+                <td>@orderLine.SerialNumber</td>
+                <td>
+                    <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
+                        <input type="hidden" name="serialNumber" value="@orderLine.SerialNumber" />
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

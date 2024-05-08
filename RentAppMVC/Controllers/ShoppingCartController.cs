@@ -17,22 +17,40 @@ public class ShoppingCartController : Controller
     public IActionResult Index()
     {
         var items = _shoppingCart.GetItems();
-        return View(items);
+        return View("Index", _shoppingCart); 
     }
 
     [HttpPost]
     public async Task<ActionResult> AddItem(int productId)
     {
-        // Retrieve product copies by ProductID from API
-        var productCopies = await _productCopyLogic.GetAllProductCopyByID(productId);
-        if (productCopies != null && productCopies.Count > 0)
+        if (!_shoppingCart.IsEmpty())
         {
-            foreach (var productCopy in productCopies)
+            var productCopies = await _productCopyLogic.GetAllProductCopyByID(productId);
+            if (productCopies != null && productCopies.Count > 0)
             {
-                _shoppingCart.AddItem(productCopy);
+                foreach (var productCopy in productCopies)
+                {
+                    OrderLine orderLine = new OrderLine(-1, productCopy.SerialNumber);
+
+                    _shoppingCart.AddItem(orderLine);
+                }
             }
+            return RedirectToAction("Index");
         }
-        return RedirectToAction("Index");
+        else
+        {
+            var productCopies = await _productCopyLogic.GetAllProductCopyByID(productId);
+            if (productCopies != null && productCopies.Count > 0)
+            {
+                var serialNumbers = productCopies.Select(pc => pc.SerialNumber).ToList();
+                var orderLines = serialNumbers.Select(sn => new OrderLine(-1, sn)).ToList();
+                foreach (var orderLine in orderLines)
+                {
+                    _shoppingCart.AddItem(orderLine);
+                }
+            }
+            return RedirectToAction("Index", "Rent");
+        }
     }
 
     [HttpPost]
