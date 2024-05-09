@@ -1,4 +1,4 @@
-﻿@model ShoppingCart
+﻿@model RentAppMVC.Models.ShoppingCart
 
 <h1>Shopping Cart</h1>
 
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var orderLine in Model.GetItems())
+        @foreach (var orderLine in Model.OrderLines)
         {
             <tr>
                 <td>@orderLine.SerialNumber</td>
