@@ -139,5 +139,31 @@ namespace RentalService.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpGet("available/product/{productID}")]
+        public IActionResult GetAllAvailableProductCopiesByDateTime(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            try
+            {
+                List<ProductCopyDto> availableProductCopies = _productCopyData.GetAllAvailableProductCopyByProductID(productID, startDate, endDate, startTime, endTime);
+                if (availableProductCopies != null && availableProductCopies.Count > 0)
+                {
+                    return Ok(availableProductCopies);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error getting all available product copies by date and time: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
+
     }
 }

@@ -101,5 +101,21 @@ namespace RentalService.Business
                 return null;
             }
         }
+
+        public List<ProductCopyDto> GetAllAvailableProductCopyByProductID(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            try
+            {
+                List<ProductCopy> availableProductCopies = _productCopyAccess.GetAllAvailableProductCopyByProductID(productID, startDate, endDate, startTime, endTime);
+                return ProductCopyDtoConvert.FromProductCopyCollection(availableProductCopies);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error getting all available product copies by product ID: {ex.Message}");
+                throw;
+            }
+        }
+
     }
 }

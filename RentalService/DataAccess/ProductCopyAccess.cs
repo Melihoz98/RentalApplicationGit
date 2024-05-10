@@ -180,5 +180,76 @@ namespace RentalService.DataAccess
             string serialNumber = reader.GetString(reader.GetOrdinal("serialNumber"));
             return new ProductCopy(productID, serialNumber);
         }
+
+        public List<ProductCopy> GetAllAvailableProductCopyByProductID(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            List<ProductCopy> availableProductCopies = new List<ProductCopy>();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    con.Open();
+                    string queryString = @"
+                SELECT pc.serialNumber
+                FROM ProductCopies pc
+                WHERE pc.productID = @productID
+                AND (
+                    NOT EXISTS (
+                        SELECT 1
+                        FROM OrderLines ol
+                        INNER JOIN Orders o ON ol.orderID = o.orderID
+                        WHERE ol.serialNumber = pc.serialNumber
+                        AND (
+                            (o.startDate <= @EndDate AND o.endDate >= @StartDate)
+                            OR (o.startDate <= @EndDate AND o.endDate IS NULL)
+                            OR (o.startDate IS NULL AND o.endDate >= @StartDate)
+                            OR (o.startTime <= @EndTime AND o.endTime >= @StartTime)
+                        )
+                    )
+                    OR NOT EXISTS (
+                        SELECT 1
+                        FROM OrderLines ol
+                        WHERE ol.serialNumber = pc.serialNumber
+                    )
+                    OR pc.serialNumber IN (
+                        SELECT ol.serialNumber
+                        FROM OrderLines ol
+                        INNER JOIN Orders o ON ol.orderID = o.orderID
+                        WHERE
+                            (o.startDate > @EndDate OR o.endDate < @StartDate)
+                            OR (o.startDate = @EndDate AND o.startTime >= @EndTime)
+                            OR (o.endDate = @StartDate AND o.endTime <= @StartTime)
+                    )
+                )";
+
+                    using (SqlCommand command = new SqlCommand(queryString, con))
+                    {
+                        command.Parameters.AddWithValue("@productID", productID);
+                        command.Parameters.AddWithValue("@StartDate", startDate);
+                        command.Parameters.AddWithValue("@EndDate", endDate);
+                        command.Parameters.AddWithValue("@StartTime", startTime);
+                        command.Parameters.AddWithValue("@EndTime", endTime);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string serialNumber = reader.GetString(reader.GetOrdinal("serialNumber"));
+                                availableProductCopies.Add(new ProductCopy { SerialNumber = serialNumber });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error getting all available product copies by product ID: {ex.Message}");
+                throw;
+            }
+
+            return availableProductCopies;
+        }
     }
 }
