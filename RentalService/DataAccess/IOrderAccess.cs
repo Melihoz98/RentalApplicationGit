@@ -7,5 +7,6 @@ namespace RentalService.DataAccess
     {
         Order GetOrderById(int orderId);
         List<Order> GetAllOrders();
+        void AddOrder(Order newOrder);
     }
 }

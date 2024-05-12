@@ -19,6 +19,43 @@ namespace RentalService.DataAccess
             }
         }
 
+        public void AddOrder(Order newOrder)
+        {
+            try
+            {
+                string insertQuery = @"
+            INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice)
+            VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice);
+            SELECT SCOPE_IDENTITY();";
+
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery, con))
+                {
+                    insertCommand.Parameters.AddWithValue("@CustomerID", newOrder.CustomerID);
+                    insertCommand.Parameters.AddWithValue("@OrderDate", newOrder.OrderDate);
+                    insertCommand.Parameters.AddWithValue("@StartDate", newOrder.StartDate);
+                    insertCommand.Parameters.AddWithValue("@EndDate", newOrder.EndDate);
+                    insertCommand.Parameters.AddWithValue("@StartTime", newOrder.StartTime);
+                    insertCommand.Parameters.AddWithValue("@EndTime", newOrder.EndTime);
+                    insertCommand.Parameters.AddWithValue("@TotalHours", newOrder.TotalHours);
+                    insertCommand.Parameters.AddWithValue("@SubTotalPrice", newOrder.SubTotalPrice);
+                    insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
+
+                    con.Open();
+                    // ExecuteScalar is used to get the newly inserted order ID
+                    int newOrderId = Convert.ToInt32(insertCommand.ExecuteScalar());
+                    newOrder.OrderID = newOrderId; // Update the order object with the new order ID
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error adding order: {ex.Message}");
+                throw;
+            }
+        }
+
+
         public Order GetOrderById(int orderId)
         {
             Order foundOrder = null;

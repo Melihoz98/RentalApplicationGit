@@ -62,5 +62,23 @@ namespace RentalService.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPost]
+        public IActionResult AddOrder([FromBody] OrderDto newOrder)
+        {
+            try
+            {
+                _orderData.AddOrder(newOrder);
+                return Ok("Order added successfully");
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error adding order: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
     }
 }
