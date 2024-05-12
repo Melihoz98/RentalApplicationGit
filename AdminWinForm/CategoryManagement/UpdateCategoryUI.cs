@@ -29,7 +29,7 @@ namespace AdminWinForm.CategoryManagement
             this.Close();
         }
 
-      
+
 
         private async void save_Click(object sender, EventArgs e)
         {
@@ -51,6 +51,11 @@ namespace AdminWinForm.CategoryManagement
             {
                 MessageBox.Show("Failed to update category. Please try again.");
             }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

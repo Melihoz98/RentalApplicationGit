@@ -11,7 +11,7 @@ namespace AdminWinForm.ServiceLayer
     public class ProductCopyServiceAccess : IProductCopyAccess
     {
         private readonly IServiceConnection _productCopyService;
-        private readonly string _serviceBaseUrl = "https://localhost:7023/api/ProductCopy";
+        private readonly string _serviceBaseUrl = "https://localhost:7023/api/ProductCopy/";
 
         public ProductCopyServiceAccess()
         {
@@ -85,22 +85,14 @@ namespace AdminWinForm.ServiceLayer
             return response != null && response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> DeleteProductCopy(string serialNumber, int productId)
+        public async Task<bool> DeleteProductCopy(string serialNumber)
         {
-            string deleteUrl = $"{_serviceBaseUrl}?serialNumber={serialNumber}&productId={productId}";
+            _productCopyService.UseUrl += $"{serialNumber}";
 
-            try
-            {
-                var response = await _productCopyService.CallServiceDelete(deleteUrl);
-
-                return response != null && response.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while deleting product copy: {ex.Message}");
-                return false;
-            }
+            HttpResponseMessage? response = await _productCopyService.CallServiceDelete();
+            return response != null && response.IsSuccessStatusCode;
         }
+
 
         public Task<ProductCopy> GetProductCopyBySerialNumberAndProductId(string serialNumber, int productId)
         {

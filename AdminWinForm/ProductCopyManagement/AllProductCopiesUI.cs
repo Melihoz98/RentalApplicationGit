@@ -70,7 +70,7 @@ namespace AdminWinForm.ProductCopyManagement
 
                 // Extract product copy details from the selected row
                 string serialNumber = Convert.ToString(selectedRow.Cells["Column1"].Value);
-                int productId = Convert.ToInt32(selectedRow.Cells["Column2"].Value);
+
 
                 // Display confirmation message
                 DialogResult result = MessageBox.Show("Are you sure you want to delete this product copy?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -79,7 +79,7 @@ namespace AdminWinForm.ProductCopyManagement
                 if (result == DialogResult.Yes)
                 {
                     // Call the delete method from the business logic layer
-                    bool deleted = await _productCopyLogic.DeleteProductCopy(serialNumber, productId);
+                    bool deleted = await _productCopyLogic.DeleteProductCopy(serialNumber);
 
                     // Check if deletion was successful
                     if (deleted)
@@ -101,5 +101,9 @@ namespace AdminWinForm.ProductCopyManagement
             }
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

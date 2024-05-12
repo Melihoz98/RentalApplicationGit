@@ -72,12 +72,14 @@ namespace AdminWinForm.ProductCopyManagement
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
-            dataGridView1.Location = new Point(152, 12);
+            dataGridView1.Location = new Point(106, 7);
+            dataGridView1.Margin = new Padding(2, 2, 2, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(704, 365);
+            dataGridView1.Size = new Size(493, 219);
             dataGridView1.TabIndex = 1;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Column1
             // 
@@ -105,9 +107,10 @@ namespace AdminWinForm.ProductCopyManagement
             // 
             // button3
             // 
-            button3.Location = new Point(325, 404);
+            button3.Location = new Point(228, 242);
+            button3.Margin = new Padding(2, 2, 2, 2);
             button3.Name = "button3";
-            button3.Size = new Size(205, 34);
+            button3.Size = new Size(144, 20);
             button3.TabIndex = 6;
             button3.Text = "Update Product";
             button3.UseVisualStyleBackColor = true;
@@ -115,9 +118,10 @@ namespace AdminWinForm.ProductCopyManagement
             // 
             // button2
             // 
-            button2.Location = new Point(767, 404);
+            button2.Location = new Point(537, 242);
+            button2.Margin = new Padding(2, 2, 2, 2);
             button2.Name = "button2";
-            button2.Size = new Size(205, 34);
+            button2.Size = new Size(144, 20);
             button2.TabIndex = 5;
             button2.Text = "Delete Product";
             button2.UseVisualStyleBackColor = true;
@@ -125,9 +129,10 @@ namespace AdminWinForm.ProductCopyManagement
             // 
             // button1
             // 
-            button1.Location = new Point(545, 404);
+            button1.Location = new Point(382, 242);
+            button1.Margin = new Padding(2, 2, 2, 2);
             button1.Name = "button1";
-            button1.Size = new Size(205, 34);
+            button1.Size = new Size(144, 20);
             button1.TabIndex = 4;
             button1.Text = "Add Product";
             button1.UseVisualStyleBackColor = true;
@@ -135,9 +140,10 @@ namespace AdminWinForm.ProductCopyManagement
             // 
             // button4
             // 
-            button4.Location = new Point(12, 404);
+            button4.Location = new Point(8, 242);
+            button4.Margin = new Padding(2, 2, 2, 2);
             button4.Name = "button4";
-            button4.Size = new Size(178, 34);
+            button4.Size = new Size(125, 20);
             button4.TabIndex = 7;
             button4.Text = "Back";
             button4.UseVisualStyleBackColor = true;
@@ -145,14 +151,15 @@ namespace AdminWinForm.ProductCopyManagement
             // 
             // AllProductCopiesUI
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(999, 450);
+            ClientSize = new Size(699, 270);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "AllProductCopiesUI";
             Text = "AllProductCopiesUI";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

@@ -52,12 +52,10 @@ namespace AdminWinForm.BusinesslogicLayer
         }
 
 
-        public async Task<bool> DeleteProductCopy(string serialNumber, int productId)
+        public async Task<bool> DeleteProductCopy(string serialNumber)
         {
             // Attempt to delete the product copy using serial number and product ID
-            bool deleted = await _productCopyAccess.DeleteProductCopy(serialNumber, productId);
-
-            return deleted;
+            return await _productCopyAccess.DeleteProductCopy(serialNumber);
         }
 
     }

@@ -67,7 +67,7 @@ namespace AdminWinForm.ProductManagement
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-                int productId = Convert.ToInt32(selectedRow.Cells["Column1"].Value);
+                int productId = Convert.ToInt32(selectedRow.Cells["productIDColumn"].Value);
                 DialogResult result = MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
@@ -91,5 +91,14 @@ namespace AdminWinForm.ProductManagement
             }
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void AllProductsUI_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

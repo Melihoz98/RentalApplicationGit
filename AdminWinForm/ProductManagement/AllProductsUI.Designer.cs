@@ -58,16 +58,16 @@ namespace AdminWinForm.ProductManagement
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
             productIDColumn = new DataGridViewTextBoxColumn();
             productNameColumn = new DataGridViewTextBoxColumn();
             descriptionColumn = new DataGridViewTextBoxColumn();
             hourlyPriceColumn = new DataGridViewTextBoxColumn();
             categoryIDColumn = new DataGridViewTextBoxColumn();
             imagePathColumn = new DataGridViewTextBoxColumn();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -75,52 +75,14 @@ namespace AdminWinForm.ProductManagement
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { productIDColumn, productNameColumn, descriptionColumn, hourlyPriceColumn, categoryIDColumn, imagePathColumn });
-            dataGridView1.Location = new Point(2, 1);
+            dataGridView1.Location = new Point(1, 1);
+            dataGridView1.Margin = new Padding(2, 2, 2, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(965, 365);
+            dataGridView1.Size = new Size(676, 219);
             dataGridView1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(540, 394);
-            button1.Name = "button1";
-            button1.Size = new Size(205, 34);
-            button1.TabIndex = 1;
-            button1.Text = "Add Product";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += addProduct_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(762, 394);
-            button2.Name = "button2";
-            button2.Size = new Size(205, 34);
-            button2.TabIndex = 2;
-            button2.Text = "Delete Product";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += deleteProduct_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(320, 394);
-            button3.Name = "button3";
-            button3.Size = new Size(205, 34);
-            button3.TabIndex = 3;
-            button3.Text = "Update Product";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += updateProduct_Click;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(12, 394);
-            button4.Name = "button4";
-            button4.Size = new Size(178, 34);
-            button4.TabIndex = 4;
-            button4.Text = "Back";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += back_Click;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // productIDColumn
             // 
@@ -170,18 +132,64 @@ namespace AdminWinForm.ProductManagement
             imagePathColumn.ReadOnly = true;
             imagePathColumn.Width = 150;
             // 
+            // button1
+            // 
+            button1.Location = new Point(378, 236);
+            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Name = "button1";
+            button1.Size = new Size(144, 20);
+            button1.TabIndex = 1;
+            button1.Text = "Add Product";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += addProduct_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(533, 236);
+            button2.Margin = new Padding(2, 2, 2, 2);
+            button2.Name = "button2";
+            button2.Size = new Size(144, 20);
+            button2.TabIndex = 2;
+            button2.Text = "Delete Product";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += deleteProduct_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(224, 236);
+            button3.Margin = new Padding(2, 2, 2, 2);
+            button3.Name = "button3";
+            button3.Size = new Size(144, 20);
+            button3.TabIndex = 3;
+            button3.Text = "Update Product";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += updateProduct_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(8, 236);
+            button4.Margin = new Padding(2, 2, 2, 2);
+            button4.Name = "button4";
+            button4.Size = new Size(125, 20);
+            button4.TabIndex = 4;
+            button4.Text = "Back";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += back_Click;
+            // 
             // AllProductsUI
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(997, 450);
+            ClientSize = new Size(698, 270);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "AllProductsUI";
             Text = "ProductUI";
+            Load += AllProductsUI_Load_1;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }

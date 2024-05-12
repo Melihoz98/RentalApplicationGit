@@ -41,56 +41,61 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(81, 194);
+            label1.Location = new Point(71, 146);
             label1.Name = "label1";
-            label1.Size = new Size(83, 20);
+            label1.Size = new Size(67, 15);
             label1.TabIndex = 0;
             label1.Text = "lmage Path";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(81, 131);
+            label2.Location = new Point(71, 98);
             label2.Name = "label2";
-            label2.Size = new Size(113, 20);
+            label2.Size = new Size(90, 15);
             label2.TabIndex = 1;
             label2.Text = "Category Name";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(81, 69);
+            label3.Location = new Point(71, 52);
             label3.Name = "label3";
-            label3.Size = new Size(88, 20);
+            label3.Size = new Size(69, 15);
             label3.TabIndex = 2;
             label3.Text = "Category ID";
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(255, 69);
+            textBox1.Location = new Point(223, 52);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(167, 27);
+            textBox1.Size = new Size(147, 23);
             textBox1.TabIndex = 3;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(255, 131);
+            textBox2.Location = new Point(223, 98);
+            textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(167, 27);
+            textBox2.Size = new Size(147, 23);
             textBox2.TabIndex = 4;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(255, 191);
+            textBox3.Location = new Point(223, 143);
+            textBox3.Margin = new Padding(3, 2, 3, 2);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(167, 27);
+            textBox3.Size = new Size(147, 23);
             textBox3.TabIndex = 5;
             // 
             // button1
             // 
-            button1.Location = new Point(81, 361);
+            button1.Location = new Point(71, 271);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(110, 29);
+            button1.Size = new Size(96, 22);
             button1.TabIndex = 6;
             button1.Text = "Back";
             button1.UseVisualStyleBackColor = true;
@@ -98,9 +103,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(271, 361);
+            button2.Location = new Point(237, 271);
+            button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";
-            button2.Size = new Size(129, 29);
+            button2.Size = new Size(113, 22);
             button2.TabIndex = 7;
             button2.Text = "Save";
             button2.UseVisualStyleBackColor = true;
@@ -108,9 +114,9 @@
             // 
             // UpdateCategoryUI
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(483, 450);
+            ClientSize = new Size(423, 338);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox3);
@@ -119,6 +125,7 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "UpdateCategoryUI";
             Text = "UpdateCategoryUI";
             ResumeLayout(false);
