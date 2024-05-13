@@ -33,20 +33,7 @@ namespace AdminWinForm.BusinesslogicLayer
              return insertedCategoryId;   
         }
 
-        public async Task<bool> UpdateCategory(int categoryID, string categoryName, string imagePath)
-        {
-            Category existingCategory = await _categoryAccess.GetCategoryById(categoryID);
-             if(existingCategory != null)
-            {
-                existingCategory.CategoryID = categoryID;
-                existingCategory.CategoryName = categoryName;
-                existingCategory.ImagePath = imagePath;
-
-                return await _categoryAccess.UpdateCategory(existingCategory);
-
-            }   
-             return false;
-        }
+        
 
         public async Task<bool> DeleteCategory(int categoryId)
         {

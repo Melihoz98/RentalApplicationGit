@@ -65,28 +65,7 @@ namespace RentalService.DataAccess
             }
         }
 
-        public void UpdateOrderLine(OrderLine orderLine)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand command = con.CreateCommand())
-                {
-                    command.CommandText = "UPDATE OrderLines SET serialNumber = @SerialNumber WHERE orderID = @OrderID";
-                    command.Parameters.AddWithValue("@OrderID", orderLine.OrderID);
-                    command.Parameters.AddWithValue("@SerialNumber", orderLine.SerialNumber);
-
-                    con.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error updating order line: {ex.Message}");
-                throw;
-            }
-        }
+       
 
         public OrderLine GetOrderLineByOrderID(int orderID)
         {

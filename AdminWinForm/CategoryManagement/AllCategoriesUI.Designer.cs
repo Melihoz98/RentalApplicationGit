@@ -61,7 +61,6 @@ namespace AdminWinForm.CategoryManagement
             Column2 = new DataGridViewTextBoxColumn();
             Column3 = new DataGridViewTextBoxColumn();
             button1 = new Button();
-            button2 = new Button();
             button3 = new Button();
             button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -71,12 +70,12 @@ namespace AdminWinForm.CategoryManagement
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
-            dataGridView1.Location = new Point(87, 11);
+            dataGridView1.Location = new Point(70, 9);
             dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(815, 229);
+            dataGridView1.Size = new Size(652, 183);
             dataGridView1.TabIndex = 1;
             // 
             // Column1
@@ -105,32 +104,21 @@ namespace AdminWinForm.CategoryManagement
             // 
             // button1
             // 
-            button1.Location = new Point(344, 500);
+            button1.Location = new Point(415, 400);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
-            button1.Size = new Size(191, 34);
+            button1.Size = new Size(153, 27);
             button1.TabIndex = 2;
             button1.Text = "Add Category";
             button1.UseVisualStyleBackColor = true;
             button1.Click += addCategory_Click;
             // 
-            // button2
-            // 
-            button2.Location = new Point(571, 500);
-            button2.Margin = new Padding(2);
-            button2.Name = "button2";
-            button2.Size = new Size(178, 34);
-            button2.TabIndex = 3;
-            button2.Text = "Update Category";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += updateCategory_Click;
-            // 
             // button3
             // 
-            button3.Location = new Point(782, 500);
+            button3.Location = new Point(626, 400);
             button3.Margin = new Padding(2);
             button3.Name = "button3";
-            button3.Size = new Size(190, 34);
+            button3.Size = new Size(152, 27);
             button3.TabIndex = 4;
             button3.Text = "Delete Category";
             button3.UseVisualStyleBackColor = true;
@@ -138,10 +126,10 @@ namespace AdminWinForm.CategoryManagement
             // 
             // button4
             // 
-            button4.Location = new Point(14, 500);
+            button4.Location = new Point(11, 400);
             button4.Margin = new Padding(2);
             button4.Name = "button4";
-            button4.Size = new Size(178, 34);
+            button4.Size = new Size(142, 27);
             button4.TabIndex = 5;
             button4.Text = "Back";
             button4.UseVisualStyleBackColor = true;
@@ -149,15 +137,13 @@ namespace AdminWinForm.CategoryManagement
             // 
             // AllCategoriesUI
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1000, 562);
+            ClientSize = new Size(800, 450);
             Controls.Add(button4);
             Controls.Add(button3);
-            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
-            Margin = new Padding(4);
             Name = "AllCategoriesUI";
             Text = "AllCategoriesUI";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -168,7 +154,6 @@ namespace AdminWinForm.CategoryManagement
 
         private DataGridView dataGridView1;
         private Button button1;
-        private Button button2;
         private Button button3;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;

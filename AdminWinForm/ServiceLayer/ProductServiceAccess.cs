@@ -127,32 +127,7 @@ namespace AdminWinForm.ServiceLayer
             return insertedProductID;
         }
 
-        public async Task<bool> UpdateProduct(Product product)
-        {
-            try
-            {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await _productService.CallServicePut(content);
-
-                if (response != null && response.IsSuccessStatusCode)
-                {
-                    return true; 
-                }
-                else
-                {
-                    string errorMessage = $"Fejl ved opdatering af produkt. Statuskode: {(int)response.StatusCode} ({response.ReasonPhrase})";
-                    Console.WriteLine(errorMessage); 
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                string error = $"Fejl ved opdatering af produkt: {ex.Message}";
-                Console.WriteLine(error);
-                return false;
-            }
-        }
+       
 
         public async Task<bool> DeleteProduct(int productID)
         {

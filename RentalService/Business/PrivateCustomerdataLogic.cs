@@ -67,19 +67,7 @@ namespace RentalService.Business
             return insertedId;
         }
 
-        public void UpdatePrivateCustomer(PrivateCustomerDto privateCustomerDto)
-        {
-            try
-            {
-                PrivateCustomer dbCustomer = PrivateCustomerDtoConvert.ToPrivateCustomer(privateCustomerDto);
-                _privateCustomerAccess.UpdatePrivateCustomer(dbCustomer);
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-                // Handle exception
-            }
-        }
+       
 
         public void DeletePrivateCustomer(string id)
         {

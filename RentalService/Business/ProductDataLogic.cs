@@ -63,19 +63,7 @@ namespace RentalService.Business
             }
         }
 
-        public void UpdateProduct(ProductDto productToUpdate)
-        {
-            try
-            {
-                Product product = ProductDtoConvert.ToProduct(productToUpdate);
-                _productAccess.UpdateProduct(product);
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error updating product: {ex.Message}");
-            }
-        }
+       
 
         public void DeleteProduct(int id)
         {

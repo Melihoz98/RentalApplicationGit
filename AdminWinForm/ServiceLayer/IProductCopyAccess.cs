@@ -11,7 +11,7 @@ namespace AdminWinForm.ServiceLayer
     {
         Task<List<ProductCopy>> GetProductCopies();
         Task<int> AddProductCopy(ProductCopy productCopy);
-        Task<bool> UpdateProductCopy(ProductCopy productCopy);
+       
         Task<bool> DeleteProductCopy(string serialNumber);
         Task<ProductCopy> GetProductCopyBySerialNumberAndProductId(string serialNumber, int productId);
     }

@@ -79,22 +79,7 @@ namespace RentalService.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateProduct(int id, [FromBody] ProductDto productDto)
-        {
-            try
-            {
-                productDto.ProductID = id;
-                _productData.UpdateProduct(productDto);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating product: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
+        
 
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)

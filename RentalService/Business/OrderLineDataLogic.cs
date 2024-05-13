@@ -45,20 +45,7 @@ namespace RentalService.Business
             }
         }
 
-        public void UpdateOrderLine(OrderLineDto orderLineDto)
-        {
-            try
-            {
-                OrderLine orderLine = new OrderLine(orderLineDto.OrderID, orderLineDto.SerialNumber);
-                _orderLineAccess.UpdateOrderLine(orderLine);
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating order line: {ex.Message}");
-                throw;
-            }
-        }
+        
 
         public OrderLineDto GetOrderLineByOrderID(int orderID)
         {

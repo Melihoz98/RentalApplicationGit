@@ -12,7 +12,7 @@ namespace AdminWinForm.ServiceLayer
         Task<List<Category>> GetCategories();
         Task<Category> GetCategoryById(int categoryId);
         Task<int> AddCategory(Category category);
-        Task<bool> UpdateCategory(Category category);
+       
         Task<bool> DeleteCategory(int categoryId);
     }
 }

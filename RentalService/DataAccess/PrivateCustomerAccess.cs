@@ -115,10 +115,7 @@ namespace RentalService.DataAccess
             return foundCustomers;
         }
 
-        public void UpdatePrivateCustomer(PrivateCustomer customer)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public void DeletePrivateCustomer(string customerID)
         {

@@ -76,25 +76,7 @@ namespace RentalService.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateCategory(int id, [FromBody] CategoryDto categoryDto)
-        {
-            try
-            {
-                if (id != categoryDto.CategoryID)
-                {
-                    return BadRequest("Category ID mismatch");
-                }
-
-                _categoryData.UpdateCategory(categoryDto);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Log exception
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-        }
+        
 
         [HttpDelete("{id}")]
         public IActionResult DeleteCategory(int id)

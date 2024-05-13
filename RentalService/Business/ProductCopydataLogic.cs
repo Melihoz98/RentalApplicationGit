@@ -60,19 +60,7 @@ namespace RentalService.Business
             }
         }
 
-        public void UpdateProductCopy(ProductCopyDto productCopyToUpdate)
-        {
-            try
-            {
-                ProductCopy productCopy = ProductCopyDtoConvert.ToProductCopy(productCopyToUpdate);
-                _productCopyAccess.UpdateProductCopy(productCopy);
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error updating product copy: {ex.Message}");
-            }
-        }
+       
 
         public void DeleteProductCopy(string serialNumber)
         {

@@ -145,11 +145,7 @@ namespace RentalService.DataAccess
             }
         }
 
-        public void UpdateProductCopy(ProductCopy productCopy)
-        {
-            // Implement update logic if needed
-            throw new NotImplementedException();
-        }
+        
 
         public void DeleteProductCopy(string serialNumber)
         {

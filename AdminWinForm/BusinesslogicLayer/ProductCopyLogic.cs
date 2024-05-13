@@ -32,24 +32,7 @@ namespace AdminWinForm.BusinesslogicLayer
             return insertedProductCopyId;
         }
 
-        public async Task<bool> UpdateProductCopy(string serialNumber, int productId, bool rented)
-        {
-            // Find produktkopien baseret på serienummer og produkt-id
-            ProductCopy existingProductCopy = await _productCopyAccess.GetProductCopyBySerialNumberAndProductId(serialNumber, productId);
-
-            if (existingProductCopy != null)
-            {
-                // Opdater attributterne for den fundne produktkopi
-                existingProductCopy.SerialNumber = serialNumber;
-                existingProductCopy.ProductID = productId;
-                existingProductCopy.Rented = rented;
-
-                // Opdater produktkopien i databasen
-                return await _productCopyAccess.UpdateProductCopy(existingProductCopy);
-            }
-
-            return false; // Returner false hvis produktkopi ikke findes
-        }
+      
 
 
         public async Task<bool> DeleteProductCopy(string serialNumber)

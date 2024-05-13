@@ -49,21 +49,7 @@ namespace RentalService.Controllers
             }
         }
 
-        [HttpPut]
-        public IActionResult UpdateOrderLine([FromBody] OrderLineDto orderLineDto)
-        {
-            try
-            {
-                _orderLineData.UpdateOrderLine(orderLineDto);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating order line: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
+        
 
         [HttpGet("{orderID}")]
         public IActionResult GetOrderLineByOrderID(int orderID)
