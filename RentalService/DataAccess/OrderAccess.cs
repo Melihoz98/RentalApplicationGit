@@ -131,11 +131,12 @@ namespace RentalService.DataAccess
             DateTime endDate = orderReader.GetDateTime(orderReader.GetOrdinal("endDate"));
             TimeSpan startTime = orderReader.GetTimeSpan(orderReader.GetOrdinal("startTime"));
             TimeSpan endTime = orderReader.GetTimeSpan(orderReader.GetOrdinal("endTime"));
-            int totalHours = orderReader.GetInt32(orderReader.GetOrdinal("totalHours"));
+            int totalHours = Convert.ToInt32(orderReader.GetDecimal(orderReader.GetOrdinal("totalHours")));
             decimal subTotalPrice = orderReader.GetDecimal(orderReader.GetOrdinal("subTotalPrice"));
             decimal totalOrderPrice = orderReader.GetDecimal(orderReader.GetOrdinal("totalOrderPrice"));
 
             return new Order(orderID, customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice);
-     }   
+        }
+
     }
 }
