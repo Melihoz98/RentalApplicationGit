@@ -43,6 +43,7 @@ namespace RentalService.Controllers
         [HttpGet]
         public IActionResult GetAllOrders()
         {
+            
             try
             {
                 List<OrderDto?>? orderDtos = _orderData.GetAllOrders();
