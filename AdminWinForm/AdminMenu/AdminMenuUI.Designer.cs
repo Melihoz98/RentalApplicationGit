@@ -2,7 +2,7 @@
 {
     partial class AdminMenuUI
     {
-        /// <summary>
+        /// <suvbmmary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;

@@ -37,28 +37,7 @@ namespace AdminWinForm.ProductCopyManagement
             this.Hide();
         }
 
-        private void updateProductCopy_Click(object sender, EventArgs e)
-        {
-            // Check if a row is selected in the DataGridView
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                // Get the selected row
-                DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-
-                // Extract product copy details from the selected row
-                string serialNumber = Convert.ToString(selectedRow.Cells["Column1"].Value);
-                string productId = Convert.ToString(selectedRow.Cells["Column2"].Value);
-                bool rented = Convert.ToBoolean(selectedRow.Cells["Column3"].Value);
-
-                // Open the UpdateProductCopyUI form and pass the product copy details
-                UpdateProductCopyUI updateProductCopyForm = new UpdateProductCopyUI(serialNumber, productId, rented);
-                updateProductCopyForm.Show();
-            }
-            else
-            {
-                MessageBox.Show("Please select a product copy to update.");
-            }
-        }
+       
 
         private async void deleteProductCopy_Click(object sender, EventArgs e)
         {
