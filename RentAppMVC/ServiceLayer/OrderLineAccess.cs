@@ -21,21 +21,21 @@ namespace RentAppMVC.ServiceLayer
         {
             try
             {
-                // Serialize orderLine object to JSON
+                
                 string orderLineJson = JsonConvert.SerializeObject(orderLine);
 
-                // Create StringContent from JSON
+               
                 var content = new StringContent(orderLineJson, System.Text.Encoding.UTF8, "application/json");
 
-                // Call the API to add order line
+                
                 HttpResponseMessage response = await _orderLineService.CallServicePost(content);
-                response.EnsureSuccessStatusCode(); // Throw exception if not successful
+                response.EnsureSuccessStatusCode(); 
             }
             catch (Exception ex)
             {
-                // Log the error
+               
                 Console.WriteLine($"Error adding order line: {ex.Message}");
-                throw; // Rethrow the exception
+                throw; 
             }
         }
 
@@ -45,7 +45,7 @@ namespace RentAppMVC.ServiceLayer
             {
                 List<OrderLine>? orderLines = null;
 
-                // Call the API to get all order lines
+                
                 HttpResponseMessage response = await _orderLineService.CallServiceGet();
                 if (response.IsSuccessStatusCode)
                 {
@@ -57,9 +57,9 @@ namespace RentAppMVC.ServiceLayer
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all order lines: {ex.Message}");
-                throw; // Rethrow the exception
+                throw; 
             }
         }
 
@@ -67,10 +67,10 @@ namespace RentAppMVC.ServiceLayer
         {
             try
             {
-                // Pass the orderID and serialNumber to the OrderLine constructor
+                
                 OrderLine orderLine = new OrderLine(orderID, serialNumber);
 
-                // Call the API to get order line by ID
+                
                 HttpResponseMessage response = await _orderLineService.GetById($"{orderID}/{serialNumber}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -82,9 +82,9 @@ namespace RentAppMVC.ServiceLayer
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting order line by ID: {ex.Message}");
-                throw; // Rethrow the exception
+                throw; 
             }
         }
 

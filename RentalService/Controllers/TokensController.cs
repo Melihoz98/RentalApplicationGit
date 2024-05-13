@@ -23,7 +23,7 @@ namespace RentalService.Controllers
         [HttpPost]
         public IActionResult Create(string username, string password, string grant_type)
         {
-            // Validate username and password and grant_type
+            
 
             string jwtToken = GenerateToken(username);
             return Ok(new { token = jwtToken });
@@ -38,10 +38,10 @@ namespace RentalService.Controllers
 
             List<Claim> claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, username),
-                // Add other claims as needed
+                
             };
 
-            // Set token expiration time
+            
             DateTime expiresAt = DateTime.Now.AddDays(1);
 
             var token = new JwtSecurityToken(

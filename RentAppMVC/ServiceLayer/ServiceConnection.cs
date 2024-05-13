@@ -63,7 +63,7 @@ namespace RentAppMVC.ServiceLayer
         {
             if (UseUrl != null)
             {
-                // Assuming your ID is part of the URL
+               
                 UseUrl = $"{BaseUrl}/{id}";
                 HttpResponseMessage? hrm = await HttpEnabler.GetAsync(UseUrl);
                 return hrm;
@@ -74,7 +74,7 @@ namespace RentAppMVC.ServiceLayer
         {
             if (UseUrl != null)
             {
-                // Assuming your ID is part of the URL
+                
                 UseUrl = $"{BaseUrl}{id}";
                 HttpResponseMessage? hrm = await HttpEnabler.GetAsync(UseUrl);
                 return hrm;

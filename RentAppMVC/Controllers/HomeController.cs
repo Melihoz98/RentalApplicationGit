@@ -31,11 +31,11 @@ namespace RentAppMVC.Controllers
             return PartialView("_CategoriesPartial", categories);
         }
 
-        // HomeController.cs
+       
         [HttpPost]
         public IActionResult SelectCategory(int categoryId)
         {
-            // Redirect to ProductsByCategory action with categoryId
+            
             return RedirectToAction("ProductsByCategory", "Product", new { categoryId });
         }
 

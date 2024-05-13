@@ -26,7 +26,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log the error
+               
                 Console.WriteLine($"Error getting order by ID: {ex.Message}");
                 throw;
             }
@@ -41,7 +41,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all orders: {ex.Message}");
                 throw;
             }
@@ -56,7 +56,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error adding order: {ex.Message}");
                 throw;
             }

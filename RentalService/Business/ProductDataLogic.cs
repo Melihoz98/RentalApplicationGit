@@ -26,7 +26,7 @@ namespace RentalService.Business
             }
             catch 
             {
-                // Handle exception
+                
                 foundProductDto = null;
                
             } 
@@ -42,7 +42,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting all products: {ex.Message}");
                 return null;
             }
@@ -57,7 +57,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding product: {ex.Message}");
                 return 0;
             }
@@ -73,7 +73,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error deleting product: {ex.Message}");
             }
         }

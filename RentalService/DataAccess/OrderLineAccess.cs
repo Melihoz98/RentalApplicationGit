@@ -36,7 +36,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding order line: {ex.Message}");
                 throw;
             }
@@ -59,7 +59,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error removing order line: {ex.Message}");
                 throw;
             }
@@ -93,7 +93,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting order line by order ID: {ex.Message}");
                 throw;
             }
@@ -124,7 +124,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting order lines by serial number: {ex.Message}");
                 throw;
             }

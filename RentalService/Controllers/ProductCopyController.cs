@@ -34,7 +34,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting product copy by serial number: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -57,7 +57,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all product copies: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -80,7 +80,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all product copies by product ID: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -97,7 +97,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error creating product copy: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -115,7 +115,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error deleting product copy: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

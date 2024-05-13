@@ -42,7 +42,7 @@ namespace RentalService.Business
             {
                 foundDtos = null;
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
             return foundDtos;
         }
@@ -61,7 +61,7 @@ namespace RentalService.Business
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
             return insertedId;
         }
@@ -77,7 +77,7 @@ namespace RentalService.Business
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
         }
     }

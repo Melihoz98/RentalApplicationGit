@@ -6,7 +6,7 @@ namespace RentalService.ModelConversion
 {
     public class CategoryDtoConvert
     {
-        // Convert from Category collection to CategoryDto collection
+       
         public static List<CategoryDto?>? FromCategoryCollection(List<Category> inCategories)
         {
             List<CategoryDto?>? categoryDtoList = null;
@@ -25,7 +25,7 @@ namespace RentalService.ModelConversion
             return categoryDtoList;
         }
 
-        // Convert from Category to CategoryDto
+        
         public static CategoryDto? FromCategory(Category category)
         {
             CategoryDto? categoryDto = null;
@@ -39,7 +39,7 @@ namespace RentalService.ModelConversion
             return categoryDto;
         }
 
-        // Convert from CategoryDto to Category
+        
         public static Category? ToCategory(CategoryDto dto)
         {
             Category? category = null;

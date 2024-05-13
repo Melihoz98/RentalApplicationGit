@@ -25,7 +25,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error adding order line: {ex.Message}");
                 throw;
             }
@@ -39,7 +39,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error removing order line: {ex.Message}");
                 throw;
             }
@@ -56,7 +56,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting order line by order ID: {ex.Message}");
                 throw;
             }
@@ -76,7 +76,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting order lines by serial number: {ex.Message}");
                 throw;
             }

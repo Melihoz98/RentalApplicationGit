@@ -25,7 +25,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+               
                 Console.WriteLine($"Error getting product copy by serial number: {ex.Message}");
                 return null;
             }
@@ -40,7 +40,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting all product copies: {ex.Message}");
                 return null;
             }
@@ -55,7 +55,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding product copy: {ex.Message}");
             }
         }
@@ -70,7 +70,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error deleting product copy: {ex.Message}");
             }
         }
@@ -84,7 +84,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting all product copies by product ID: {ex.Message}");
                 return null;
             }

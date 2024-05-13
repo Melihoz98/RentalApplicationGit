@@ -44,7 +44,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+                
                 Console.WriteLine($"Error retrieving product copies: {ex.Message}");
                 throw;
             }
@@ -77,7 +77,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+               
                 Console.WriteLine($"Error retrieving product copy by serial number: {ex.Message}");
                 throw;
             }
@@ -111,7 +111,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+                
                 Console.WriteLine($"Error retrieving product copies by product ID: {ex.Message}");
                 throw;
             }
@@ -139,7 +139,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding product copy: {ex.Message}");
                 throw;
             }
@@ -164,7 +164,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error deleting product copy: {ex.Message}");
                 throw;
             }

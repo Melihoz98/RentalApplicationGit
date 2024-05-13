@@ -19,7 +19,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log exception
+               
                 throw new Exception($"An error occurred while getting ASP.NET user by ID: {ex.Message}");
             }
         }
@@ -32,7 +32,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Log exception
+               
                 throw new Exception($"An error occurred while getting ASP.NET user ID by user name: {ex.Message}");
             }
         }

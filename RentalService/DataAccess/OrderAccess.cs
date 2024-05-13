@@ -42,14 +42,14 @@ namespace RentalService.DataAccess
                     insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
 
                     con.Open();
-                    // ExecuteScalar is used to get the newly inserted order ID
+                    
                     int newOrderId = Convert.ToInt32(insertCommand.ExecuteScalar());
-                    newOrder.OrderID = newOrderId; // Update the order object with the new order ID
+                    newOrder.OrderID = newOrderId; 
                 }
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding order: {ex.Message}");
                 throw;
             }
@@ -82,7 +82,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting order by ID: {ex.Message}");
                 throw;
             }
@@ -114,7 +114,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting all orders: {ex.Message}");
                 throw;
             }

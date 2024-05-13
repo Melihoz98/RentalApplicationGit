@@ -25,9 +25,9 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error message, etc.)
+                
                 Console.WriteLine($"Error getting all business customers: {ex.Message}");
-                throw; // Re-throw for caller to handle
+                throw; 
             }
         }
 
@@ -38,15 +38,15 @@ namespace RentalService.Business
                 BusinessCustomer customer = _businessCustomerAccess.GetBusinessCustomerByCustomerID(customerID);
                 if (customer == null)
                 {
-                    return null; // Indicate customer not found
+                    return null; 
                 }
                 return BusinessCustomerDtoConvert.FromBusinessCustomer(customer);
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error message, etc.)
+                
                 Console.WriteLine($"Error getting business customer by ID: {ex.Message}");
-                throw; // Re-throw for caller to handle
+                throw; 
             }
         }
 
@@ -59,9 +59,9 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error message, etc.)
+                
                 Console.WriteLine($"Error creating business customer: {ex.Message}");
-                throw; // Re-throw for caller to handle
+                throw; 
             }
         }
     }

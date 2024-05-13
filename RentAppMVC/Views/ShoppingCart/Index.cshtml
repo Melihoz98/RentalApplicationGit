@@ -25,7 +25,7 @@ else
                     <td>@product.Description</td>
                     <td>$@product.HourlyPrice</td>
                     <td>
-                        <!-- Add a form to remove the item from the cart -->
+                        
                         <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
                             <input type="hidden" name="productId" value="@product.ProductID" />
                             <button type="submit" class="btn btn-danger">Remove</button>

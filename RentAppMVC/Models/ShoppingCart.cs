@@ -15,7 +15,7 @@ public class ShoppingCart
 
     public async Task AddItem(int productId, ProductLogic productLogic)
     {
-        // Retrieve product by ID from API
+        
         Product product = await productLogic.GetProductById(productId);
         if (product != null)
         {

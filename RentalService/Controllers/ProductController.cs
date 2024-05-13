@@ -34,7 +34,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting product by ID: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -57,7 +57,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all products: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -73,7 +73,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error creating product: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -91,7 +91,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error deleting product: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

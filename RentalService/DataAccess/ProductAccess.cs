@@ -43,7 +43,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+               
                 Console.WriteLine($"Error retrieving products: {ex.Message}");
                 throw;
             }
@@ -79,7 +79,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+               
                 Console.WriteLine($"Error retrieving product by ID: {ex.Message}");
                 throw;
             }
@@ -111,7 +111,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding product: {ex.Message}");
                 throw;
             }
@@ -137,7 +137,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+               
                 Console.WriteLine($"Error deleting product: {ex.Message}");
                 throw;
             }
