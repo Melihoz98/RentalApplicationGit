@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var orderLine in Model.OrderLines)
+        @foreach (var orderLine in Model.Items)
         {
             <tr>
                 <td>@orderLine.SerialNumber</td>
@@ -29,3 +29,6 @@
         }
     </tbody>
 </table>
+<form asp-controller="ShoppingCart" asp-action="EmptyCart" method="post">
+    <button type="submit" class="btn btn-warning">Empty Cart</button>
+</form>

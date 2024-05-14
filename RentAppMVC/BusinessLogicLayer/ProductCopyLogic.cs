@@ -30,8 +30,12 @@ namespace RentAppMVC.BusinessLogicLayer
         
           
             return await _productCopyAccess.GetAllProductCopiesById(productID);
+        }
+
+        public async Task<List<ProductCopy>> GetAllAvailableProductCopyByProductID(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            return await _productCopyAccess.GetAllAvailableProductCopyByProductID(productID, startDate, endDate, startTime, endTime);
+        }
+
     }
-
-
-}
 }

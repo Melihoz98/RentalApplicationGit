@@ -63,15 +63,15 @@ namespace RentAppMVC.ServiceLayer
             }
         }
 
-        public async Task<OrderLine?> GetById(int orderID, string serialNumber)
+        public async Task<OrderLine?> GetById(int orderID, string serialNumber, Product product)
         {
             try
             {
                 // Pass the orderID and serialNumber to the OrderLine constructor
-                OrderLine orderLine = new OrderLine(orderID, serialNumber);
+                OrderLine orderLine = new OrderLine(orderID, serialNumber, product);
 
                 // Call the API to get order line by ID
-                HttpResponseMessage response = await _orderLineService.GetById($"{orderID}/{serialNumber}");
+                HttpResponseMessage response = await _orderLineService.GetById($"{orderID}/{serialNumber}/{product}");
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonString = await response.Content.ReadAsStringAsync();

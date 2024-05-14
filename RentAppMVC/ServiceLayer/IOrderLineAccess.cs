@@ -6,6 +6,6 @@ namespace RentAppMVC.ServiceLayer
     {
         Task AddOrderLine(OrderLine orderLine);
         Task<List<OrderLine>?> GetAllOrderLines();
-        Task<OrderLine?> GetById(int orderID, string serialNumber);
+        Task<OrderLine?> GetById(int orderID, string serialNumber, Product product);
     }
 }

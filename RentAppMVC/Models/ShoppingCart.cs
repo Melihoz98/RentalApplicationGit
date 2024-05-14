@@ -13,24 +13,25 @@ namespace RentAppMVC.Models
         public DateTime EndDate { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
-        public List<OrderLine> OrderLines { get; set; }
+        public List<OrderLine> Items { get; set; }
+        public Product Product { get; set; }
 
         public ShoppingCart()
         {
-            OrderLines = new List<OrderLine>();
+            Items = new List<OrderLine>();
         }
 
         public bool IsEmpty()
         {
-            return OrderLines.Count == 0;
+            return Items.Count == 0;
         }
 
         public void RemoveItem(string serialNumber)
         {
-            OrderLine itemToRemove = OrderLines.FirstOrDefault(o => o.SerialNumber == serialNumber);
+            OrderLine itemToRemove = Items.FirstOrDefault(o => o.SerialNumber == serialNumber);
             if (itemToRemove != null)
             {
-                OrderLines.Remove(itemToRemove);
+                Items.Remove(itemToRemove);
             }
         }
     }
