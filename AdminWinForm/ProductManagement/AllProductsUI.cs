@@ -30,32 +30,7 @@ namespace AdminWinForm.ProductManagement
             this.Hide();
         }
 
-        private void updateProduct_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                // Retrieve the selected product's information
-                DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-                int productID = Convert.ToInt32(selectedRow.Cells["productIDColumn"].Value);
-                string productName = Convert.ToString(selectedRow.Cells["productNameColumn"].Value);
-                string description = Convert.ToString(selectedRow.Cells["descriptionColumn"].Value);
-                decimal hourlyPrice = Convert.ToDecimal(selectedRow.Cells["hourlyPriceColumn"].Value);
-                int categoryID = Convert.ToInt32(selectedRow.Cells["categoryIDColumn"].Value);
-                string imagePath = Convert.ToString(selectedRow.Cells["imagePathColumn"].Value);
-
-                // Create an instance of UpdateProductUI form
-                UpdateProductUI updateProductForm = new UpdateProductUI(productID, productName, description, hourlyPrice, categoryID, imagePath);
-
-                // Show the UpdateProductUI form
-                updateProductForm.Show();
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Please select a product to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            LoadProducts();
-        }
+        
 
         private void back_Click(object sender, EventArgs e)
         {

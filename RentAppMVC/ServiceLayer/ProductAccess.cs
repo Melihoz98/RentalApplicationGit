@@ -53,7 +53,7 @@ namespace RentAppMVC.ServiceLayer
                 products = JsonConvert.DeserializeObject<List<Product>>(jsonString);
             }
 
-            // Filter products by categoryId
+            
             products = products.Where(p => p.CategoryID == categoryId).ToList();
 
             return products;

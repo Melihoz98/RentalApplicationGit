@@ -34,7 +34,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting order by ID: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -43,6 +43,7 @@ namespace RentalService.Controllers
         [HttpGet]
         public IActionResult GetAllOrders()
         {
+            
             try
             {
                 List<OrderDto?>? orderDtos = _orderData.GetAllOrders();
@@ -57,7 +58,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+               
                 Console.WriteLine($"Error getting all orders: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -73,7 +74,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error adding order: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

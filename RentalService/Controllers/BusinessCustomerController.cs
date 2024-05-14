@@ -26,7 +26,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all business customers: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -49,7 +49,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting business customer by ID: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -65,7 +65,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error creating business customer: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

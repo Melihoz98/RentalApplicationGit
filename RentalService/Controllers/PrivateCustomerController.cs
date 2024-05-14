@@ -31,12 +31,12 @@ namespace RentalService.Controllers
                 }
                 else
                 {
-                    foundReturn = new StatusCodeResult(204); // No Content
+                    foundReturn = new StatusCodeResult(204); 
                 }
             }
             else
             {
-                foundReturn = new StatusCodeResult(500); // Internal server error
+                foundReturn = new StatusCodeResult(500); 
             }
             return foundReturn;
         }
@@ -48,11 +48,11 @@ namespace RentalService.Controllers
 
             if (foundCustomer != null)
             {
-                return Ok(foundCustomer); // Statuscode 200
+                return Ok(foundCustomer); 
             }
             else
             {
-                return NotFound(); // Statuscode 404
+                return NotFound(); 
             }
         }
 
@@ -62,12 +62,12 @@ namespace RentalService.Controllers
             try
             {
                 _privateCustomerLogicCtrl.createPrivateCustomer(privateCustomerDto);
-                // Return 201 Created status without including PrivateCustomerDto in response
+                
                 return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }

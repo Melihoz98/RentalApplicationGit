@@ -42,14 +42,14 @@ namespace RentalService.DataAccess
                     insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
 
                     con.Open();
-                    // ExecuteScalar is used to get the newly inserted order ID
+                    
                     int newOrderId = Convert.ToInt32(insertCommand.ExecuteScalar());
-                    newOrder.OrderID = newOrderId; // Update the order object with the new order ID
+                    newOrder.OrderID = newOrderId; 
                 }
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding order: {ex.Message}");
                 throw;
             }
@@ -82,7 +82,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting order by ID: {ex.Message}");
                 throw;
             }
@@ -114,7 +114,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting all orders: {ex.Message}");
                 throw;
             }
@@ -131,11 +131,12 @@ namespace RentalService.DataAccess
             DateTime endDate = orderReader.GetDateTime(orderReader.GetOrdinal("endDate"));
             TimeSpan startTime = orderReader.GetTimeSpan(orderReader.GetOrdinal("startTime"));
             TimeSpan endTime = orderReader.GetTimeSpan(orderReader.GetOrdinal("endTime"));
-            int totalHours = orderReader.GetInt32(orderReader.GetOrdinal("totalHours"));
+            int totalHours = Convert.ToInt32(orderReader.GetDecimal(orderReader.GetOrdinal("totalHours")));
             decimal subTotalPrice = orderReader.GetDecimal(orderReader.GetOrdinal("subTotalPrice"));
             decimal totalOrderPrice = orderReader.GetDecimal(orderReader.GetOrdinal("totalOrderPrice"));
 
             return new Order(orderID, customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice);
-     }   
+        }
+
     }
 }

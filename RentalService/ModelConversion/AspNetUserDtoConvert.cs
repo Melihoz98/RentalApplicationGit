@@ -6,7 +6,7 @@ namespace RentalService.ModelConversion
 {
     public class AspNetUserDtoConvert
     {
-        // Convert from AspNetUser collection to AspNetUserDto collection
+        
         public static List<AspNetUserDto?>? FromAspNetUserCollection(List<AspNetUser> inAspNetUsers)
         {
             List<AspNetUserDto?>? aspNetUserDtoList = null;
@@ -25,7 +25,7 @@ namespace RentalService.ModelConversion
             return aspNetUserDtoList;
         }
 
-        // Convert from AspNetUser to AspNetUserDto
+       
         public static AspNetUserDto? FromAspNetUser(AspNetUser user)
         {
             AspNetUserDto? userDto = null;
@@ -36,7 +36,7 @@ namespace RentalService.ModelConversion
             return userDto;
         }
 
-        // Convert from AspNetUserDto to AspNetUser
+       
         public static AspNetUser? ToAspNetUser(AspNetUserDto dto)
         {
             AspNetUser? user = null;

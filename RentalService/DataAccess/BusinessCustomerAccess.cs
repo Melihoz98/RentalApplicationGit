@@ -1,12 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using RentalService.Models; // Assuming this namespace holds your BusinessCustomer model
+using RentalService.Models; 
 using System;
 using System.Collections.Generic;
 
 namespace RentalService.DataAccess
 {
-    public class BusinessCustomerAccess : IBusinessCustomerAccess // Implement an interface for future flexibility
+    public class BusinessCustomerAccess : IBusinessCustomerAccess 
     {
         private readonly string _connectionString;
 
@@ -39,7 +39,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+                
                 Console.WriteLine($"Error retrieving business customers: {ex.Message}");
                 throw;
             }
@@ -67,7 +67,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+                
                 Console.WriteLine($"Error retrieving business customer by ID: {ex.Message}");
                 throw;
             }
@@ -92,7 +92,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+                
                 Console.WriteLine($"Error creating business customer: {ex.Message}");
                 throw;
             }

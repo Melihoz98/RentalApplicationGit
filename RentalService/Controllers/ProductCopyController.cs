@@ -34,7 +34,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting product copy by serial number: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -57,7 +57,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all product copies: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -80,7 +80,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all product copies by product ID: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -97,32 +97,13 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error creating product copy: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
 
-        [HttpPut("{serialNumber}")]
-        public IActionResult UpdateProductCopy(string serialNumber, [FromBody] ProductCopyDto productCopyDto)
-        {
-            try
-            {
-                if (serialNumber != productCopyDto.SerialNumber)
-                {
-                    return BadRequest("Serial number mismatch");
-                }
-
-                _productCopyData.UpdateProductCopy(productCopyDto);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating product copy: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
+        
 
         [HttpDelete("{serialNumber}")]
         public IActionResult DeleteProductCopy(string serialNumber)
@@ -134,7 +115,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error deleting product copy: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

@@ -43,7 +43,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+               
                 Console.WriteLine($"Error retrieving products: {ex.Message}");
                 throw;
             }
@@ -79,7 +79,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+               
                 Console.WriteLine($"Error retrieving product by ID: {ex.Message}");
                 throw;
             }
@@ -111,7 +111,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding product: {ex.Message}");
                 throw;
             }
@@ -119,32 +119,7 @@ namespace RentalService.DataAccess
             return insertedId;
         }
 
-        public void UpdateProduct(Product product)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand command = con.CreateCommand())
-                {
-                    command.CommandText = "UPDATE Products SET productName = @ProductName, description = @Description, hourlyPrice = @HourlyPrice, categoryID = @CategoryID, imagePath = @ImagePath WHERE productID = @ProductId";
-                    command.Parameters.AddWithValue("@ProductName", product.ProductName);
-                    command.Parameters.AddWithValue("@Description", product.Description);
-                    command.Parameters.AddWithValue("@HourlyPrice", product.HourlyPrice);
-                    command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
-                    command.Parameters.AddWithValue("@ImagePath", product.ImagePath);
-                    command.Parameters.AddWithValue("@ProductId", product.ProductID);
-
-                    con.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                Console.WriteLine($"Error updating product: {ex.Message}");
-                throw;
-            }
-        }
+        
 
         public void DeleteProduct(int id)
         {
@@ -162,7 +137,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+               
                 Console.WriteLine($"Error deleting product: {ex.Message}");
                 throw;
             }

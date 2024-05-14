@@ -27,7 +27,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error adding order line: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -43,27 +43,13 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error removing order line: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
 
-        [HttpPut]
-        public IActionResult UpdateOrderLine([FromBody] OrderLineDto orderLineDto)
-        {
-            try
-            {
-                _orderLineData.UpdateOrderLine(orderLineDto);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating order line: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
+        
 
         [HttpGet("{orderID}")]
         public IActionResult GetOrderLineByOrderID(int orderID)
@@ -82,7 +68,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting order line by order ID: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -105,7 +91,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting order lines by serial number: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

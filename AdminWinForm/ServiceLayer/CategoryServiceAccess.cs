@@ -127,13 +127,7 @@ namespace AdminWinForm.ServiceLayer
 
             }
 
-            public async Task<bool> UpdateCategory(Category category)
-            {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(category), Encoding.UTF8, "application/json");
-
-                HttpResponseMessage? response = await _categoryService.CallServicePut(content);
-                return response != null && response.IsSuccessStatusCode;
-            }
+          
 
             public async Task<bool> DeleteCategory(int categoryId)
             {

@@ -8,7 +8,7 @@ namespace RentalService.DataAccess
         List<Category> GetCategories();
         Category GetCategoryById(int categoryId);
         int AddCategory(Category category);
-        void UpdateCategory(Category category);
+       
         void DeleteCategory(int categoryId);
     }
 }

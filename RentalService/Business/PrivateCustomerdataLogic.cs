@@ -43,7 +43,7 @@ namespace RentalService.Business
             {
                 foundDtos = null;
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
             return foundDtos;
         }
@@ -62,24 +62,12 @@ namespace RentalService.Business
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                // Handle exception
+               
             }
             return insertedId;
         }
 
-        public void UpdatePrivateCustomer(PrivateCustomerDto privateCustomerDto)
-        {
-            try
-            {
-                PrivateCustomer dbCustomer = PrivateCustomerDtoConvert.ToPrivateCustomer(privateCustomerDto);
-                _privateCustomerAccess.UpdatePrivateCustomer(dbCustomer);
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-                // Handle exception
-            }
-        }
+       
 
         public void DeletePrivateCustomer(string id)
         {
@@ -90,7 +78,7 @@ namespace RentalService.Business
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
         }
 

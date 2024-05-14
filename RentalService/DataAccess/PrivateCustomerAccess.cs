@@ -30,19 +30,19 @@ namespace RentalService.DataAccess
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand createCommand = new SqlCommand(insertString, con))
                 {
-                    // Prepare SQL
+                    
                     createCommand.Parameters.AddWithValue("@FirstName", privateCustomer.FirstName);
                     createCommand.Parameters.AddWithValue("@LastName", privateCustomer.LastName);
                     createCommand.Parameters.AddWithValue("@PhoneNumber", privateCustomer.PhoneNumber);
 
                     con.Open();
-                    // Execute save and read generated key (ID)
+                    
                     insertedId = (int)createCommand.ExecuteScalar();
                 }
             }
             catch (Exception ex)
             {
-                // Handle exception
+               
                 Console.WriteLine($"Error adding private customer: {ex.Message}");
                 throw;
             }
@@ -75,7 +75,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error retrieving private customer by ID: {ex.Message}");
                 throw;
             }
@@ -107,7 +107,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error retrieving all private customers: {ex.Message}");
                 throw;
             }
@@ -115,10 +115,7 @@ namespace RentalService.DataAccess
             return foundCustomers;
         }
 
-        public void UpdatePrivateCustomer(PrivateCustomer customer)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public void DeletePrivateCustomer(string customerID)
         {

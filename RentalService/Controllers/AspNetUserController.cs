@@ -34,7 +34,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log exception
+                
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
@@ -56,7 +56,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log exception
+                
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }

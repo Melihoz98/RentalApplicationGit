@@ -8,7 +8,7 @@ namespace RentalService.Business
         CategoryDto? GetById(int idToMatch);
         List<CategoryDto?>? GetAllCategories();
         int CreateCategory(CategoryDto categoryDto);
-        void UpdateCategory(CategoryDto categoryDto);
+        
         void DeleteCategory(int id);
     }
 }

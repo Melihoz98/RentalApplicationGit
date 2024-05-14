@@ -6,7 +6,7 @@ namespace RentalService.ModelConversion
 {
     public class BusinessCustomerDtoConvert
     {
-        // Convert from BusinessCustomer collection to BusinessCustomerDto collection
+    
         public static List<BusinessCustomerDto> FromBusinessCustomerCollection(List<BusinessCustomer> customers)
         {
             List<BusinessCustomerDto> customerDtos = new List<BusinessCustomerDto>();
@@ -17,7 +17,7 @@ namespace RentalService.ModelConversion
             return customerDtos;
         }
 
-        // Convert from BusinessCustomer to BusinessCustomerDto
+        
         public static BusinessCustomerDto FromBusinessCustomer(BusinessCustomer customer)
         {
             return new BusinessCustomerDto
@@ -29,7 +29,7 @@ namespace RentalService.ModelConversion
             };
         }
 
-        // Convert from BusinessCustomerDto to BusinessCustomer (not recommended for data integrity)
+       
         public static BusinessCustomer ToBusinessCustomer(BusinessCustomerDto customerDto)
         {
             return new BusinessCustomer

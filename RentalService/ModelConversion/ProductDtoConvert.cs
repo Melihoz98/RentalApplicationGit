@@ -6,7 +6,7 @@ namespace RentalService.ModelConversion
 {
     public class ProductDtoConvert
     {
-        // Convert from Product collection to ProductDto collection
+        
         public static List<ProductDto?>? FromProductCollection(List<Product> products)
         {
             List<ProductDto?>? productDtos = new List<ProductDto>();
@@ -28,7 +28,7 @@ namespace RentalService.ModelConversion
             return productDtos;
         }
 
-        // Convert from Product to ProductDto
+        
         public static ProductDto? FromProduct(Product product)
         {
             ProductDto? productDto = null;
@@ -50,7 +50,7 @@ namespace RentalService.ModelConversion
            
         }
 
-        // Convert from ProductDto to Product
+       
         public static Product? ToProduct(ProductDto productDto)
         {
             Product? product = null;

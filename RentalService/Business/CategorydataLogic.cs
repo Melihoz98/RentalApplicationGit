@@ -42,7 +42,7 @@ namespace RentalService.Business
             {
                 foundDtos = null;
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
             return foundDtos;
         }
@@ -61,38 +61,12 @@ namespace RentalService.Business
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
             return insertedId;
         }
 
-        public void UpdateCategory(CategoryDto categoryDto)
-        {
-            try
-            {
-                Category existingCategory = _categoryAccess.GetCategoryById(categoryDto.CategoryID);
-
-                if (existingCategory != null)
-                {
-                    if (categoryDto.CategoryName != null && categoryDto.CategoryName != existingCategory.CategoryName)
-                    {
-                        existingCategory.CategoryName = categoryDto.CategoryName;
-                    }
-
-                    if (categoryDto.ImagePath != null && categoryDto.ImagePath != existingCategory.ImagePath)
-                    {
-                        existingCategory.ImagePath = categoryDto.ImagePath;
-                    }
-
-                    _categoryAccess.UpdateCategory(existingCategory);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error updating category: {ex.Message}");
-                throw;
-            }
-        }
+      
 
         public void DeleteCategory(int id)
         {
@@ -103,7 +77,7 @@ namespace RentalService.Business
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                // Handle exception
+                
             }
         }
     }

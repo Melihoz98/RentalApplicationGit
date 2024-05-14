@@ -42,7 +42,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception (log, return error response, etc.)
+                
                 Console.WriteLine($"Error retrieving categories: {ex.Message}");
                 throw;
             }
@@ -70,7 +70,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error adding category: {ex.Message}");
                 throw;
             }
@@ -95,7 +95,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error deleting category: {ex.Message}");
                 throw;
             }
@@ -127,7 +127,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error retrieving category: {ex.Message}");
                 throw;
             }
@@ -154,7 +154,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error updating category: {ex.Message}");
                 throw;
             }

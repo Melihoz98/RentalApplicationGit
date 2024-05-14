@@ -6,7 +6,7 @@ namespace RentalService.ModelConversion
 {
     public class ProductCopyDtoConvert
     {
-        // Convert from ProductCopy collection to ProductCopyDto collection
+       
         public static List<ProductCopyDto> FromProductCopyCollection(List<ProductCopy> productCopies)
         {
             List<ProductCopyDto> productCopyDtos = new List<ProductCopyDto>();
@@ -17,7 +17,7 @@ namespace RentalService.ModelConversion
             return productCopyDtos;
         }
 
-        // Convert from ProductCopy to ProductCopyDto
+        
         public static ProductCopyDto FromProductCopy(ProductCopy productCopy)
         {
             return new ProductCopyDto
@@ -27,7 +27,7 @@ namespace RentalService.ModelConversion
             };
         }
 
-        // Convert from ProductCopyDto to ProductCopy
+        
         public static ProductCopy ToProductCopy(ProductCopyDto productCopyDto)
         {
             return new ProductCopy

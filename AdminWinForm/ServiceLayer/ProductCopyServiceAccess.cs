@@ -77,13 +77,7 @@ namespace AdminWinForm.ServiceLayer
             return insertedProductCopyID;
         }
 
-        public async Task<bool> UpdateProductCopy(ProductCopy productCopy)
-        {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(productCopy), Encoding.UTF8, "application/json");
-
-            HttpResponseMessage? response = await _productCopyService.CallServicePut(content);
-            return response != null && response.IsSuccessStatusCode;
-        }
+       
 
         public async Task<bool> DeleteProductCopy(string serialNumber)
         {

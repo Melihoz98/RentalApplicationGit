@@ -34,7 +34,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting product by ID: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -57,7 +57,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error getting all products: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
@@ -73,28 +73,13 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error creating product: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateProduct(int id, [FromBody] ProductDto productDto)
-        {
-            try
-            {
-                productDto.ProductID = id;
-                _productData.UpdateProduct(productDto);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                Console.WriteLine($"Error updating product: {ex.Message}");
-                return StatusCode(500, "Internal server error");
-            }
-        }
+        
 
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
@@ -106,7 +91,7 @@ namespace RentalService.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+                
                 Console.WriteLine($"Error deleting product: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

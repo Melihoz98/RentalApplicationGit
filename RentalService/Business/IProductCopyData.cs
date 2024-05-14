@@ -10,7 +10,7 @@ namespace RentalService.Business
         List<ProductCopyDto?>? GetAllProductCopiesByProductID(int productID);
         public List<ProductCopyDto> GetAllAvailableProductCopyByProductID(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime);
         void CreateProductCopy(ProductCopyDto productCopyToAdd);
-        void UpdateProductCopy(ProductCopyDto productCopyToUpdate); 
+       
         void DeleteProductCopy(string serialNumber);
     }
 }

@@ -38,7 +38,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 throw new Exception($"Error retrieving ASP.NET user name by ID: {ex.Message}");
             }
 
@@ -65,7 +65,7 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 throw new Exception($"Error retrieving ASP.NET user ID by user name: {ex.Message}");
             }
 
