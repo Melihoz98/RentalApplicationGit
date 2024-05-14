@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RentAppMVC.Models;
 
 namespace RentAppMVC.ServiceLayer
@@ -32,7 +29,6 @@ namespace RentAppMVC.ServiceLayer
 
         public async Task<Product> GetProductById(int productId)
         {
-            // Construct the URL with the correct format for retrieving a product by ID
             Product product = new Product();
             HttpResponseMessage? response = await _productService.GetById(productId);
             if (response != null && response.IsSuccessStatusCode)
@@ -46,12 +42,11 @@ namespace RentAppMVC.ServiceLayer
         }
 
 
-
         public async Task<List<Product>> GetProductsByCategoryId(int categoryId)
         {
             List<Product> products = new List<Product>();
 
-            HttpResponseMessage? response = await _productService.CallServiceGet(); // Call without any arguments
+            HttpResponseMessage? response = await _productService.CallServiceGet(); 
             if (response != null && response.IsSuccessStatusCode)
             {
                 string jsonString = await response.Content.ReadAsStringAsync();

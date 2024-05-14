@@ -25,9 +25,9 @@ namespace RentAppMVC.BusinessLogicLayer
             return await _orderLineAccess.GetAllOrderLines();
         }
 
-        public async Task<OrderLine?> GetOrderLineById(int orderID, string serialNumber)
+        public async Task<OrderLine?> GetOrderLineById(int orderID, string serialNumber, Product product)
         {
-            return await _orderLineAccess.GetById(orderID, serialNumber);
+            return await _orderLineAccess.GetById(orderID, serialNumber, product);
         }
     }
 }

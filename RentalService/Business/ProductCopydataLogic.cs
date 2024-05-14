@@ -87,11 +87,11 @@ namespace RentalService.Business
             }
         }
 
-        public List<ProductCopyDto?>? GetAllProductCopiesByID(int productID)
+        public List<ProductCopyDto?>? GetAllProductCopiesByProductID(int productID)
         {
             try
             {
-                List<ProductCopy> productCopies = _productCopyAccess.GetAllProductCopiesByProductID(productID);
+                List<ProductCopy> productCopies = _productCopyAccess.GetAllProductCopyByProductID(productID);
                 return ProductCopyDtoConvert.FromProductCopyCollection(productCopies);
             }
             catch (Exception ex)
@@ -101,5 +101,21 @@ namespace RentalService.Business
                 return null;
             }
         }
+
+        public List<ProductCopyDto> GetAllAvailableProductCopyByProductID(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            try
+            {
+                List<ProductCopy> availableProductCopies = _productCopyAccess.GetAllAvailableProductCopyByProductID(productID, startDate, endDate, startTime, endTime);
+                return ProductCopyDtoConvert.FromProductCopyCollection(availableProductCopies);
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Console.WriteLine($"Error getting all available product copies by product ID: {ex.Message}");
+                throw;
+            }
+        }
+
     }
 }

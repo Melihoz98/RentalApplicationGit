@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RentAppMVC.Models;
+﻿using RentAppMVC.Models;
 using RentAppMVC.ServiceLayer;
 
 namespace RentAppMVC.BusinessLogicLayer
@@ -24,5 +21,18 @@ namespace RentAppMVC.BusinessLogicLayer
         {
             return await _productCopyAccess.GetAllProductCopies();
         }
+
+
+        public async Task<List<ProductCopy>?> GetAllProductCopyByID(int productID)  {
+        
+          
+            return await _productCopyAccess.GetAllProductCopiesById(productID);
+        }
+
+        public async Task<List<ProductCopy>> GetAllAvailableProductCopyByProductID(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            return await _productCopyAccess.GetAllAvailableProductCopyByProductID(productID, startDate, endDate, startTime, endTime);
+        }
+
     }
 }

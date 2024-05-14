@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RentAppMVC.ServiceLayer
+﻿namespace RentAppMVC.ServiceLayer
 {
     public class ServiceConnection : IServiceConnection
     {
@@ -63,7 +57,6 @@ namespace RentAppMVC.ServiceLayer
         {
             if (UseUrl != null)
             {
-                // Assuming your ID is part of the URL
                 UseUrl = $"{BaseUrl}/{id}";
                 HttpResponseMessage? hrm = await HttpEnabler.GetAsync(UseUrl);
                 return hrm;
@@ -74,9 +67,18 @@ namespace RentAppMVC.ServiceLayer
         {
             if (UseUrl != null)
             {
-                // Assuming your ID is part of the URL
                 UseUrl = $"{BaseUrl}{id}";
                 HttpResponseMessage? hrm = await HttpEnabler.GetAsync(UseUrl);
+                return hrm;
+            }
+            return null;
+        }
+
+        public async Task<HttpResponseMessage?> Get(string url)
+        {
+            if (UseUrl != null)
+            {
+                HttpResponseMessage? hrm = await HttpEnabler.GetAsync(url);
                 return hrm;
             }
             return null;

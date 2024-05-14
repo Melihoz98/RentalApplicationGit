@@ -1,39 +1,41 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using RentAppMVC.BusinessLogicLayer;
+﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using RentAppMVC.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public class ShoppingCart
+namespace RentAppMVC.Models
 {
-    private List<Product> _items;
-
-    public ShoppingCart()
+    public class ShoppingCart
     {
-        _items = new List<Product>();
-    }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+        public List<OrderLine> Items { get; set; }
+        public Product Product { get; set; }
 
-    public async Task AddItem(int productId, ProductLogic productLogic)
-    {
-        // Retrieve product by ID from API
-        Product product = await productLogic.GetProductById(productId);
-        if (product != null)
+        public ShoppingCart()
         {
-            _items.Add(product);
+            Items = new List<OrderLine>();
         }
-    }
 
-    public void RemoveItem(int productId)
-    {
-        Product productToRemove = _items.FirstOrDefault(p => p.ProductID == productId);
-        if (productToRemove != null)
+        public bool IsEmpty()
         {
-            _items.Remove(productToRemove);
+            return Items.Count == 0;
         }
-    }
 
-    public List<Product> GetItems()
-    {
-        return _items;
+        public void RemoveItem(string serialNumber)
+        {
+            var itemToRemove = Items.FirstOrDefault(i => i.SerialNumber == serialNumber);
+            if (itemToRemove != null)
+            {
+                Items.Remove(itemToRemove);
+            }
+        }
     }
 }
+
+
+

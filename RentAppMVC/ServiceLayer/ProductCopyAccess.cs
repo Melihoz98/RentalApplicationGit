@@ -40,5 +40,36 @@ namespace RentAppMVC.ServiceLayer
 
             return productCopies;
         }
+        public async Task<List<ProductCopy>> GetAllProductCopiesById(int productID)
+        {
+            List<ProductCopy> productCopies = new List<ProductCopy>();
+
+            HttpResponseMessage? response = await _productCopyService.Get($"{_serviceBaseUrl}product/{productID}"); // Target specific endpoint
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                string jsonString = await response.Content.ReadAsStringAsync();
+                productCopies = JsonConvert.DeserializeObject<List<ProductCopy>>(jsonString);
+            }
+
+            return productCopies;
+        }
+
+        public async Task<List<ProductCopy>?> GetAllAvailableProductCopyByProductID(int productID, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            List<ProductCopy>? availableProductCopies = new List<ProductCopy>();
+
+            HttpResponseMessage? response = await _productCopyService.Get($"{_serviceBaseUrl}available/product/{productID}?startDate={startDate.ToString("yyyy-MM-dd")}&endDate={endDate.ToString("yyyy-MM-dd")}&startTime={startTime.ToString()}&endTime={endTime.ToString()}");
+            
+            if (response != null && response.IsSuccessStatusCode)
+            {
+
+                string jsonString = await response.Content.ReadAsStringAsync();
+                availableProductCopies = JsonConvert.DeserializeObject<List<ProductCopy>>(jsonString);
+            }
+
+            return availableProductCopies;
+        }
+
     }
 }

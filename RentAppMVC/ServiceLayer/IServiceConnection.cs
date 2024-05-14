@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RentAppMVC.ServiceLayer
+﻿namespace RentAppMVC.ServiceLayer
 {
     public interface IServiceConnection
     {
@@ -19,5 +13,8 @@ namespace RentAppMVC.ServiceLayer
         // New method to get data by ID
         Task<HttpResponseMessage?> GetById(int id);
         Task<HttpResponseMessage?> GetById(string id);
+
+        Task<HttpResponseMessage?> Get(string url);
+       
     }
 }

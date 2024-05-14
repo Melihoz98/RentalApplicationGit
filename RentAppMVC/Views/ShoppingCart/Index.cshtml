@@ -1,43 +1,34 @@
-﻿@model List<Product>
+﻿@model RentAppMVC.Models.ShoppingCart
 
 <h1>Shopping Cart</h1>
 
-@if (Model.Count == 0)
-{
-    <p>Your shopping cart is empty.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
+<p>Start Date: @Model.StartDate.ToShortDateString()</p>
+<p>Start Time: @Model.StartTime.ToString("hh':'mm")</p>
+<p>End Date: @Model.EndDate.ToShortDateString()</p>
+<p>End Time: @Model.EndTime.ToString("hh':'mm")</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Serial Number</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderLine in Model.Items)
+        {
             <tr>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Hourly Price</th>
-                <th>Action</th>
+                <td>@orderLine.SerialNumber</td>
+                <td>
+                    <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
+                        <input type="hidden" name="serialNumber" value="@orderLine.SerialNumber" />
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model)
-            {
-                <tr>
-                    <td>@product.ProductName</td>
-                    <td>@product.Description</td>
-                    <td>$@product.HourlyPrice</td>
-                    <td>
-                        <!-- Add a form to remove the item from the cart -->
-                        <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
-                            <input type="hidden" name="productId" value="@product.ProductID" />
-                            <button type="submit" class="btn btn-danger">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-
-    <form asp-controller="Rent" asp-action="Index" method="get">
-        <button type="submit" class="btn btn-primary">Proceed to select date and time for rent</button>
-    </form>
-}
+        }
+    </tbody>
+</table>
+<form asp-controller="ShoppingCart" asp-action="EmptyCart" method="post">
+    <button type="submit" class="btn btn-danger">Empty Cart</button>
+</form>
