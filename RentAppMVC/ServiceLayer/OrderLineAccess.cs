@@ -53,13 +53,13 @@ namespace RentAppMVC.ServiceLayer
             }
         }
 
-        public async Task<OrderLine?> GetById(int orderID, string serialNumber, Product product)
+        public async Task<OrderLine?> GetById(int orderID, string serialNumber)
         {
             try
             {
-                OrderLine orderLine = new OrderLine(orderID, serialNumber, product);
+                OrderLine orderLine = new OrderLine(orderID, serialNumber);
 
-                HttpResponseMessage response = await _orderLineService.GetById($"{orderID}/{serialNumber}/{product}");
+                HttpResponseMessage response = await _orderLineService.GetById($"{orderID}/{serialNumber}");
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonString = await response.Content.ReadAsStringAsync();

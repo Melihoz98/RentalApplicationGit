@@ -2,6 +2,13 @@
 {
     public class OrderLine
     {
+        public OrderLine() { }
+
+        public OrderLine(int orderID, string serialNumber)
+        {
+            OrderID = orderID;
+            SerialNumber = serialNumber;
+        }
 
         public OrderLine(int orderID, string serialNumber, Product product)
         {

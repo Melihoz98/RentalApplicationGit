@@ -19,14 +19,14 @@ namespace RentalService.DataAccess
             }
         }
 
-        public void AddOrder(Order newOrder)
+        public int AddOrder(Order newOrder)
         {
             try
             {
                 string insertQuery = @"
-            INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice)
-            VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice);
-            SELECT SCOPE_IDENTITY();";
+        INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice)
+        VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice);
+        SELECT SCOPE_IDENTITY();";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand insertCommand = new SqlCommand(insertQuery, con))
@@ -43,8 +43,9 @@ namespace RentalService.DataAccess
 
                     con.Open();
                     // ExecuteScalar is used to get the newly inserted order ID
-                    int newOrderId = Convert.ToInt32(insertCommand.ExecuteScalar());
-                    newOrder.OrderID = newOrderId; // Update the order object with the new order ID
+                    int newOrderID = Convert.ToInt32(insertCommand.ExecuteScalar());
+                    newOrder.OrderID = newOrderID; // Update the order object with the new order ID
+                    return newOrderID;
                 }
             }
             catch (Exception ex)
@@ -54,6 +55,7 @@ namespace RentalService.DataAccess
                 throw;
             }
         }
+
 
 
         public Order GetOrderById(int orderId)

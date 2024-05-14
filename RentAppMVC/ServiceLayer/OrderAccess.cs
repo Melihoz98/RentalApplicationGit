@@ -13,7 +13,7 @@ namespace RentAppMVC.ServiceLayer
             _orderService = new ServiceConnection(_serviceBaseUrl);
         }
 
-        public async Task AddOrder(Order order)
+        public async Task<int> AddOrder(Order order)
         {
             try
             {
@@ -21,6 +21,8 @@ namespace RentAppMVC.ServiceLayer
                 var content = new StringContent(orderJson, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _orderService.CallServicePost(content);
                 response.EnsureSuccessStatusCode();
+                int orderID = int.Parse(await response.Content.ReadAsStringAsync());
+                return orderID;
             }
             catch (Exception ex)
             {
