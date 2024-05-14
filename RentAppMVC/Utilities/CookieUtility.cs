@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using RentAppMVC.Models;
-using Microsoft.AspNetCore.Http;
-using System;
 
 namespace RentAppMVC.Utilities
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RentAppMVC.Models;
+﻿using RentAppMVC.Models;
 using RentAppMVC.ServiceLayer;
 
 namespace RentAppMVC.BusinessLogicLayer

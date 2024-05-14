@@ -8,8 +8,6 @@
 
         }
 
-
-
         public BusinessCustomer(string? companyName, string? cvr, string? phoneNumber)
         {
            

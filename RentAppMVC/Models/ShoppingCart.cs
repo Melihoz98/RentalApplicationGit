@@ -28,7 +28,7 @@ namespace RentAppMVC.Models
 
         public void RemoveItem(string serialNumber)
         {
-            OrderLine itemToRemove = Items.FirstOrDefault(o => o.SerialNumber == serialNumber);
+            var itemToRemove = Items.FirstOrDefault(i => i.SerialNumber == serialNumber);
             if (itemToRemove != null)
             {
                 Items.Remove(itemToRemove);

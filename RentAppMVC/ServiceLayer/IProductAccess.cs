@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using RentAppMVC.Models;
+﻿using RentAppMVC.Models;
 
 namespace RentAppMVC.ServiceLayer
 {
