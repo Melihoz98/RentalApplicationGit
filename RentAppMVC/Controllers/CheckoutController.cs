@@ -11,12 +11,14 @@ namespace RentAppMVC.Controllers
     [Route("Checkout")]
     public class CheckoutController : Controller
     {
+        private readonly ProductCopyLogic _productCopyLogic;
         private readonly OrderLogic _orderLogic;
         private readonly OrderLineLogic _orderLineLogic;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public CheckoutController(OrderLogic orderLogic, OrderLineLogic orderLineLogic, UserManager<IdentityUser> userManager)
+        public CheckoutController(ProductCopyLogic productCopyLogic, OrderLogic orderLogic, OrderLineLogic orderLineLogic, UserManager<IdentityUser> userManager)
         {
+            _productCopyLogic = productCopyLogic;
             _orderLogic = orderLogic;
             _userManager = userManager;
             _orderLineLogic = orderLineLogic;
@@ -48,8 +50,17 @@ namespace RentAppMVC.Controllers
             try
             {
                 var shoppingCart = CookieUtility.ReadCart(HttpContext);
-
                 var currentUser = await _userManager.GetUserAsync(User);
+
+                foreach (var orderLine in shoppingCart.Items)
+                {
+                    bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, order.StartDate, order.EndDate, order.StartTime, order.EndTime);
+                    if (!isProductAvailable)
+                    {
+                        TempData["ErrorMessage"] = "One or more products in your cart are no longer available.";
+                        return RedirectToAction("Index");
+                    }
+                }
 
                 Order newOrder = new Order
                 {
@@ -71,7 +82,6 @@ namespace RentAppMVC.Controllers
                     foreach (var orderLine in shoppingCart.Items)
                     {
                         orderLine.OrderID = orderId;
-
                         await _orderLineLogic.AddOrderLine(orderLine);
                     }
                 }
@@ -88,6 +98,20 @@ namespace RentAppMVC.Controllers
             }
         }
 
+
+        public async Task<bool> CheckProductCopyAvailability(string serialNumber, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            var productCopy = await _productCopyLogic.GetProductCopyBySerialNumber(serialNumber);
+
+            if (productCopy == null)
+            {
+                return false;
+            }
+
+            var availableProductCopies = await _productCopyLogic.GetAllAvailableProductCopyByProductID(productCopy.ProductID, startDate, endDate, startTime, endTime);
+
+            return availableProductCopies.Any(pc => pc.SerialNumber == serialNumber);
+        }
 
 
         [HttpGet("Confirmation")]
