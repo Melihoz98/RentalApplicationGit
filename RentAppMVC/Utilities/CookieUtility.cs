@@ -56,5 +56,15 @@ namespace RentAppMVC.Utilities
             UpdateCart(httpContext, cart);
         }
 
+        internal static void RemoveDateTimeFromCart(HttpContext httpContext)
+        {
+            ShoppingCart cart = ReadCart(httpContext);
+            cart.StartDate = default;
+            cart.EndDate = default;
+            cart.StartTime = default;
+            cart.EndTime = default;
+            UpdateCart(httpContext, cart);
+        }
+
     }
 }

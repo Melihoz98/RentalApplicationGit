@@ -60,6 +60,8 @@ namespace RentAppMVC.Controllers
             var availableProductCopies = await _productCopyLogic.GetAllAvailableProductCopyByProductID(productId, cartStartDate, cartEndDate, cartStartTime, cartEndTime);
             if (availableProductCopies == null || availableProductCopies.Count == 0)
             {
+                CookieUtility.RemoveDateTimeFromCart(HttpContext);
+                TempData["ErrorMessage"] = "This product is not available for the selected date and time.";
                 return RedirectToAction("Index");
             }
 
