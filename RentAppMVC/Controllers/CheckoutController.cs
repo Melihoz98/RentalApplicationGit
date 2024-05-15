@@ -54,7 +54,7 @@ namespace RentAppMVC.Controllers
 
                 foreach (var orderLine in shoppingCart.Items)
                 {
-                    bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, order.StartDate, order.EndDate, order.StartTime, order.EndTime);
+                    bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
                     if (!isProductAvailable)
                     {
                         TempData["ErrorMessage"] = "One or more products in your cart are no longer available.";
