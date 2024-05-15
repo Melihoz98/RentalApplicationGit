@@ -51,15 +51,32 @@ namespace RentAppMVC.Controllers
             {
                 var shoppingCart = CookieUtility.ReadCart(HttpContext);
                 var currentUser = await _userManager.GetUserAsync(User);
+                bool cartUpdated = false; 
 
-                foreach (var orderLine in shoppingCart.Items)
+                foreach (var orderLine in shoppingCart.Items.ToList()) 
                 {
                     bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
                     if (!isProductAvailable)
                     {
-                        TempData["ErrorMessage"] = "One or more products in your cart are no longer available.";
-                        return RedirectToAction("Index");
+                        var availableCopy = await _productCopyLogic.GetAllAvailableProductCopyByProductID(orderLine.Product.ProductID, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
+                        if (availableCopy != null)
+                        {
+                            shoppingCart.Items.Remove(orderLine);
+                            OrderLine newOrderLine = new OrderLine(-1, availableCopy[0].SerialNumber, orderLine.Product);
+                            shoppingCart.Items.Add(newOrderLine);
+                            cartUpdated = true;
+                        }
+                        else
+                        {
+                            shoppingCart.Items.Remove(orderLine);
+                            cartUpdated = true;
+                        }
                     }
+                }
+
+                if (cartUpdated)
+                {
+                    CookieUtility.UpdateCart(HttpContext, shoppingCart);
                 }
 
                 Order newOrder = new Order
