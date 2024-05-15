@@ -34,31 +34,40 @@ namespace RentAppMVC.Controllers
         {
             var shoppingCart = CookieUtility.ReadCart(HttpContext);
 
-            if (shoppingCart.StartDate == default || shoppingCart.EndDate == default || shoppingCart.StartTime == default || shoppingCart.EndTime == default)
+            bool productAlreadyExists = shoppingCart.Items.Any(item => item.Product.ProductID == productId);
+
+            if (!productAlreadyExists)
             {
-                shoppingCart.Product = await _productLogic.GetProductById(productId);
+                if (shoppingCart.StartDate == default || shoppingCart.EndDate == default || shoppingCart.StartTime == default || shoppingCart.EndTime == default)
+                {
+                    shoppingCart.Product = await _productLogic.GetProductById(productId);
+                    CookieUtility.UpdateCart(HttpContext, shoppingCart);
+                    return RedirectToAction("Index", "Rent");
+                }
+
+                DateTime startDate = shoppingCart.StartDate;
+                DateTime endDate = shoppingCart.EndDate;
+                TimeSpan startTime = shoppingCart.StartTime;
+                TimeSpan endTime = shoppingCart.EndTime;
+
+                var availableProductCopies = await _productCopyLogic.GetAllAvailableProductCopyByProductID(productId, startDate, endDate, startTime, endTime);
+                if (availableProductCopies == null || availableProductCopies.Count == 0)
+                {
+                    TempData["ErrorMessage"] = "This product is not available for the selected date and time.";
+                    return RedirectToAction("Index", "Product");
+                }
+
+                var firstProductCopy = availableProductCopies[0];
+                Product product = await _productLogic.GetProductById(productId);
+                OrderLine orderLine = new OrderLine(-1, firstProductCopy.SerialNumber, product);
+                shoppingCart.Items.Add(orderLine);
+
                 CookieUtility.UpdateCart(HttpContext, shoppingCart);
-                return RedirectToAction("Index", "Rent");
             }
-
-            DateTime startDate = shoppingCart.StartDate;
-            DateTime endDate = shoppingCart.EndDate;
-            TimeSpan startTime = shoppingCart.StartTime;
-            TimeSpan endTime = shoppingCart.EndTime;
-
-            var availableProductCopies = await _productCopyLogic.GetAllAvailableProductCopyByProductID(productId, startDate, endDate, startTime, endTime);
-            if (availableProductCopies == null || availableProductCopies.Count == 0)
+            else
             {
-                TempData["ErrorMessage"] = "This product is not available for the selected date and time.";
-                return RedirectToAction("Index", "Product");
+                TempData["ErrorMessage"] = "This product is already in your cart.";
             }
-
-            var firstProductCopy = availableProductCopies[0];
-            Product product = await _productLogic.GetProductById(productId);
-            OrderLine orderLine = new OrderLine(-1, firstProductCopy.SerialNumber, product);
-            shoppingCart.Items.Add(orderLine);
-
-            CookieUtility.UpdateCart(HttpContext, shoppingCart);
 
             return RedirectToAction("Index");
         }
