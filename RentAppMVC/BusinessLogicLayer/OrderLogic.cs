@@ -12,9 +12,13 @@ namespace RentAppMVC.BusinessLogicLayer
             _orderAccess = new OrderAccess();
         }
 
-        public async Task AddOrder(Order order)
+        public async Task<int> AddOrder(Order order)
         {
-            await _orderAccess.AddOrder(order);
+            // Tilføj ordren og få den tildelte OrderId
+            int orderID = await _orderAccess.AddOrder(order);
+
+            // Returner den tildelte OrderId
+            return orderID;
         }
 
         public async Task<Order?> GetOrderById(int orderId)

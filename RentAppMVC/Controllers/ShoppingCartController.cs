@@ -49,7 +49,8 @@ namespace RentAppMVC.Controllers
             var availableProductCopies = await _productCopyLogic.GetAllAvailableProductCopyByProductID(productId, startDate, endDate, startTime, endTime);
             if (availableProductCopies == null || availableProductCopies.Count == 0)
             {
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = "This product is not available for the selected date and time.";
+                return RedirectToAction("Index", "Product");
             }
 
             var firstProductCopy = availableProductCopies[0];

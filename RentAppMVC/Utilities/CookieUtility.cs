@@ -27,13 +27,6 @@ namespace RentAppMVC.Utilities
             httpContext.Response.Cookies.Delete("shoppingCart");
         }
 
-        public static void AddProductToCart(HttpContext httpContext, Product product)
-        {
-            ShoppingCart cart = ReadCart(httpContext);
-            cart.Product = product;
-            UpdateCart(httpContext, cart);
-        }
-
         public static void AddDatesAndTimesToCart(HttpContext httpContext, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
         {
             ShoppingCart cart = ReadCart(httpContext);
@@ -60,6 +53,16 @@ namespace RentAppMVC.Utilities
         {
             ShoppingCart cart = ReadCart(httpContext);
             cart.RemoveItem(serialNumber);
+            UpdateCart(httpContext, cart);
+        }
+
+        internal static void RemoveDateTimeFromCart(HttpContext httpContext)
+        {
+            ShoppingCart cart = ReadCart(httpContext);
+            cart.StartDate = default;
+            cart.EndDate = default;
+            cart.StartTime = default;
+            cart.EndTime = default;
             UpdateCart(httpContext, cart);
         }
 

@@ -69,8 +69,15 @@ namespace RentalService.Controllers
         {
             try
             {
-                _orderData.AddOrder(newOrder);
-                return Ok("Order added successfully");
+                int orderID = _orderData.AddOrder(newOrder);
+                if (orderID > 0)
+                {
+                    return Ok(orderID);
+                }
+                else
+                {
+                    return StatusCode(500, "Failed to add order");
+                }
             }
             catch (Exception ex)
             {
@@ -79,6 +86,7 @@ namespace RentalService.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
 
 
     }

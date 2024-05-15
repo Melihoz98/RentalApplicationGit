@@ -47,12 +47,13 @@ namespace RentalService.Business
             }
         }
 
-        public void AddOrder(OrderDto newOrder)
+        public int AddOrder(OrderDto newOrder)
         {
             try
             {
                 Order order = OrderDtoConvert.ToOrder(newOrder);
-                _orderAccess.AddOrder(order);
+                int newOrderID = _orderAccess.AddOrder(order);
+                return newOrderID;
             }
             catch (Exception ex)
             {
@@ -61,5 +62,6 @@ namespace RentalService.Business
                 throw;
             }
         }
+
     }
 }

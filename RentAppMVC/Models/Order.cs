@@ -4,7 +4,7 @@
     {
         public Order() { }
 
-        public Order(int orderID, int customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
+        public Order(int orderID, string customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
         {
             OrderID = orderID;
             CustomerID = customerID;
@@ -18,7 +18,7 @@
             TotalOrderPrice = totalOrderPrice;
         }
 
-        public Order(int customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
+        public Order(string customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
         {
             CustomerID = customerID;
             OrderDate = orderDate;
@@ -32,7 +32,7 @@
         }
 
         public int OrderID { get; set; }
-        public int CustomerID { get; set; }
+        public String CustomerID { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

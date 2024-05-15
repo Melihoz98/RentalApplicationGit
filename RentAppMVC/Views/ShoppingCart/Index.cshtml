@@ -11,6 +11,7 @@
     <thead>
         <tr>
             <th>Serial Number</th>
+            <th>Hourly Price</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -19,6 +20,7 @@
         {
             <tr>
                 <td>@orderLine.SerialNumber</td>
+                <td>@orderLine.Product.HourlyPrice</td>
                 <td>
                     <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
                         <input type="hidden" name="serialNumber" value="@orderLine.SerialNumber" />
@@ -29,6 +31,20 @@
         }
     </tbody>
 </table>
-<form asp-controller="ShoppingCart" asp-action="EmptyCart" method="post">
-    <button type="submit" class="btn btn-danger">Empty Cart</button>
-</form>
+
+<p style="font-size: 18px; text-align: center;">Subtotal Price: @Model.SubTotalPrice</p>
+<p style="font-size: 24px; text-align: center;">Total Order Price: @Model.TotalOrderPrice</p>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-controller="ShoppingCart" asp-action="EmptyCart" method="post">
+            <button type="submit" class="btn btn-danger">Empty Cart</button>
+        </form>
+    </div>
+    <div class="col-md-6 text-md-end">
+        <form asp-controller="Checkout" asp-action="CreateOrder" method="post">
+            <button type="submit" class="btn btn-primary">Checkout</button>
+        </form>
+    </div>
+</div>

@@ -34,6 +34,36 @@ namespace RentAppMVC.Models
                 Items.Remove(itemToRemove);
             }
         }
+
+        public int TotalHours
+        {
+            get
+            {
+                TimeSpan timeDifference = (EndDate.Date + EndTime) - (StartDate.Date + StartTime);
+                return (int)timeDifference.TotalHours;
+            }
+        }
+
+        public decimal SubTotalPrice
+        {
+            get
+            {
+                decimal subTotal = 0;
+                foreach (var orderLine in Items)
+                {
+                    subTotal += orderLine.Product.HourlyPrice;
+                }
+                return subTotal;
+            }
+        }
+
+        public decimal TotalOrderPrice
+        {
+            get
+            {
+                return SubTotalPrice * TotalHours;
+            }
+        }
     }
 }
 
