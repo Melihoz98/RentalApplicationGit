@@ -10,7 +10,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Product Name</th>
+            <th>Serial Number</th>
             <th>Hourly Price</th>
             <th>Action</th>
         </tr>
@@ -19,7 +19,7 @@
         @foreach (var orderLine in Model.Items)
         {
             <tr>
-                <td>@orderLine.Product.ProductName</td>
+                <td>@orderLine.SerialNumber</td>
                 <td>@orderLine.Product.HourlyPrice</td>
                 <td>
                     <form asp-controller="ShoppingCart" asp-action="RemoveItem" method="post">
