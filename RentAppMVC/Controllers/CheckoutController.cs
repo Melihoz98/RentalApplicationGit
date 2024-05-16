@@ -61,6 +61,7 @@ namespace RentAppMVC.Controllers
                         var availableCopy = await _productCopyLogic.GetAllAvailableProductCopyByProductID(orderLine.Product.ProductID, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
                         if (availableCopy != null)
                         {
+                            TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available. ";
                             shoppingCart.Items.Remove(orderLine);
                             OrderLine newOrderLine = new OrderLine(-1, availableCopy[0].SerialNumber, orderLine.Product);
                             shoppingCart.Items.Add(newOrderLine);
@@ -68,6 +69,7 @@ namespace RentAppMVC.Controllers
                         }
                         else
                         {
+                            TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available and has been removed from your cart. ";
                             shoppingCart.Items.Remove(orderLine);
                             cartUpdated = true;
                         }
