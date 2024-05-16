@@ -5,6 +5,7 @@ using RentAppMVC.BusinessLogicLayer;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using System.Transactions;
 
 namespace RentAppMVC.Controllers
 {
@@ -44,6 +45,160 @@ namespace RentAppMVC.Controllers
         }
 
 
+        //[HttpPost("ProcessOrder")]
+        //public async Task<ActionResult> CreateOrder(Order order)
+        //{
+        //    try
+        //    {
+        //        var shoppingCart = CookieUtility.ReadCart(HttpContext);
+        //        var currentUser = await _userManager.GetUserAsync(User);
+        //        bool cartUpdated = false; 
+
+        //        foreach (var orderLine in shoppingCart.Items.ToList()) 
+        //        {
+        //            bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
+        //            if (!isProductAvailable)
+        //            {
+        //                var availableCopy = await _productCopyLogic.GetAllAvailableProductCopyByProductID(orderLine.Product.ProductID, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
+        //                if (availableCopy != null)
+        //                {
+        //                    TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available. ";
+        //                    shoppingCart.Items.Remove(orderLine);
+        //                    OrderLine newOrderLine = new OrderLine(-1, availableCopy[0].SerialNumber, orderLine.Product);
+        //                    shoppingCart.Items.Add(newOrderLine);
+        //                    cartUpdated = true;
+        //                }
+        //                else
+        //                {
+        //                    TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available and has been removed from your cart. ";
+        //                    shoppingCart.Items.Remove(orderLine);
+        //                    cartUpdated = true;
+        //                }
+        //            }
+        //        }
+
+        //        if (cartUpdated)
+        //        {
+        //            CookieUtility.UpdateCart(HttpContext, shoppingCart);
+        //        }
+
+        //        Order newOrder = new Order
+        //        {
+        //            CustomerID = currentUser.Id,
+        //            OrderDate = DateTime.Now,
+        //            StartDate = shoppingCart.StartDate,
+        //            EndDate = shoppingCart.EndDate,
+        //            StartTime = shoppingCart.StartTime,
+        //            EndTime = shoppingCart.EndTime,
+        //            TotalHours = shoppingCart.TotalHours,
+        //            SubTotalPrice = shoppingCart.SubTotalPrice,
+        //            TotalOrderPrice = shoppingCart.TotalOrderPrice
+        //        };
+
+        //        int orderId = await _orderLogic.AddOrder(newOrder);
+
+        //        if (orderId > 0)
+        //        {
+        //            foreach (var orderLine in shoppingCart.Items)
+        //            {
+        //                orderLine.OrderID = orderId;
+        //                await _orderLineLogic.AddOrderLine(orderLine);
+        //            }
+        //        }
+
+        //        CookieUtility.EmptyCart(HttpContext);
+
+        //        TempData["SuccessMessage"] = "Your order has been processed successfully.";
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["ErrorMessage"] = "An error occurred while processing your order. Please try again later.";
+        //        return RedirectToAction("Index");
+        //    }
+        //}
+
+
+
+        //[HttpPost("ProcessOrder")]
+        //    public async Task<ActionResult> CreateOrder(Order order)
+        //    {
+        //        try
+        //        {
+        //            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        //            {
+        //                var shoppingCart = CookieUtility.ReadCart(HttpContext);
+        //                var currentUser = await _userManager.GetUserAsync(User);
+        //                bool cartUpdated = false;
+
+        //                foreach (var orderLine in shoppingCart.Items.ToList())
+        //                {
+        //                    bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
+        //                    if (!isProductAvailable)
+        //                    {
+        //                        var availableCopy = await _productCopyLogic.GetAllAvailableProductCopyByProductID(orderLine.Product.ProductID, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
+        //                        if (availableCopy != null)
+        //                        {
+        //                            TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available. ";
+        //                            shoppingCart.Items.Remove(orderLine);
+        //                            OrderLine newOrderLine = new OrderLine(-1, availableCopy[0].SerialNumber, orderLine.Product);
+        //                            shoppingCart.Items.Add(newOrderLine);
+        //                            cartUpdated = true;
+        //                        }
+        //                        else
+        //                        {
+        //                            TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available and has been removed from your cart. ";
+        //                            shoppingCart.Items.Remove(orderLine);
+        //                            cartUpdated = true;
+        //                        }
+        //                    }
+        //                }
+
+        //                if (cartUpdated)
+        //                {
+        //                    CookieUtility.UpdateCart(HttpContext, shoppingCart);
+        //                }
+
+        //                Order newOrder = new Order
+        //                {
+        //                    CustomerID = currentUser.Id,
+        //                    OrderDate = DateTime.Now,
+        //                    StartDate = shoppingCart.StartDate,
+        //                    EndDate = shoppingCart.EndDate,
+        //                    StartTime = shoppingCart.StartTime,
+        //                    EndTime = shoppingCart.EndTime,
+        //                    TotalHours = shoppingCart.TotalHours,
+        //                    SubTotalPrice = shoppingCart.SubTotalPrice,
+        //                    TotalOrderPrice = shoppingCart.TotalOrderPrice
+        //                };
+
+        //                int orderId = await _orderLogic.AddOrder(newOrder);
+
+        //                if (orderId > 0)
+        //                {
+        //                    foreach (var orderLine in shoppingCart.Items)
+        //                    {
+        //                        orderLine.OrderID = orderId;
+        //                        await _orderLineLogic.AddOrderLine(orderLine);
+        //                    }
+        //                }
+
+        //                CookieUtility.EmptyCart(HttpContext);
+
+        //                TempData["SuccessMessage"] = "Your order has been processed successfully.";
+
+        //                scope.Complete();
+
+        //                return RedirectToAction("Index");
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            TempData["ErrorMessage"] = "An error occurred while processing your order. Please try again later.";
+        //            return RedirectToAction("Index");
+        //        }
+        //    }
+
         [HttpPost("ProcessOrder")]
         public async Task<ActionResult> CreateOrder(Order order)
         {
@@ -51,64 +206,68 @@ namespace RentAppMVC.Controllers
             {
                 var shoppingCart = CookieUtility.ReadCart(HttpContext);
                 var currentUser = await _userManager.GetUserAsync(User);
-                bool cartUpdated = false; 
+                bool cartUpdated = false;
 
-                foreach (var orderLine in shoppingCart.Items.ToList()) 
+                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
                 {
-                    bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
-                    if (!isProductAvailable)
+                    foreach (var orderLine in shoppingCart.Items.ToList())
                     {
-                        var availableCopy = await _productCopyLogic.GetAllAvailableProductCopyByProductID(orderLine.Product.ProductID, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
-                        if (availableCopy != null)
+                        bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
+                        if (!isProductAvailable)
                         {
-                            TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available. ";
-                            shoppingCart.Items.Remove(orderLine);
-                            OrderLine newOrderLine = new OrderLine(-1, availableCopy[0].SerialNumber, orderLine.Product);
-                            shoppingCart.Items.Add(newOrderLine);
-                            cartUpdated = true;
-                        }
-                        else
-                        {
-                            TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available and has been removed from your cart. ";
-                            shoppingCart.Items.Remove(orderLine);
-                            cartUpdated = true;
+                            var availableCopy = await _productCopyLogic.GetAllAvailableProductCopyByProductID(orderLine.Product.ProductID, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
+                            if (availableCopy != null)
+                            {
+                                TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available. ";
+                                shoppingCart.Items.Remove(orderLine);
+                                OrderLine newOrderLine = new OrderLine(-1, availableCopy[0].SerialNumber, orderLine.Product);
+                                shoppingCart.Items.Add(newOrderLine);
+                                cartUpdated = true;
+                            }
+                            else
+                            {
+                                TempData["ErrorMessage"] += $"Product {orderLine.Product.ProductName} is no longer available and has been removed from your cart. ";
+                                shoppingCart.Items.Remove(orderLine);
+                                cartUpdated = true;
+                            }
                         }
                     }
-                }
 
-                if (cartUpdated)
-                {
-                    CookieUtility.UpdateCart(HttpContext, shoppingCart);
-                }
-
-                Order newOrder = new Order
-                {
-                    CustomerID = currentUser.Id,
-                    OrderDate = DateTime.Now,
-                    StartDate = shoppingCart.StartDate,
-                    EndDate = shoppingCart.EndDate,
-                    StartTime = shoppingCart.StartTime,
-                    EndTime = shoppingCart.EndTime,
-                    TotalHours = shoppingCart.TotalHours,
-                    SubTotalPrice = shoppingCart.SubTotalPrice,
-                    TotalOrderPrice = shoppingCart.TotalOrderPrice
-                };
-
-                int orderId = await _orderLogic.AddOrder(newOrder);
-
-                if (orderId > 0)
-                {
-                    foreach (var orderLine in shoppingCart.Items)
+                    if (cartUpdated)
                     {
-                        orderLine.OrderID = orderId;
-                        await _orderLineLogic.AddOrderLine(orderLine);
+                        CookieUtility.UpdateCart(HttpContext, shoppingCart);
                     }
+
+                    Order newOrder = new Order
+                    {
+                        CustomerID = currentUser.Id,
+                        OrderDate = DateTime.Now,
+                        StartDate = shoppingCart.StartDate,
+                        EndDate = shoppingCart.EndDate,
+                        StartTime = shoppingCart.StartTime,
+                        EndTime = shoppingCart.EndTime,
+                        TotalHours = shoppingCart.TotalHours,
+                        SubTotalPrice = shoppingCart.SubTotalPrice,
+                        TotalOrderPrice = shoppingCart.TotalOrderPrice
+                    };
+
+                    int orderId = await _orderLogic.AddOrder(newOrder);
+
+                    if (orderId > 0)
+                    {
+                        foreach (var orderLine in shoppingCart.Items)
+                        {
+                            orderLine.OrderID = orderId;
+                            await _orderLineLogic.AddOrderLine(orderLine);
+                        }
+                    }
+
+                    CookieUtility.EmptyCart(HttpContext);
+
+                    scope.Complete(); // Commit transaction if no exceptions occur
+                    TempData["SuccessMessage"] = "Your order has been processed successfully.";
+                    return RedirectToAction("Index");
                 }
-
-                CookieUtility.EmptyCart(HttpContext);
-
-                TempData["SuccessMessage"] = "Your order has been processed successfully.";
-                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
