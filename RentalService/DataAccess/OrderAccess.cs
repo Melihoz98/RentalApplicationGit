@@ -20,49 +20,6 @@ namespace RentalService.DataAccess
             }
         }
 
-        //public int AddOrder(Order newOrder)
-        //{
-        //    try
-        //    {
-        //        string insertQuery = @"
-        //INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice)
-        //VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice);
-        //SELECT SCOPE_IDENTITY();";
-
-        //        using (SqlConnection con = new SqlConnection(_connectionString))
-        //        using (SqlCommand insertCommand = new SqlCommand(insertQuery, con))
-        //        {
-        //            insertCommand.Parameters.AddWithValue("@CustomerID", newOrder.CustomerID);
-        //            insertCommand.Parameters.AddWithValue("@OrderDate", newOrder.OrderDate);
-        //            insertCommand.Parameters.AddWithValue("@StartDate", newOrder.StartDate);
-        //            insertCommand.Parameters.AddWithValue("@EndDate", newOrder.EndDate);
-        //            insertCommand.Parameters.AddWithValue("@StartTime", newOrder.StartTime);
-        //            insertCommand.Parameters.AddWithValue("@EndTime", newOrder.EndTime);
-        //            insertCommand.Parameters.AddWithValue("@TotalHours", newOrder.TotalHours);
-        //            insertCommand.Parameters.AddWithValue("@SubTotalPrice", newOrder.SubTotalPrice);
-        //            insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
-
-        //            con.Open();
-        //            // ExecuteScalar is used to get the newly inserted order ID
-        //            int newOrderID = Convert.ToInt32(insertCommand.ExecuteScalar());
-        //            newOrder.OrderID = newOrderID; // Update the order object with the new order ID
-        //            return newOrderID;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        Console.WriteLine($"Error adding order: {ex.Message}");
-        //        throw;
-        //    }
-        //}
-
-
-
-
-
-
-
         public int AddOrder(Order entity)
         {
             int insertedID = -1;
@@ -73,7 +30,13 @@ namespace RentalService.DataAccess
                     con.Open();
                     using (SqlCommand cmdOrder = con.CreateCommand())
                     {
-                        cmdOrder.CommandText = "INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) OUTPUT INSERTED.ID VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
+                        cmdOrder.CommandText = @"
+                            INSERT INTO Orders 
+                            (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) 
+                            OUTPUT INSERTED.orderID 
+                            VALUES 
+                            (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
+
                         cmdOrder.Parameters.AddWithValue("@CustomerID", entity.CustomerID);
                         cmdOrder.Parameters.AddWithValue("@OrderDate", entity.OrderDate);
                         cmdOrder.Parameters.AddWithValue("@StartDate", entity.StartDate);
@@ -83,28 +46,31 @@ namespace RentalService.DataAccess
                         cmdOrder.Parameters.AddWithValue("@TotalHours", entity.TotalHours);
                         cmdOrder.Parameters.AddWithValue("@SubTotalPrice", entity.SubTotalPrice);
                         cmdOrder.Parameters.AddWithValue("@TotalOrderPrice", entity.TotalOrderPrice);
+
                         insertedID = (int)cmdOrder.ExecuteScalar();
+                        entity.OrderID = insertedID; // Ensure the entity has the new OrderID
                     }
 
                     foreach (OrderLine ol in entity.OrderLines)
                     {
                         using (SqlCommand cmdOl = con.CreateCommand())
                         {
-                            cmdOl.CommandText = "INSERT INTO OrderLine (orderID, serialNumber) Values(@orderID, @serialNumber)";
-                            cmdOl.Parameters.AddWithValue("orderId", ol.OrderID);
-                            cmdOl.Parameters.AddWithValue("orderId", ol.SerialNumber);
+                            cmdOl.CommandText = @"
+                                INSERT INTO OrderLine 
+                                (orderID, serialNumber) 
+                                VALUES 
+                                (@orderID, @serialNumber)";
+                            cmdOl.Parameters.AddWithValue("@orderID", insertedID); // Correct parameter name
+                            cmdOl.Parameters.AddWithValue("@serialNumber", ol.SerialNumber); // Correct parameter name
+
                             cmdOl.ExecuteNonQuery();
                         }
-
                     }
-
                 }
                 transactionScope.Complete();
             }
             return insertedID;
-
         }
-
 
         public Order GetOrderById(int orderId)
         {
@@ -112,27 +78,31 @@ namespace RentalService.DataAccess
 
             try
             {
-                string queryString = "SELECT orderID, customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice FROM Orders WHERE orderID = @Id";
+                string queryString = @"
+                    SELECT 
+                        orderID, customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice 
+                    FROM 
+                        Orders 
+                    WHERE 
+                        orderID = @Id";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
                 {
-                    SqlParameter idParam = new SqlParameter("@Id", orderId);
-                    readCommand.Parameters.Add(idParam);
+                    readCommand.Parameters.Add(new SqlParameter("@Id", orderId));
 
-                        con.Open();
-                        SqlDataReader orderReader = readCommand.ExecuteReader();
-
+                    con.Open();
+                    using (SqlDataReader orderReader = readCommand.ExecuteReader())
+                    {
                         if (orderReader.Read())
                         {
                             foundOrder = GetOrderFromReader(orderReader);
                         }
+                    }
                 }
-                
             }
             catch (Exception ex)
             {
-                
                 Console.WriteLine($"Error getting order by ID: {ex.Message}");
                 throw;
             }
@@ -151,20 +121,20 @@ namespace RentalService.DataAccess
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, con))
                 {
-                     con.Open();
+                    con.Open();
 
-                     SqlDataReader orderReader = readCommand.ExecuteReader();
-
-                    while (orderReader.Read())
-                     {
-                        Order order = GetOrderFromReader(orderReader);
-                        foundOrders.Add(order);
-                     }
-                } 
+                    using (SqlDataReader orderReader = readCommand.ExecuteReader())
+                    {
+                        while (orderReader.Read())
+                        {
+                            Order order = GetOrderFromReader(orderReader);
+                            foundOrders.Add(order);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                
                 Console.WriteLine($"Error getting all orders: {ex.Message}");
                 throw;
             }
@@ -187,6 +157,5 @@ namespace RentalService.DataAccess
 
             return new Order(orderID, customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice);
         }
-
     }
 }

@@ -29,6 +29,8 @@ builder.Services.AddSingleton<ShoppingCart>();
 builder.Services.AddScoped<ProductCopyLogic>();
 builder.Services.AddScoped<OrderLogic>();
 builder.Services.AddScoped<OrderLineLogic>();
+builder.Services.AddScoped<IOrderAccess, OrderAccess>();
+
 
 
 var app = builder.Build();
