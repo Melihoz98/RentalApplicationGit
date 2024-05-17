@@ -20,23 +20,74 @@ namespace RentalService.DataAccess
             }
         }
 
+        //public int AddOrder(Order entity)
+        //{
+        //    int insertedID = -1;
+        //    using (TransactionScope transactionScope = new TransactionScope())
+        //    {
+        //        using (SqlConnection con = new SqlConnection(_connectionString))
+        //        {
+        //            con.Open();
+        //            using (SqlCommand cmdOrder = con.CreateCommand())
+        //            {
+        //                cmdOrder.CommandText = @"
+        //                    INSERT INTO Orders 
+        //                    (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) 
+        //                    OUTPUT INSERTED.orderID 
+        //                    VALUES 
+        //                    (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
+
+        //                cmdOrder.Parameters.AddWithValue("@CustomerID", entity.CustomerID);
+        //                cmdOrder.Parameters.AddWithValue("@OrderDate", entity.OrderDate);
+        //                cmdOrder.Parameters.AddWithValue("@StartDate", entity.StartDate);
+        //                cmdOrder.Parameters.AddWithValue("@EndDate", entity.EndDate);
+        //                cmdOrder.Parameters.AddWithValue("@StartTime", entity.StartTime);
+        //                cmdOrder.Parameters.AddWithValue("@EndTime", entity.EndTime);
+        //                cmdOrder.Parameters.AddWithValue("@TotalHours", entity.TotalHours);
+        //                cmdOrder.Parameters.AddWithValue("@SubTotalPrice", entity.SubTotalPrice);
+        //                cmdOrder.Parameters.AddWithValue("@TotalOrderPrice", entity.TotalOrderPrice);
+
+        //                insertedID = (int)cmdOrder.ExecuteScalar();
+        //                entity.OrderID = insertedID; // Ensure the entity has the new OrderID
+        //            }
+
+        //            foreach (OrderLine ol in entity.OrderLines)
+        //            {
+        //                using (SqlCommand cmdOl = con.CreateCommand())
+        //                {
+        //                    cmdOl.CommandText = @"
+        //                        INSERT INTO OrderLine 
+        //                        (orderID, serialNumber) 
+        //                        VALUES 
+        //                        (@orderID, @serialNumber)";
+        //                    cmdOl.Parameters.AddWithValue("@orderID", insertedID); // Correct parameter name
+        //                    cmdOl.Parameters.AddWithValue("@serialNumber", ol.SerialNumber); // Correct parameter name
+
+        //                    cmdOl.ExecuteNonQuery();
+        //                }
+        //            }
+        //        }
+        //        transactionScope.Complete();
+        //    }
+        //    return insertedID;
+        //}
+
         public int AddOrder(Order entity)
         {
             int insertedID = -1;
-            using (TransactionScope transactionScope = new TransactionScope())
+            using (TransactionScope transactionScope = new TransactionScope(
+                TransactionScopeOption.Required,
+                new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.Serializable
+                }))
             {
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 {
                     con.Open();
                     using (SqlCommand cmdOrder = con.CreateCommand())
                     {
-                        cmdOrder.CommandText = @"
-                            INSERT INTO Orders 
-                            (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) 
-                            OUTPUT INSERTED.orderID 
-                            VALUES 
-                            (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
-
+                        cmdOrder.CommandText = "INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) OUTPUT INSERTED.ID VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
                         cmdOrder.Parameters.AddWithValue("@CustomerID", entity.CustomerID);
                         cmdOrder.Parameters.AddWithValue("@OrderDate", entity.OrderDate);
                         cmdOrder.Parameters.AddWithValue("@StartDate", entity.StartDate);
@@ -46,23 +97,16 @@ namespace RentalService.DataAccess
                         cmdOrder.Parameters.AddWithValue("@TotalHours", entity.TotalHours);
                         cmdOrder.Parameters.AddWithValue("@SubTotalPrice", entity.SubTotalPrice);
                         cmdOrder.Parameters.AddWithValue("@TotalOrderPrice", entity.TotalOrderPrice);
-
                         insertedID = (int)cmdOrder.ExecuteScalar();
-                        entity.OrderID = insertedID; // Ensure the entity has the new OrderID
                     }
 
                     foreach (OrderLine ol in entity.OrderLines)
                     {
                         using (SqlCommand cmdOl = con.CreateCommand())
                         {
-                            cmdOl.CommandText = @"
-                                INSERT INTO OrderLine 
-                                (orderID, serialNumber) 
-                                VALUES 
-                                (@orderID, @serialNumber)";
-                            cmdOl.Parameters.AddWithValue("@orderID", insertedID); // Correct parameter name
-                            cmdOl.Parameters.AddWithValue("@serialNumber", ol.SerialNumber); // Correct parameter name
-
+                            cmdOl.CommandText = "INSERT INTO OrderLine (orderID, serialNumber) VALUES (@orderID, @serialNumber)";
+                            cmdOl.Parameters.AddWithValue("@orderID", insertedID);
+                            cmdOl.Parameters.AddWithValue("@serialNumber", ol.SerialNumber);
                             cmdOl.ExecuteNonQuery();
                         }
                     }
@@ -71,6 +115,7 @@ namespace RentalService.DataAccess
             }
             return insertedID;
         }
+
 
         public Order GetOrderById(int orderId)
         {
