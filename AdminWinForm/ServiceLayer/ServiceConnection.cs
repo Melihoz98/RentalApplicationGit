@@ -15,9 +15,18 @@ namespace AdminWinForm.ServiceLayer
             UseUrl = BaseUrl;
         }
 
-        public HttpClient HttpEnabler { private get; init; }
+        public HttpClient HttpEnabler {  get; init; }
         public string? BaseUrl { get; init; }
         public string? UseUrl { get; set; }
+        public async Task<HttpResponseMessage?> CallServicePostJWT(HttpRequestMessage postRequest)
+        {
+            HttpResponseMessage? hrm = null;
+            if (UseUrl != null)
+            {
+                hrm = await HttpEnabler.SendAsync(postRequest);
+            }
+            return hrm;
+        }
 
         public async Task<HttpResponseMessage?> CallServiceGet()
         {

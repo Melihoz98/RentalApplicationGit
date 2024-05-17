@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using AdminWinForm.Models;
+using System.Net;
 
 
 
@@ -16,73 +17,67 @@ namespace AdminWinForm.ServiceLayer
     public class CategoryServiceAccess : ICategoryAccess
     {
         readonly IServiceConnection _categoryService;
-        readonly string _serviceBaseUrl = "https://localhost:7023/api/Category/";
-
+        readonly string _serviceBaseUrl = "https://localhost:7023/api/Category";
+        static readonly string authenType = "Bearer";
+        public HttpStatusCode CurrentHttpStatusCode { get; set; }
         public CategoryServiceAccess()
         {
             _categoryService = new ServiceConnection(_serviceBaseUrl);
         }
-        public async Task<List<Category>> GetCategories(int categoryId = -1)
+
+        /*  public async Task<List<Category>> GetCategories(string tokenToUse)
+          {
+              List<Category> categories = new List<Category>();
+              HttpResponseMessage? response = await _categoryService.CallServiceGet();
+              if (response != null && response.IsSuccessStatusCode)
+              {
+                  string jsonString = await response.Content.ReadAsStringAsync();
+                  categories = JsonConvert.DeserializeObject<List<Category>>(jsonString);
+              }
+              return categories;
+          }*/
+
+
+        public async Task<List<Category>> GetCategories(string tokenToUse)
         {
-            List<Category>? categoryFromService = null;
+            List<Category> categories = new List<Category>();
+
+            // Add the Bearer token to the request header
+            string bearerTokenValue = authenType + " " + tokenToUse;
+            _categoryService.HttpEnabler.DefaultRequestHeaders.Remove("Authorization"); // To avoid multiple Authorization headers
+            _categoryService.HttpEnabler.DefaultRequestHeaders.Add("Authorization", bearerTokenValue);
 
             if (_categoryService != null)
-            
-                {
-                    _categoryService.UseUrl = _categoryService.UseUrl;
-                    bool oneCategoryById = (categoryId > 0);
-                    if (oneCategoryById)
-                    {
-                        _categoryService.UseUrl += categoryId;
-                    }
-                    try
-                    {
-                        var serviceResponse = await _categoryService.CallServiceGet();
-
-                        if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
-
-                            if (serviceResponse.StatusCode == System.Net.HttpStatusCode.OK)
-                            {
-                                string responseData = await serviceResponse.Content.ReadAsStringAsync();
-                                if (oneCategoryById)
-                                {
-                                    Category? foundCategory = JsonConvert.DeserializeObject<Category>(responseData);
-                                    if (foundCategory != null)
-                                    {
-                                        categoryFromService = new List<Category> { foundCategory };
-                                    }
-                                }
-                                else
-                                {
-                                    categoryFromService = JsonConvert.DeserializeObject<List<Category>>(responseData);
-                                }
-                            }
-                            else if (serviceResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
-                            {
-                                categoryFromService = new List<Category>();
-                            }
-                    }
-                    catch
-                    {
-                        categoryFromService = null;
-                    }
-                
-                   
-                
-            } return categoryFromService;
-        }
-
-            public async Task<List<Category>> GetCategories()
             {
-                List<Category> categories = new List<Category>();
-                HttpResponseMessage? response = await _categoryService.CallServiceGet();
-                if (response != null && response.IsSuccessStatusCode)
+                try
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync();
-                    categories = JsonConvert.DeserializeObject<List<Category>>(jsonString);
+                    HttpResponseMessage? response = await _categoryService.CallServiceGet();
+                    CurrentHttpStatusCode = response != null ? response.StatusCode : HttpStatusCode.BadRequest;
+
+                    if (response != null && response.IsSuccessStatusCode)
+                    {
+                        string jsonString = await response.Content.ReadAsStringAsync();
+                        categories = JsonConvert.DeserializeObject<List<Category>>(jsonString);
+                    }
+                    else
+                    {
+                        if (response != null && response.StatusCode == HttpStatusCode.NoContent)
+                        {
+                            categories = new List<Category>();
+                        }
+                        else
+                        {
+                            categories = null;
+                        }
+                    }
                 }
-                return categories;
+                catch
+                {
+                    categories = null;
+                }
             }
+            return categories;
+        }
 
         public async Task<Category> GetCategoryById(int categoryId)
         {
