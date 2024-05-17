@@ -39,7 +39,7 @@ namespace AdminWinForm.CategoryManagement
             addCategory.Show();
         }
 
-       
+
 
         private async void DeleteCategory_Click(object sender, EventArgs e)
 
@@ -69,5 +69,7 @@ namespace AdminWinForm.CategoryManagement
                 MessageBox.Show("Please select a category to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        
     }
 }

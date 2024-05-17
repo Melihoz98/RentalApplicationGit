@@ -25,57 +25,46 @@ namespace AdminWinForm.ServiceLayer
             _categoryService = new ServiceConnection(_serviceBaseUrl);
         }
 
-        /*  public async Task<List<Category>> GetCategories(string tokenToUse)
-          {
-              List<Category> categories = new List<Category>();
-              HttpResponseMessage? response = await _categoryService.CallServiceGet();
-              if (response != null && response.IsSuccessStatusCode)
-              {
-                  string jsonString = await response.Content.ReadAsStringAsync();
-                  categories = JsonConvert.DeserializeObject<List<Category>>(jsonString);
-              }
-              return categories;
-          }*/
 
 
         public async Task<List<Category>> GetCategories(string tokenToUse)
         {
-            List<Category> categories = new List<Category>();
+            List<Category> categories = null;
+
+            _categoryService.UseUrl = _categoryService.BaseUrl;
 
             // Add the Bearer token to the request header
             string bearerTokenValue = authenType + " " + tokenToUse;
             _categoryService.HttpEnabler.DefaultRequestHeaders.Remove("Authorization"); // To avoid multiple Authorization headers
             _categoryService.HttpEnabler.DefaultRequestHeaders.Add("Authorization", bearerTokenValue);
 
-            if (_categoryService != null)
+            try
             {
-                try
-                {
-                    HttpResponseMessage? response = await _categoryService.CallServiceGet();
-                    CurrentHttpStatusCode = response != null ? response.StatusCode : HttpStatusCode.BadRequest;
+                HttpResponseMessage response = await _categoryService.CallServiceGet();
+                CurrentHttpStatusCode = response != null ? response.StatusCode : HttpStatusCode.BadRequest;
 
-                    if (response != null && response.IsSuccessStatusCode)
+                if (response != null && response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    categories = JsonConvert.DeserializeObject<List<Category>>(content);
+                }
+                else
+                {
+                    if (response != null && response.StatusCode == HttpStatusCode.NoContent)
                     {
-                        string jsonString = await response.Content.ReadAsStringAsync();
-                        categories = JsonConvert.DeserializeObject<List<Category>>(jsonString);
+                        categories = new List<Category>();
                     }
                     else
                     {
-                        if (response != null && response.StatusCode == HttpStatusCode.NoContent)
-                        {
-                            categories = new List<Category>();
-                        }
-                        else
-                        {
-                            categories = null;
-                        }
+                        categories = null;
                     }
                 }
-                catch
-                {
-                    categories = null;
-                }
             }
+            catch
+            {
+                categories = null;
+            }
+
             return categories;
         }
 
