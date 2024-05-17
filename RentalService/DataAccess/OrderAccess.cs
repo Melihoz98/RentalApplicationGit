@@ -87,7 +87,7 @@ namespace RentalService.DataAccess
                     con.Open();
                     using (SqlCommand cmdOrder = con.CreateCommand())
                     {
-                        cmdOrder.CommandText = "INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) OUTPUT INSERTED.ID VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
+                        cmdOrder.CommandText = "INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) OUTPUT INSERTED.orderID VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
                         cmdOrder.Parameters.AddWithValue("@CustomerID", entity.CustomerID);
                         cmdOrder.Parameters.AddWithValue("@OrderDate", entity.OrderDate);
                         cmdOrder.Parameters.AddWithValue("@StartDate", entity.StartDate);
