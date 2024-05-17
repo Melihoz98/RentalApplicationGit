@@ -2,7 +2,10 @@
 {
     public class Order
     {
-        public Order() { }
+        public Order()
+        {
+            OrderLines = new List<OrderLine>();
+        }
 
         public Order(int orderID, string? customerID, DateTime? orderDate, DateTime? startDate, DateTime? endDate, TimeSpan? startTime, TimeSpan? endTime, int? totalHours, decimal? subTotalPrice, decimal? totalOrderPrice)
         {
@@ -41,6 +44,7 @@
         public int? TotalHours { get; set; }
         public decimal? SubTotalPrice { get; set; }
         public decimal? TotalOrderPrice { get; set; }
+        public List<OrderLine> OrderLines { get; set; }
     }
 
 }

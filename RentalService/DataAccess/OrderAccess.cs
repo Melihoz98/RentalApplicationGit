@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using RentalService.Models;
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 namespace RentalService.DataAccess
 {
@@ -19,43 +20,90 @@ namespace RentalService.DataAccess
             }
         }
 
-        public int AddOrder(Order newOrder)
+        //public int AddOrder(Order newOrder)
+        //{
+        //    try
+        //    {
+        //        string insertQuery = @"
+        //INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice)
+        //VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice);
+        //SELECT SCOPE_IDENTITY();";
+
+        //        using (SqlConnection con = new SqlConnection(_connectionString))
+        //        using (SqlCommand insertCommand = new SqlCommand(insertQuery, con))
+        //        {
+        //            insertCommand.Parameters.AddWithValue("@CustomerID", newOrder.CustomerID);
+        //            insertCommand.Parameters.AddWithValue("@OrderDate", newOrder.OrderDate);
+        //            insertCommand.Parameters.AddWithValue("@StartDate", newOrder.StartDate);
+        //            insertCommand.Parameters.AddWithValue("@EndDate", newOrder.EndDate);
+        //            insertCommand.Parameters.AddWithValue("@StartTime", newOrder.StartTime);
+        //            insertCommand.Parameters.AddWithValue("@EndTime", newOrder.EndTime);
+        //            insertCommand.Parameters.AddWithValue("@TotalHours", newOrder.TotalHours);
+        //            insertCommand.Parameters.AddWithValue("@SubTotalPrice", newOrder.SubTotalPrice);
+        //            insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
+
+        //            con.Open();
+        //            // ExecuteScalar is used to get the newly inserted order ID
+        //            int newOrderID = Convert.ToInt32(insertCommand.ExecuteScalar());
+        //            newOrder.OrderID = newOrderID; // Update the order object with the new order ID
+        //            return newOrderID;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        Console.WriteLine($"Error adding order: {ex.Message}");
+        //        throw;
+        //    }
+        //}
+
+
+
+
+
+
+
+        public int AddOrder(Order entity)
         {
-            try
+            int insertedID = -1;
+            using (TransactionScope transactionScope = new TransactionScope())
             {
-                string insertQuery = @"
-        INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice)
-        VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice);
-        SELECT SCOPE_IDENTITY();";
-
                 using (SqlConnection con = new SqlConnection(_connectionString))
-                using (SqlCommand insertCommand = new SqlCommand(insertQuery, con))
                 {
-                    insertCommand.Parameters.AddWithValue("@CustomerID", newOrder.CustomerID);
-                    insertCommand.Parameters.AddWithValue("@OrderDate", newOrder.OrderDate);
-                    insertCommand.Parameters.AddWithValue("@StartDate", newOrder.StartDate);
-                    insertCommand.Parameters.AddWithValue("@EndDate", newOrder.EndDate);
-                    insertCommand.Parameters.AddWithValue("@StartTime", newOrder.StartTime);
-                    insertCommand.Parameters.AddWithValue("@EndTime", newOrder.EndTime);
-                    insertCommand.Parameters.AddWithValue("@TotalHours", newOrder.TotalHours);
-                    insertCommand.Parameters.AddWithValue("@SubTotalPrice", newOrder.SubTotalPrice);
-                    insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
-
                     con.Open();
-                    // ExecuteScalar is used to get the newly inserted order ID
-                    int newOrderID = Convert.ToInt32(insertCommand.ExecuteScalar());
-                    newOrder.OrderID = newOrderID; // Update the order object with the new order ID
-                    return newOrderID;
-                }
-            }
-            catch (Exception ex)
-            {
-                
-                Console.WriteLine($"Error adding order: {ex.Message}");
-                throw;
-            }
-        }
+                    using (SqlCommand cmdOrder = con.CreateCommand())
+                    {
+                        cmdOrder.CommandText = "INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) OUTPUT INSERTED.ID VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
+                        cmdOrder.Parameters.AddWithValue("@CustomerID", entity.CustomerID);
+                        cmdOrder.Parameters.AddWithValue("@OrderDate", entity.OrderDate);
+                        cmdOrder.Parameters.AddWithValue("@StartDate", entity.StartDate);
+                        cmdOrder.Parameters.AddWithValue("@EndDate", entity.EndDate);
+                        cmdOrder.Parameters.AddWithValue("@StartTime", entity.StartTime);
+                        cmdOrder.Parameters.AddWithValue("@EndTime", entity.EndTime);
+                        cmdOrder.Parameters.AddWithValue("@TotalHours", entity.TotalHours);
+                        cmdOrder.Parameters.AddWithValue("@SubTotalPrice", entity.SubTotalPrice);
+                        cmdOrder.Parameters.AddWithValue("@TotalOrderPrice", entity.TotalOrderPrice);
+                        insertedID = (int)cmdOrder.ExecuteScalar();
+                    }
 
+                    foreach (OrderLine ol in entity.OrderLines)
+                    {
+                        using (SqlCommand cmdOl = con.CreateCommand())
+                        {
+                            cmdOl.CommandText = "INSERT INTO OrderLine (orderID, serialNumber) Values(@orderID, @serialNumber)";
+                            cmdOl.Parameters.AddWithValue("orderId", ol.OrderID);
+                            cmdOl.Parameters.AddWithValue("orderId", ol.SerialNumber);
+                            cmdOl.ExecuteNonQuery();
+                        }
+
+                    }
+
+                }
+                transactionScope.Complete();
+            }
+            return insertedID;
+
+        }
 
 
         public Order GetOrderById(int orderId)
