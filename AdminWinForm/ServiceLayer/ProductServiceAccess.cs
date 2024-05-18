@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using AdminWinForm.Models;
 using System.Linq.Expressions;
+using System.Net;
 
 namespace AdminWinForm.ServiceLayer
 {
@@ -15,7 +16,9 @@ namespace AdminWinForm.ServiceLayer
 
         readonly IServiceConnection _productService;
         readonly string _serviceBaseUrl = "https://localhost:7023/api/Product/";
+        static readonly string authenType = "Bearer";
 
+        public HttpStatusCode CurrentHttpStatusCode { get; set; }
         public ProductServiceAccess()
         {
             _productService = new ServiceConnection(_serviceBaseUrl);
@@ -98,36 +101,45 @@ namespace AdminWinForm.ServiceLayer
             return product;
         }
 
-        public async Task<int> AddProduct(Product productToAdd)
+        public async Task<int> AddProduct(string tokenToUse, Product productToAdd)
         {
             int insertedProductID = -1;
+            _productService.UseUrl = _productService.BaseUrl;
 
-            _productService.UseUrl = _productService.UseUrl;
+            // Must add Bearer token to request header
+            string bearerTokenValue = authenType + " " + tokenToUse;
+            _productService.HttpEnabler.DefaultRequestHeaders.Remove("Authorization"); // To avoid more Authorization headers
+            _productService.HttpEnabler.DefaultRequestHeaders.Add("Authorization", bearerTokenValue);
+
             try
             {
                 string productJson = JsonConvert.SerializeObject(productToAdd);
-                var httpContent = new StringContent(JsonConvert.SerializeObject(productToAdd), Encoding.UTF8, "application/json");
-
+                var httpContent = new StringContent(productJson, Encoding.UTF8, "application/json");
                 var serviceResponse = await _productService.CallServicePost(httpContent);
 
-                if(serviceResponse is not null && serviceResponse.IsSuccessStatusCode)
+                CurrentHttpStatusCode = serviceResponse != null ? serviceResponse.StatusCode : HttpStatusCode.BadRequest; // Used by logic class
+
+                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
                 {
                     string idString = await serviceResponse.Content.ReadAsStringAsync();
                     bool idNumOk = int.TryParse(idString, out insertedProductID);
-                    if (idNumOk)
+                    if (!idNumOk)
                     {
-                        insertedProductID = -2;
+                        insertedProductID = -4; // Adjusted to align with other method responses
                     }
                 }
-            } catch
+                else
+                {
+                    insertedProductID = -2; // Adjusted to align with other method responses
+                }
+            }
+            catch
             {
                 insertedProductID = -3;
             }
-
             return insertedProductID;
         }
 
-       
 
         public async Task<bool> DeleteProduct(int productID)
         {

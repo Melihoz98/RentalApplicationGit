@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using AdminWinForm.Models;
+using AdminWinForm.Security;
 using AdminWinForm.ServiceLayer;
 
 namespace AdminWinForm.BusinesslogicLayer
@@ -27,19 +29,46 @@ namespace AdminWinForm.BusinesslogicLayer
 
         public async Task<int> AddProductCopy(string serialNumber, int productId)
         {
+            int insertedProductCopyId = -1;
             ProductCopy newProductCopy = new ProductCopy(serialNumber, productId);
-            int insertedProductCopyId = await _productCopyAccess.AddProductCopy(newProductCopy);
+
+            // Get token
+            TokenState currentState = TokenState.Valid; // Presumed state
+            string? tokenValue = await GetToken(currentState);
+            if (tokenValue != null)
+            {
+                insertedProductCopyId = await _productCopyAccess.AddProductCopy(tokenValue, newProductCopy);
+
+                if (_productCopyAccess.CurrentHttpStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    currentState = TokenState.Invalid;
+                    insertedProductCopyId = -2;
+                }
+            }
+            else
+            {
+                currentState = TokenState.Invalid;
+                tokenValue = await GetToken(currentState);
+
+                if (tokenValue != null)
+                {
+                    insertedProductCopyId = await _productCopyAccess.AddProductCopy(tokenValue, newProductCopy);
+                }
+            }
+
             return insertedProductCopyId;
         }
 
-      
-
-
         public async Task<bool> DeleteProductCopy(string serialNumber)
         {
-            
             return await _productCopyAccess.DeleteProductCopy(serialNumber);
         }
 
+        private async Task<string?> GetToken(TokenState useState)
+        {
+            TokenManager tokenHelp = new TokenManager();
+            string? foundToken = await tokenHelp.GetToken(useState);
+            return foundToken;
+        }
     }
 }

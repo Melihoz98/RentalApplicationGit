@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RentalService.Business;
 using RentalService.DTO;
 using System;
@@ -88,6 +89,7 @@ namespace RentalService.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult CreateProductCopy([FromBody] ProductCopyDto productCopyDto)
         {
             try
