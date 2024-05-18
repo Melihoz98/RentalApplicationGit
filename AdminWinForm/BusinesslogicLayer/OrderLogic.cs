@@ -1,12 +1,12 @@
 ﻿using AdminWinForm.ServiceLayer;
-using RentalService.Models;
+
 using System;
 using System.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AdminWinForm.Models;
-using AdminWinForm.ServiceLayer;
+
 namespace AdminWinForm.BusinesslogicLayer
 {
     public class OrderLogic

@@ -1,4 +1,4 @@
-﻿namespace RentalService.Models
+﻿namespace AdminWinForm.Models
 {
     public class Order
     {

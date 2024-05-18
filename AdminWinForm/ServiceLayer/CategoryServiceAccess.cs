@@ -22,55 +22,7 @@ namespace AdminWinForm.ServiceLayer
         {
             _categoryService = new ServiceConnection(_serviceBaseUrl);
         }
-        public async Task<List<Category>> GetCategories(int categoryId = -1)
-        {
-            List<Category>? categoryFromService = null;
-
-            if (_categoryService != null)
-            
-                {
-                    _categoryService.UseUrl = _categoryService.UseUrl;
-                    bool oneCategoryById = (categoryId > 0);
-                    if (oneCategoryById)
-                    {
-                        _categoryService.UseUrl += categoryId;
-                    }
-                    try
-                    {
-                        var serviceResponse = await _categoryService.CallServiceGet();
-
-                        if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
-
-                            if (serviceResponse.StatusCode == System.Net.HttpStatusCode.OK)
-                            {
-                                string responseData = await serviceResponse.Content.ReadAsStringAsync();
-                                if (oneCategoryById)
-                                {
-                                    Category? foundCategory = JsonConvert.DeserializeObject<Category>(responseData);
-                                    if (foundCategory != null)
-                                    {
-                                        categoryFromService = new List<Category> { foundCategory };
-                                    }
-                                }
-                                else
-                                {
-                                    categoryFromService = JsonConvert.DeserializeObject<List<Category>>(responseData);
-                                }
-                            }
-                            else if (serviceResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
-                            {
-                                categoryFromService = new List<Category>();
-                            }
-                    }
-                    catch
-                    {
-                        categoryFromService = null;
-                    }
-                
-                   
-                
-            } return categoryFromService;
-        }
+ 
 
             public async Task<List<Category>> GetCategories()
             {

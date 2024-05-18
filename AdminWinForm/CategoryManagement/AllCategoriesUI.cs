@@ -2,12 +2,6 @@
 using AdminWinForm.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,14 +13,46 @@ namespace AdminWinForm.CategoryManagement
         public AllCategoriesUI()
         {
             InitializeComponent();
-
             _categoryLogic = new CategoryLogic();
-
             this.Load += AllCategoriesUI_Load;
         }
 
+        private async void LoadCategories()
+        {
+            try
+            {
+                List<Category> categories = await _categoryLogic.GetAllCategories();
 
+                if (dataGridView1.InvokeRequired)
+                {
+                    dataGridView1.Invoke(new Action(() =>
+                    {
+                        dataGridView1.Rows.Clear();
+                        foreach (Category category in categories)
+                        {
+                            dataGridView1.Rows.Add(category.CategoryID, category.CategoryName, category.ImagePath);
+                        }
+                    }));
+                }
+                else
+                {
+                    dataGridView1.Rows.Clear();
+                    foreach (Category category in categories)
+                    {
+                        dataGridView1.Rows.Add(category.CategoryID, category.CategoryName, category.ImagePath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved indlæsning af categoryer: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private void AllCategoriesUI_Load(object sender, EventArgs e)
+        {
+            LoadCategories();
+        }
 
         private void back_Click(object sender, EventArgs e)
         {
@@ -39,10 +65,7 @@ namespace AdminWinForm.CategoryManagement
             addCategory.Show();
         }
 
-       
-
         private async void DeleteCategory_Click(object sender, EventArgs e)
-
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
@@ -52,11 +75,10 @@ namespace AdminWinForm.CategoryManagement
                 if (result == DialogResult.Yes)
                 {
                     bool deleted = await _categoryLogic.DeleteCategory(categoryID);
-
                     if (deleted)
                     {
                         MessageBox.Show("Category deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadCategories();
+                        //LoadCategories();
                     }
                     else
                     {

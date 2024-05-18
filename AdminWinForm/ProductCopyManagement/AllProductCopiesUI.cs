@@ -1,5 +1,6 @@
 ﻿using AdminWinForm.BusinesslogicLayer;
-using AdminWinForm.ProductManagement;
+using AdminWinForm.ProductCopyManagement;
+using AdminWinForm.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace AdminWinForm.ProductCopyManagement
 {
@@ -23,7 +25,30 @@ namespace AdminWinForm.ProductCopyManagement
 
             this.Load += AllProductCopiesUI_Load;
         }
+      
 
+        private async void LoadProductCopies()
+        {
+            try
+            {
+                List<ProductCopy> productCopies = await _productCopyLogic.GetAllProductCopies();
+
+                dataGridView1.Rows.Clear();
+                foreach (ProductCopy productCopy in productCopies)
+                {
+                    dataGridView1.Rows.Add(productCopy.SerialNumber, productCopy.ProductID, productCopy.Rented);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved indlæsning af produkt kopier: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AllProductCopiesUI_Load(object sender, EventArgs e)
+        {
+            LoadProductCopies();
+        }
 
         private void back_Click(object sender, EventArgs e)
         {
@@ -66,7 +91,7 @@ namespace AdminWinForm.ProductCopyManagement
                         MessageBox.Show("Product copy deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         // Reload the product copies in the DataGridView
-                        LoadProductCopies();
+                       
                     }
                     else
                     {
@@ -80,9 +105,6 @@ namespace AdminWinForm.ProductCopyManagement
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+       
     }
 }

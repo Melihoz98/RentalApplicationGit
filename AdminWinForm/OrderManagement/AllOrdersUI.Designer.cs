@@ -1,5 +1,5 @@
 ﻿using AdminWinForm.ServiceLayer;
-using RentalService.Models;
+using AdminWinForm.Models;
 
 namespace AdminWinForm.OrderManagement
 {
@@ -18,30 +18,7 @@ namespace AdminWinForm.OrderManagement
             base.Dispose(disposing);
         }
 
-        private readonly OrderServiceAccess orderService = new OrderServiceAccess();
-        private async void LoadOrders()
-        {
-            try
-            {
-                List<Order> orders = await orderService.GetAllOrders();
-
-                dataGridView1.Rows.Clear();
-                foreach (Order order in orders)
-                {
-                    dataGridView1.Rows.Add(order.OrderID, order.CustomerID, order.OrderDate, order.StartDate, order.EndDate, order.StartTime, order.EndTime, order.TotalHours, order.SubTotalPrice, order.TotalOrderPrice);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fejl ved indlæsning af ordrer: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AllOrdersUI_Load(object sender, EventArgs e)
-        {
-            LoadOrders();
-        }
-
+     
 
         #region Windows Form Designer generated code
 

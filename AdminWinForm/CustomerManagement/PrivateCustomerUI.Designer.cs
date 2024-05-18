@@ -18,30 +18,8 @@ namespace AdminWinForm.CustomerManagement
             base.Dispose(disposing);
         }
 
-        private readonly PrivateCustomerServiceAccess privateCustomerService = new PrivateCustomerServiceAccess();
 
-        private async void LoadPrivateCustomers()
-        {
-            try
-            {
-                List<PrivateCustomer> customers = await privateCustomerService.GetPrivateCustomers();
 
-                dataGridView1.Rows.Clear();
-                foreach (PrivateCustomer customer in customers)
-                {
-                    dataGridView1.Rows.Add(customer.CustomerID, customer.FirstName, customer.LastName, customer.PhoneNumber);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fejl ved indlæsning af kunder: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AllPrivateCustomersUI_Load(object sender, EventArgs e)
-        {
-            LoadPrivateCustomers();
-        }
 
 
         #region Windows Form Designer generated code

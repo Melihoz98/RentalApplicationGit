@@ -1,5 +1,4 @@
-﻿using AdminWinForm.ServiceLayer;
-using RentalService.Models;
+﻿
 
 namespace AdminWinForm.ProductCopyManagement
 {
@@ -18,30 +17,7 @@ namespace AdminWinForm.ProductCopyManagement
             base.Dispose(disposing);
         }
 
-        private readonly ProductCopyServiceAccess productCopyService = new ProductCopyServiceAccess();
-
-        private async void LoadProductCopies()
-        {
-            try
-            {
-                List<ProductCopy> productCopies = await productCopyService.GetProductCopies();
-
-                dataGridView1.Rows.Clear();
-                foreach (ProductCopy productCopy in productCopies)
-                {
-                    dataGridView1.Rows.Add(productCopy.SerialNumber, productCopy.ProductID, productCopy.Rented);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fejl ved indlæsning af produkt kopier: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AllProductCopiesUI_Load(object sender, EventArgs e)
-        {
-            LoadProductCopies();
-        }
+       
 
 
         #region Windows Form Designer generated code
@@ -73,7 +49,7 @@ namespace AdminWinForm.ProductCopyManagement
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(563, 292);
             dataGridView1.TabIndex = 1;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+           
             // 
             // Column1
             // 

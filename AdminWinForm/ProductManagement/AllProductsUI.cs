@@ -1,4 +1,5 @@
 ﻿using AdminWinForm.BusinesslogicLayer;
+using AdminWinForm.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,36 @@ namespace AdminWinForm.ProductManagement
 
             this.Load += AllProductsUI_Load;
         }
+
+
+
+        private readonly ProductLogic productService = new ProductLogic();
+
+        private async void LoadProducts()
+        {
+            try
+            {
+                List<Product> products = await productService.GetAllProducts();
+
+                dataGridView1.Rows.Clear();
+                foreach (Product product in products)
+                {
+                    dataGridView1.Rows.Add(product.ProductID, product.ProductName, product.Description, product.HourlyPrice, product.CategoryID, product.ImagePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved indlæsning af produkter: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AllProductsUI_Load(object sender, EventArgs e)
+        {
+            LoadProducts();
+        }
+
+
+
 
         private void addProduct_Click(object sender, EventArgs e)
         {

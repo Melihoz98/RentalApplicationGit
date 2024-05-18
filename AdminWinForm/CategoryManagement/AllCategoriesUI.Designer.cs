@@ -1,6 +1,7 @@
-﻿using AdminWinForm.ServiceLayer;
-using AdminWinForm.Models;
+﻿
+
 using System.Windows.Forms;
+
 
 namespace AdminWinForm.CategoryManagement
 {
@@ -18,30 +19,6 @@ namespace AdminWinForm.CategoryManagement
             }
             base.Dispose(disposing);
         }
-        private readonly CategoryServiceAccess categoryService = new CategoryServiceAccess();
-
-        private async void LoadCategories()
-        {
-            try
-            {
-                List<Category> categories = await categoryService.GetCategories();
-
-                dataGridView1.Rows.Clear();
-                foreach(Category category in categories)
-                {
-                    dataGridView1.Rows.Add(category.CategoryID, category.CategoryName, category.ImagePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fejl ved indlæsning af categoryer: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void AllCategoriesUI_Load(object sender, EventArgs e)
-        {
-            LoadCategories();
-        }
-
 
         #region Windows Form Designer generated code
 

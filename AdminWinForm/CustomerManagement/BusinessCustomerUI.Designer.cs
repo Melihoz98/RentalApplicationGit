@@ -17,30 +17,7 @@ namespace AdminWinForm.CustomerManagement
             base.Dispose(disposing);
         }
 
-        private readonly BusinessCustomerServiceAccess businessCustomerService = new BusinessCustomerServiceAccess();
-
-        private async void LoadBusinessCustomers()
-        {
-            try
-            {
-                List<BusinessCustomer> customers = await businessCustomerService.GetBusinessCustomers();
-
-                dataGridView1.Rows.Clear();
-                foreach (BusinessCustomer customer in customers)
-                {
-                    dataGridView1.Rows.Add(customer.CustomerID, customer.CompanyName, customer.CVR, customer.PhoneNumber);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fejl ved indlæsning af kunder: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AllBusinessCustomersUI_Load(object sender, EventArgs e)
-        {
-            LoadBusinessCustomers();
-        }
+        
 
 
         #region Windows Form Designer generated code
