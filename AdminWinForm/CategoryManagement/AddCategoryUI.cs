@@ -31,9 +31,9 @@ namespace AdminWinForm.CategoryManagement
             string imagePath = textBox2.Text;
            
 
-            CategoryLogic categotyLogic = new CategoryLogic();
+            CategoryLogic categoryLogic = new CategoryLogic();
 
-            int insertedCategoryId = await categotyLogic.AddCategory(categoryName, imagePath);
+            int insertedCategoryId = await categoryLogic.AddCategory(categoryName, imagePath);
 
             if (insertedCategoryId != -1)
             {

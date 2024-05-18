@@ -3,6 +3,7 @@ using RentalService.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentalService.Controllers
 {
@@ -62,6 +63,7 @@ namespace RentalService.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult CreateCategory([FromBody] CategoryDto categoryDto)
         {
             try

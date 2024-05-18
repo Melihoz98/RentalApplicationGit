@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using AdminWinForm.Models;
+using System.Net;
 
 
 
@@ -17,7 +18,8 @@ namespace AdminWinForm.ServiceLayer
     {
         readonly IServiceConnection _categoryService;
         readonly string _serviceBaseUrl = "https://localhost:7023/api/Category/";
-
+        static readonly string authenType = "Bearer";
+        public HttpStatusCode CurrentHttpStatusCode { get; set; }
         public CategoryServiceAccess()
         {
             _categoryService = new ServiceConnection(_serviceBaseUrl);
@@ -52,36 +54,48 @@ namespace AdminWinForm.ServiceLayer
         }
 
 
-        public async Task<int> AddCategory(Category categoryToAdd)
+        public async Task<int> AddCategory(string tokenToUse, Category categoryToAdd)
+        {
+            int insertedCategoryID = -1;
+            _categoryService.UseUrl = _categoryService.BaseUrl;
+
+            // Must add Bearer token to request header
+            string bearerTokenValue = authenType + " " + tokenToUse;
+            _categoryService.HttpEnabler.DefaultRequestHeaders.Remove("Authorization"); // To avoid more Authorization headers
+            _categoryService.HttpEnabler.DefaultRequestHeaders.Add("Authorization", bearerTokenValue);
+
+            try
             {
-                int insertedCategoryID = -1;
-                _categoryService.UseUrl = _categoryService.UseUrl;
-                try
-                {
-                    string categoryJson = JsonConvert.SerializeObject(categoryToAdd);
-                    var httpContent = new StringContent(JsonConvert.SerializeObject(categoryToAdd), Encoding.UTF8, "application/json");
-                    var serviceResponse = await _categoryService.CallServicePost(httpContent);
+                string categoryJson = JsonConvert.SerializeObject(categoryToAdd);
+                var httpContent = new StringContent(categoryJson, Encoding.UTF8, "application/json");
+                var serviceResponse = await _categoryService.CallServicePost(httpContent);
 
-                    if (serviceResponse is not null && serviceResponse.IsSuccessStatusCode)
+                CurrentHttpStatusCode = serviceResponse != null ? serviceResponse.StatusCode : HttpStatusCode.BadRequest; // Used by logic class
+
+                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                {
+                    string idString = await serviceResponse.Content.ReadAsStringAsync();
+                    bool idNumOk = int.TryParse(idString, out insertedCategoryID);
+                    if (!idNumOk)
                     {
-                        string idString = await serviceResponse.Content.ReadAsStringAsync();
-                        bool idNumOk = int.TryParse(idString, out insertedCategoryID);
-                        if (idNumOk)
-                        {
-                            insertedCategoryID = -2;
-                        }
+                        insertedCategoryID = -4; // Adjusted to align with other method responses
                     }
-                } catch
-                {
-                    insertedCategoryID = -3;
                 }
-                return insertedCategoryID;
-
+                else
+                {
+                    insertedCategoryID = -2; // Adjusted to align with other method responses
+                }
             }
+            catch
+            {
+                insertedCategoryID = -3;
+            }
+            return insertedCategoryID;
+        }
 
-          
 
-            public async Task<bool> DeleteCategory(int categoryId)
+
+        public async Task<bool> DeleteCategory(int categoryId)
             {
                 _categoryService.UseUrl += $"{categoryId}";
 
