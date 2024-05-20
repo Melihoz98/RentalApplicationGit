@@ -1,5 +1,6 @@
 ﻿using AdminWinForm.Models;
-using AdminWinForm.ServiceLayer;
+using AdminWinForm.BusinesslogicLayer;
+using System.Drawing.Design;
 
 namespace AdminWinForm.ProductManagement
 {
@@ -18,17 +19,18 @@ namespace AdminWinForm.ProductManagement
             base.Dispose(disposing);
         }
 
-        private readonly ProductServiceAccess productService = new ProductServiceAccess();
-
+        private readonly ProductLogic productService = new ProductLogic();
+        private readonly ProductCopyLogic productCopyLogic = new ProductCopyLogic();
         private async void LoadProducts()
         {
             try
             {
-                List<Product> products = await productService.GetProducts();
-
+                List<Product> products = await productService.GetAllProducts();
+                Category category = new Category();
                 dataGridView1.Rows.Clear();
                 foreach (Product product in products)
                 {
+                    
                     dataGridView1.Rows.Add(product.ProductID, product.ProductName, product.Description, product.HourlyPrice, product.CategoryID, product.ImagePath);
                 }
             }
