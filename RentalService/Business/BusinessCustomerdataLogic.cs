@@ -64,5 +64,17 @@ namespace RentalService.Business
                 throw; 
             }
         }
+        public void RemoveBusinessCustomer(string customerID)
+        {
+            try
+            {
+                _businessCustomerAccess.RemoveBusinessCustomer(customerID);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing business customer: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

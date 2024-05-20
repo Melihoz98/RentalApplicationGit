@@ -67,7 +67,7 @@ namespace RentalService.Business
             return insertedId;
         }
 
-       
+
 
         public void DeletePrivateCustomer(string id)
         {
@@ -78,7 +78,6 @@ namespace RentalService.Business
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
-                
             }
         }
 

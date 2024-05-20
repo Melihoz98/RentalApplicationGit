@@ -25,12 +25,12 @@ namespace RentalService.DataAccess
 
             try
             {
-                string insertString = "INSERT INTO PrivateCustomers (firstName, lastName, phoneNumber) OUTPUT INSERTED.customerID VALUES (@FirstName, @LastName, @PhoneNumber)";
+                string insertString = "INSERT INTO PrivateCustomers (customerID, firstName, lastName, phoneNumber)  VALUES (@CustomerID, @FirstName, @LastName, @PhoneNumber)";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand createCommand = new SqlCommand(insertString, con))
                 {
-                    
+                    createCommand.Parameters.AddWithValue("@CustomerID", privateCustomer.CustomerID);
                     createCommand.Parameters.AddWithValue("@FirstName", privateCustomer.FirstName);
                     createCommand.Parameters.AddWithValue("@LastName", privateCustomer.LastName);
                     createCommand.Parameters.AddWithValue("@PhoneNumber", privateCustomer.PhoneNumber);
@@ -115,11 +115,28 @@ namespace RentalService.DataAccess
             return foundCustomers;
         }
 
-       
+
 
         public void DeletePrivateCustomer(string customerID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string deleteString = "DELETE FROM PrivateCustomers WHERE customerID = @CustomerID";
+
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand deleteCommand = new SqlCommand(deleteString, con))
+                {
+                    deleteCommand.Parameters.AddWithValue("@CustomerID", customerID);
+
+                    con.Open();
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting private customer: {ex.Message}");
+                throw;
+            }
         }
 
         private PrivateCustomer GetPrivateCustomerFromReader(SqlDataReader customerReader)

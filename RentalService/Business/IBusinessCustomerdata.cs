@@ -7,5 +7,6 @@ namespace RentalService.Business
         List<BusinessCustomerDto> GetAllBusinessCustomers();
         BusinessCustomerDto GetBusinessCustomerByCustomerID(string customerID);
         void CreateBusinessCustomer(BusinessCustomerDto customerToAdd);
+        void RemoveBusinessCustomer(string customerID);
     }
 }

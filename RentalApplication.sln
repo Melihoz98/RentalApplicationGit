@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminWinForm", "AdminWinFor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentAppMVC", "RentAppMVC\RentAppMVC.csproj", "{39A98A72-CB36-4233-85A5-77C2613D8D13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestXUnit", "TestXUnit\TestXUnit.csproj", "{18BB36C4-DF07-4566-8115-818DD52A1193}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{39A98A72-CB36-4233-85A5-77C2613D8D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39A98A72-CB36-4233-85A5-77C2613D8D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39A98A72-CB36-4233-85A5-77C2613D8D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18BB36C4-DF07-4566-8115-818DD52A1193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18BB36C4-DF07-4566-8115-818DD52A1193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18BB36C4-DF07-4566-8115-818DD52A1193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18BB36C4-DF07-4566-8115-818DD52A1193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

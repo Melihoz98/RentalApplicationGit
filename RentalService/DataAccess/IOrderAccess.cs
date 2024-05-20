@@ -8,5 +8,7 @@ namespace RentalService.DataAccess
         Order GetOrderById(int orderId);
         List<Order> GetAllOrders();
         int AddOrder(Order newOrder);
+
+        void RemoveOrder(int orderId); // New method for removing an order
     }
 }

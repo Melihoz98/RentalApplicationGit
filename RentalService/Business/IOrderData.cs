@@ -8,5 +8,6 @@ namespace RentalService.Business
         OrderDto? GetById(int id);
         List<OrderDto?>? GetAllOrders();
         int AddOrder(OrderDto newOrder);
+        void RemoveOrder(int id);
     }
 }

@@ -98,6 +98,27 @@ namespace RentalService.DataAccess
             }
         }
 
+
+        public void RemoveBusinessCustomer(string customerID)
+        {
+            try
+            {
+                string deleteString = "DELETE FROM BusinessCustomers WHERE customerID = @CustomerID";
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand deleteCommand = new SqlCommand(deleteString, con))
+                {
+                    deleteCommand.Parameters.AddWithValue("@CustomerID", customerID);
+                    con.Open();
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing business customer: {ex.Message}");
+                throw;
+            }
+        }
+
         private BusinessCustomer GetBusinessCustomerFromReader(SqlDataReader customerReader)
         {
             string customerID = customerReader.GetString(customerReader.GetOrdinal("customerID"));

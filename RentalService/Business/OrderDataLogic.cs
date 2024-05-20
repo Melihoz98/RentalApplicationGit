@@ -63,5 +63,18 @@ namespace RentalService.Business
             }
         }
 
+        public void RemoveOrder(int orderId)
+        {
+            try
+            {
+                _orderAccess.RemoveOrder(orderId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing order: {ex.Message}");
+                throw;
+            }
+        }
+
     }
 }

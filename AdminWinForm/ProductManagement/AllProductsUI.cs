@@ -61,7 +61,7 @@ namespace AdminWinForm.ProductManagement
             this.Hide();
         }
 
-        
+
 
         private void back_Click(object sender, EventArgs e)
         {
@@ -98,11 +98,6 @@ namespace AdminWinForm.ProductManagement
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void AllProductsUI_Load_1(object sender, EventArgs e)
         {
 
         }

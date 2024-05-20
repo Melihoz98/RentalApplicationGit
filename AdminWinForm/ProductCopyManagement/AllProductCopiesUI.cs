@@ -36,7 +36,7 @@ namespace AdminWinForm.ProductCopyManagement
                 dataGridView1.Rows.Clear();
                 foreach (ProductCopy productCopy in productCopies)
                 {
-                    dataGridView1.Rows.Add(productCopy.SerialNumber, productCopy.ProductID, productCopy.Rented);
+                    dataGridView1.Rows.Add(productCopy.SerialNumber, productCopy.ProductID);
                 }
             }
             catch (Exception ex)

@@ -17,7 +17,7 @@ namespace AdminWinForm.ProductCopyManagement
             base.Dispose(disposing);
         }
 
-       
+
 
 
         #region Windows Form Designer generated code
@@ -29,27 +29,58 @@ namespace AdminWinForm.ProductCopyManagement
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
             button2 = new Button();
             button1 = new Button();
             button4 = new Button();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3 });
-            dataGridView1.Location = new Point(121, 9);
-            dataGridView1.Margin = new Padding(2, 3, 2, 3);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2 });
+            dataGridView1.Location = new Point(151, 11);
+            dataGridView1.Margin = new Padding(2, 4, 2, 4);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(563, 292);
+            dataGridView1.Size = new Size(509, 365);
             dataGridView1.TabIndex = 1;
-           
+            // 
+            // button2
+            // 
+            button2.Location = new Point(768, 404);
+            button2.Margin = new Padding(2, 4, 2, 4);
+            button2.Name = "button2";
+            button2.Size = new Size(206, 34);
+            button2.TabIndex = 5;
+            button2.Text = "Delete Product";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += deleteProductCopy_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(546, 404);
+            button1.Margin = new Padding(2, 4, 2, 4);
+            button1.Name = "button1";
+            button1.Size = new Size(206, 34);
+            button1.TabIndex = 4;
+            button1.Text = "Add Product";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += addProductCopy_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(11, 404);
+            button4.Margin = new Padding(2, 4, 2, 4);
+            button4.Name = "button4";
+            button4.Size = new Size(179, 34);
+            button4.TabIndex = 7;
+            button4.Text = "Back";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += back_Click;
             // 
             // Column1
             // 
@@ -67,57 +98,16 @@ namespace AdminWinForm.ProductCopyManagement
             Column2.ReadOnly = true;
             Column2.Width = 150;
             // 
-            // Column3
-            // 
-            Column3.HeaderText = "Rented";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            Column3.ReadOnly = true;
-            Column3.Width = 150;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(614, 323);
-            button2.Margin = new Padding(2, 3, 2, 3);
-            button2.Name = "button2";
-            button2.Size = new Size(165, 27);
-            button2.TabIndex = 5;
-            button2.Text = "Delete Product";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += deleteProductCopy_Click;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(437, 323);
-            button1.Margin = new Padding(2, 3, 2, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(165, 27);
-            button1.TabIndex = 4;
-            button1.Text = "Add Product";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += addProductCopy_Click;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(9, 323);
-            button4.Margin = new Padding(2, 3, 2, 3);
-            button4.Name = "button4";
-            button4.Size = new Size(143, 27);
-            button4.TabIndex = 7;
-            button4.Text = "Back";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += back_Click;
-            // 
             // AllProductCopiesUI
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(799, 360);
+            ClientSize = new Size(999, 450);
             Controls.Add(button4);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
-            Margin = new Padding(2, 3, 2, 3);
+            Margin = new Padding(2, 4, 2, 4);
             Name = "AllProductCopiesUI";
             Text = "AllProductCopiesUI";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -127,11 +117,10 @@ namespace AdminWinForm.ProductCopyManagement
         #endregion
 
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
         private Button button2;
         private Button button1;
         private Button button4;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
     }
 }

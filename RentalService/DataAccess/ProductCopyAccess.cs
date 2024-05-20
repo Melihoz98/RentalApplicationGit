@@ -94,7 +94,7 @@ namespace RentalService.DataAccess
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 {
                     con.Open();
-                    string queryString = "SELECT productID, serialNumber FROM ProductCopies WHERE productID = @productID AND rented = 1";
+                    string queryString = "SELECT productID, serialNumber FROM ProductCopies WHERE productID = @productID";
                     using (SqlCommand command = new SqlCommand(queryString, con))
                     {
                         command.Parameters.AddWithValue("@productID", productID);
@@ -187,26 +187,26 @@ namespace RentalService.DataAccess
                 {
                     con.Open();
                     string queryString = @"
-                SELECT pc.serialNumber
-FROM ProductCopies pc
-WHERE pc.productID = @productID
-AND NOT EXISTS (
-    SELECT 1
-    FROM Orders o
-    INNER JOIN OrderLines ol ON o.orderID = ol.orderID
-    WHERE ol.serialNumber = pc.serialNumber
-    AND (
-        (@startDate = o.startDate AND @endDate = o.endDate AND @startTime <= o.endTime AND @endTime >= o.startTime)
-        OR (
-            (@startDate = o.startDate AND @endDate = o.endDate)
-            AND NOT (@startTime > o.endTime OR @endTime < o.startTime)
-        )
-        OR (
-            (@startDate >= o.startDate AND @endDate <= o.endDate)
-            AND NOT (@startTime > o.endTime OR @endTime < o.startTime)
-        )
-    )
-)
+                            SELECT pc.serialNumber
+                            FROM ProductCopies pc
+                             WHERE pc.productID = @productID
+                              AND NOT EXISTS (
+                                 SELECT 1
+                                FROM Orders o
+                                INNER JOIN OrderLines ol ON o.orderID = ol.orderID
+                                WHERE ol.serialNumber = pc.serialNumber
+                                 AND (
+                        (@startDate = o.startDate AND @endDate = o.endDate AND @startTime <= o.endTime AND @endTime >= o.startTime)
+                        OR (
+                        (@startDate = o.startDate AND @endDate = o.endDate)
+                        AND NOT (@startTime > o.endTime OR @endTime < o.startTime)
+                        )
+                        OR (
+                        (@startDate >= o.startDate AND @endDate <= o.endDate)
+                        AND NOT (@startTime > o.endTime OR @endTime < o.startTime)
+                    )
+                )
+            )
 ";
 
                     using (SqlCommand command = new SqlCommand(queryString, con))
