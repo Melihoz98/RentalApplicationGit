@@ -45,7 +45,7 @@ namespace RentalService.Tests
             Assert.Equal(15, createdOrderLine.OrderID);
             Assert.Equal("CSK17", createdOrderLine.SerialNumber);
 
-            // Track the created order line for cleanup
+            
             _createdOrderLines.Add((15, "CSK17"));
         }
 
@@ -120,7 +120,7 @@ namespace RentalService.Tests
 
         public void Dispose()
         {
-            // Clean up the database by deleting created order lines
+            
             foreach (var (orderID, serialNumber) in _createdOrderLines)
             {
                 _orderLineDataLogic.RemoveOrderLine(orderID, serialNumber);

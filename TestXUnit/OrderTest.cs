@@ -49,7 +49,7 @@ namespace RentalService.Tests
             // Assert
             Assert.True(newOrderId > 0);
 
-            // Track the created order for cleanup
+            
             _createdOrderIds.Add(newOrderId);
         }
 
@@ -108,7 +108,7 @@ namespace RentalService.Tests
             Assert.NotNull(orders);
             Assert.True(orders.Count > 0, "Expected at least one order in the database.");
 
-            // Verify that the created order exists in the list
+            
             bool orderExists = false;
             foreach (var order in orders)
             {
@@ -120,15 +120,12 @@ namespace RentalService.Tests
             }
             Assert.True(orderExists, $"Expected order with ID {newOrderId} to exist in the database.");
 
-            // Optionally, you could assert that none of the orders have been logically deleted
-            // This depends on how your system marks orders as deleted
-            // Assert.All(orders, order => Assert.False(order.IsDeleted));
+            
         }
 
         public void Dispose()
         {
-            // Clean up the database by deleting created orders
-            // For this case, we don't actually delete, just remove from the list
+            
             _createdOrderIds.Clear();
         }
     }

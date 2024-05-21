@@ -13,7 +13,7 @@ namespace RentalService.Controllers
 
         private readonly IConfiguration _configuration;
 
-        // Fetches configuration from more sources
+        
         public TokensController(IConfiguration inConfiguration)
         {
             _configuration = inConfiguration;
@@ -21,13 +21,13 @@ namespace RentalService.Controllers
 
         [Route("token")]
         [HttpPost]
-        // Generate and return a JWT token
+        
         public IActionResult Create(string username, string password, string grant_type)
         {
 
             IActionResult foundToken;
             bool hasInput = ((!string.IsNullOrWhiteSpace(username)) && (!string.IsNullOrWhiteSpace(password)));
-            // Only return JWT token if credentials are valid
+            
             SecurityHelper secUtil = new SecurityHelper(_configuration);
             if (hasInput && secUtil.IsValidUsernameAndPassword(username, password))
             {
@@ -49,11 +49,11 @@ namespace RentalService.Controllers
             string jwtString;
             SecurityHelper secUtil = new SecurityHelper(_configuration);
 
-            // Create SigningCredentials for JWT header with algorithm and token type - and secret added
+            
             SymmetricSecurityKey? SIGNING_KEY = secUtil.GetSecurityKey();
             SigningCredentials credentials = new SigningCredentials(SIGNING_KEY, SecurityAlgorithms.HmacSha256);
 
-            // Prepare more values for JWT
+            
             List<Claim> claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, authorRole.ToString())
@@ -61,7 +61,7 @@ namespace RentalService.Controllers
             int durationInMinutes = 10;
             DateTime expireAt = DateTime.Now.AddMinutes(durationInMinutes);
 
-            // Create a JwtSecurityToken incl. payload and header (uses signing key)
+            
             var token = new JwtSecurityToken(
                 issuer: "https://localhost:7023",
                 audience: "https://localhost:7023",

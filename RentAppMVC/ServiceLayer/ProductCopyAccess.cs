@@ -44,7 +44,7 @@ namespace RentAppMVC.ServiceLayer
         {
             List<ProductCopy> productCopies = new List<ProductCopy>();
 
-            HttpResponseMessage? response = await _productCopyService.Get($"{_serviceBaseUrl}product/{productID}"); // Target specific endpoint
+            HttpResponseMessage? response = await _productCopyService.Get($"{_serviceBaseUrl}product/{productID}"); 
 
             if (response != null && response.IsSuccessStatusCode)
             {

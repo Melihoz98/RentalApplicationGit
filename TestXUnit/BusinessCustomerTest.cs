@@ -46,7 +46,7 @@ namespace RentalService.Tests
             Assert.NotNull(retrievedCustomer);
             Assert.Equal(customerDto.CustomerID, retrievedCustomer.CustomerID);
 
-            // Track the created customer for cleanup
+            
             _createdCustomerIDs.Add(customerDto.CustomerID);
         }
 
@@ -82,11 +82,11 @@ namespace RentalService.Tests
             Assert.NotNull(customers);
             Assert.True(customers.Count > 0, "Expected at least one business customer in the database.");
 
-            // Verify that the created customer exists in the list
+            
             bool customerExists = false;
             foreach (var customerDto in customers)
             {
-                // Check if this customer matches the expected properties
+                
                 if (customerDto.CompanyName == "Test Company" &&
                     customerDto.CVR == "12345678" &&
                     customerDto.PhoneNumber == "+1234567890")
@@ -101,7 +101,7 @@ namespace RentalService.Tests
 
         public void Dispose()
         {
-            // Clean up the database by deleting created customers
+            
             foreach (var customerId in _createdCustomerIDs)
             {
                 _businessCustomerDataLogic.RemoveBusinessCustomer(customerId);
