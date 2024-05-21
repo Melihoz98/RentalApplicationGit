@@ -2,6 +2,7 @@
 {
     public class Category
     {
+        internal static object categoryName;
 
         public Category() { }
 
