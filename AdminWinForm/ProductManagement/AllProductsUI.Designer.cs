@@ -18,34 +18,6 @@ namespace AdminWinForm.ProductManagement
             base.Dispose(disposing);
         }
 
-        private readonly ProductLogic productService = new ProductLogic();
-        private readonly ProductCopyLogic productCopyLogic = new ProductCopyLogic();
-        private async void LoadProducts()
-        {
-            try
-            {
-                List<Product> products = await productService.GetAllProducts();
-                Category category = new Category();
-                dataGridView1.Rows.Clear();
-                foreach (Product product in products)
-                {
-                    
-                    dataGridView1.Rows.Add(product.ProductID, product.ProductName, product.Description, product.HourlyPrice, product.CategoryID, product.ImagePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fejl ved indlæsning af produkter: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AllProductsUI_Load(object sender, EventArgs e)
-        {
-            LoadProducts();
-        }
-
-
-
 
         #region Windows Form Designer generated code
 
