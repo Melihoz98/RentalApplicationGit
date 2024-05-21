@@ -1,4 +1,4 @@
-﻿@model ProfileViewModel
+﻿@model RentAppMVC.Models.ProfileViewModel
 
 <h2>Profile</h2>
 
@@ -16,17 +16,16 @@
 </form>
 
 <div id="privateCustomerForm" style="display:block;">
-    @Html.Partial("Private/_PrivateCustomerForm")
+    @Html.Partial("Private/_PrivateCustomerForm", Model.PrivateCustomer)
 </div>
 
 <div id="businessCustomerForm" style="display:none;">
-    @Html.Partial("Business/_BusinessCustomerForm")
+    @Html.Partial("Business/_BusinessCustomerForm", Model.BusinessCustomer)
 </div>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-          
             $('input[name="customerType"]').change(function () {
                 var value = $(this).val();
                 if (value === 'private') {

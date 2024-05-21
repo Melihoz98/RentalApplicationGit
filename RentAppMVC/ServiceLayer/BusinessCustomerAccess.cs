@@ -8,6 +8,7 @@ namespace RentAppMVC.ServiceLayer
     {
         readonly IServiceConnection _businessCustomerService;
         readonly string _serviceBaseUrl = "https://localhost:7023/api/BusinessCustomer/";
+        private readonly IPrivateCustomerAccess _privateCustomerAccess;
 
         public BusinessCustomerAccess()
         {
@@ -64,5 +65,23 @@ namespace RentAppMVC.ServiceLayer
             HttpResponseMessage? response = await _businessCustomerService.CallServicePut(content);
             return response != null && response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> CustomerExists(string customerId)
+        {
+            var businessCustomer = await GetBusinessCustomerById(customerId);
+            if (businessCustomer != null && !string.IsNullOrEmpty(businessCustomer.CustomerID))
+            {
+                return true;
+            }
+
+            var privateCustomer = await _privateCustomerAccess.GetPrivateCustomerById(customerId);
+            if (privateCustomer != null && !string.IsNullOrEmpty(privateCustomer.CustomerID))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

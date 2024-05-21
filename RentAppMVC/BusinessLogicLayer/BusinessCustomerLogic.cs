@@ -8,11 +8,14 @@ namespace RentAppMVC.BusinessLogicLayer
     public class BusinessCustomerLogic
     {
         private readonly IBusinessCustomerAccess _businessCustomerAccess;
+        private readonly IPrivateCustomerAccess _privateCustomerAccess;
 
-        public BusinessCustomerLogic()
+        public BusinessCustomerLogic(IPrivateCustomerAccess privateCustomerAccess, IBusinessCustomerAccess businessCustomerAccess)
         {
-            _businessCustomerAccess = new BusinessCustomerAccess();
+            _privateCustomerAccess = privateCustomerAccess;
+            _businessCustomerAccess = businessCustomerAccess;
         }
+
 
         public async Task<BusinessCustomer> GetBusinessCustomerById(string customerId)
         {
@@ -27,6 +30,12 @@ namespace RentAppMVC.BusinessLogicLayer
         public async Task UpdateBusinessCustomer(BusinessCustomer customer)
         {
             await _businessCustomerAccess.UpdateBusinessCustomer(customer);
+        }
+        public async Task<bool> CustomerExists(string customerId)
+        {
+            var privateCustomer = await _privateCustomerAccess.GetPrivateCustomerById(customerId);
+            var businessCustomer = await _businessCustomerAccess.GetBusinessCustomerById(customerId);
+            return privateCustomer != null || businessCustomer != null;
         }
 
     }
