@@ -45,7 +45,7 @@ namespace RentalService.Tests
             // Assert
             Assert.True(newProductId > 0);
 
-            // Track the created product for cleanup
+            
             _createdProductIds.Add(newProductId);
         }
 
@@ -107,7 +107,7 @@ namespace RentalService.Tests
 
         public void Dispose()
         {
-            // Clean up the database by deleting created products
+            
             foreach (var productId in _createdProductIds)
             {
                 _productDataLogic.DeleteProduct(productId);

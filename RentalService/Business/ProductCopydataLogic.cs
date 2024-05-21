@@ -99,7 +99,7 @@ namespace RentalService.Business
             }
             catch (Exception ex)
             {
-                // Handle exception
+                
                 Console.WriteLine($"Error getting all available product copies by product ID: {ex.Message}");
                 throw;
             }

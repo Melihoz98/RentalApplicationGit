@@ -9,7 +9,7 @@ using RentalService.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ICategoryData, CategoryDataLogic>();
 builder.Services.AddSingleton<ICategoryAccess, CategoryAccess>();
@@ -28,18 +28,18 @@ builder.Services.AddSingleton<IProductCopyAccess, ProductCopyAccess>();
 builder.Services.AddSingleton<IAspNetUserData, AspNetUserDataLogic>();
 builder.Services.AddSingleton<IAspNetUserAccess, AspNetUserAccess>();
 
-// Configure the JWT Authentication Service
+
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = "JwtBearer";
     options.DefaultChallengeScheme = "JwtBearer";
 })
-    //amo kefak
+    
     .AddJwtBearer("JwtBearer", jwtOptions => {
         jwtOptions.TokenValidationParameters = new TokenValidationParameters()
         {
-            // The SigningKey is defined in the TokenController class
+            
             ValidateIssuerSigningKey = true,
-            // IssuerSigningKey = new SecurityHelper(configuration).GetSecurityKey(),
+            
             IssuerSigningKey = new SecurityHelper(builder.Configuration).GetSecurityKey(),
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -49,19 +49,16 @@ builder.Services.AddAuthentication(options => {
         };
     });
 
-// Add Swagger
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API Name", Version = "v1" });
-    // Optionally, configure XML documentation
-    // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    // c.IncludeXmlComments(xmlPath);
+   
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -69,13 +66,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Enable Swagger UI
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API Name v1");
-    // Optionally, configure the Swagger UI route
-    // c.RoutePrefix = "api/docs";
+    
+    
 });
 
 app.Run();

@@ -45,7 +45,7 @@ namespace RentalService.Tests
             Assert.NotNull(createdProductCopy);
             Assert.Equal("TestSerialNumber", createdProductCopy.SerialNumber);
 
-            // Track the created product copy for cleanup
+            
             _createdProductCopySerialNumbers.Add("TestSerialNumber");
         }
 
@@ -150,7 +150,7 @@ namespace RentalService.Tests
 
         public void Dispose()
         {
-            // Clean up the database by deleting created product copies
+            
             foreach (var serialNumber in _createdProductCopySerialNumbers)
             {
                 _productCopyDataLogic.DeleteProductCopy(serialNumber);

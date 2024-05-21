@@ -49,7 +49,7 @@ namespace RentalService.Tests
             Assert.Equal(customerDto.LastName, retrievedCustomer.LastName);
             Assert.Equal(customerDto.PhoneNumber, retrievedCustomer.PhoneNumber);
 
-            // Track the created customer for cleanup
+            
             _createdCustomerIDs.Add(customerDto.CustomerID);
         }
 
@@ -144,7 +144,7 @@ namespace RentalService.Tests
 
         public void Dispose()
         {
-            // Clean up the database by deleting created customers
+            
             foreach (var customerId in _createdCustomerIDs)
             {
                 _privateCustomerAccess.DeletePrivateCustomer(customerId);

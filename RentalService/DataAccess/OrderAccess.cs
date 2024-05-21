@@ -42,9 +42,9 @@ namespace RentalService.DataAccess
                     insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
 
                     con.Open();
-                    // ExecuteScalar is used to get the newly inserted order ID
+                    
                     int newOrderID = Convert.ToInt32(insertCommand.ExecuteScalar());
-                    newOrder.OrderID = newOrderID; // Update the order object with the new order ID
+                    newOrder.OrderID = newOrderID; 
                     return newOrderID;
                 }
             }

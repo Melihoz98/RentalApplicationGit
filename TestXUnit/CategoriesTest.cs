@@ -16,13 +16,13 @@ namespace RentalService.Tests
 
         public CategoryDataLogicTests()
         {
-            // Load configuration from appsettings.json or environment variables
+            
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
 
-            // Initialize CategoryAccess with the configuration
+            
             _categoryAccess = new CategoryAccess(configuration);
             _categoryDataLogic = new CategoryDataLogic(_categoryAccess);
         }
@@ -43,7 +43,7 @@ namespace RentalService.Tests
             // Assert
             Assert.True(newCategoryId > 0);
 
-            // Track the created category for cleanup
+            
             _createdCategoryIds.Add(newCategoryId);
         }
 
@@ -99,7 +99,7 @@ namespace RentalService.Tests
 
         public void Dispose()
         {
-            // Clean up the database by deleting created categories
+            
             foreach (var categoryId in _createdCategoryIds)
             {
                 _categoryDataLogic.DeleteCategory(categoryId);
