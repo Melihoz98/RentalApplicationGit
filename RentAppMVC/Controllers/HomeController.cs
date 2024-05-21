@@ -46,6 +46,12 @@ namespace RentAppMVC.Controllers
             return View(loggedInUser);
         }
 
+        [Authorize]
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
