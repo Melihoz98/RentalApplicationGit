@@ -14,14 +14,16 @@ namespace RentAppMVC.BusinessLogicLayer
         private readonly OrderLineLogic _orderLineLogic;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IProductCopyAccess _productCopyAccess;
 
-        public OrderLogic(ProductCopyLogic productCopyLogic, OrderLineLogic orderLineLogic, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor, IOrderAccess orderAccess)
+        public OrderLogic(ProductCopyLogic productCopyLogic, OrderLineLogic orderLineLogic, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor, IOrderAccess orderAccess, IProductCopyAccess productCopyAccess)
         {
             _productCopyLogic = productCopyLogic;
             _userManager = userManager;
             _orderLineLogic = orderLineLogic;
             _httpContextAccessor = httpContextAccessor;
             _orderAccess = orderAccess;
+            _productCopyAccess = productCopyAccess;
         }
 
         public async Task<int> CreateOrder(Order order)
@@ -32,7 +34,7 @@ namespace RentAppMVC.BusinessLogicLayer
                 var currentUser = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
                 bool cartUpdated = false;
 
-                // Flyt CheckProductCopyAvailability-metoden uden for TransactionScope
+                // Check availability and update shopping cart if necessary
                 foreach (var orderLine in shoppingCart.Items.ToList())
                 {
                     bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
@@ -59,6 +61,7 @@ namespace RentAppMVC.BusinessLogicLayer
                     CookieUtility.UpdateCart(_httpContextAccessor.HttpContext, shoppingCart);
                 }
 
+                // Create the order object
                 order.CustomerID = currentUser.Id;
                 order.OrderDate = DateTime.Now;
                 order.StartDate = shoppingCart.StartDate;
@@ -68,18 +71,12 @@ namespace RentAppMVC.BusinessLogicLayer
                 order.TotalHours = shoppingCart.TotalHours;
                 order.SubTotalPrice = shoppingCart.SubTotalPrice;
                 order.TotalOrderPrice = shoppingCart.TotalOrderPrice;
+                order.OrderLines = shoppingCart.Items.ToList();
 
-                int orderId = await AddOrder(order);
+                // Add order to database via data access layer
+                int orderId = await _orderAccess.AddOrder(order);
 
-                if (orderId > 0)
-                {
-                    foreach (var orderLine in shoppingCart.Items)
-                    {
-                        orderLine.OrderID = orderId;
-                        await _orderLineLogic.AddOrderLine(orderLine);
-                    }
-                }
-
+                // Empty the shopping cart
                 CookieUtility.EmptyCart(_httpContextAccessor.HttpContext);
 
                 return orderId;
@@ -89,6 +86,7 @@ namespace RentAppMVC.BusinessLogicLayer
                 throw new Exception("An error occurred while processing the order.", ex);
             }
         }
+
 
         public async Task<bool> CheckProductCopyAvailability(string serialNumber, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
         {
@@ -104,10 +102,6 @@ namespace RentAppMVC.BusinessLogicLayer
             return availableProductCopies.Any(pc => pc.SerialNumber == serialNumber);
         }
 
-        private async Task<int> AddOrder(Order order)
-        {
-            return await _orderAccess.AddOrder(order);
-        }
 
         public async Task<Order?> GetOrderById(int orderId)
         {

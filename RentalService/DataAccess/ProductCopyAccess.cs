@@ -94,7 +94,7 @@ namespace RentalService.DataAccess
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 {
                     con.Open();
-                    string queryString = "SELECT productID, serialNumber FROM ProductCopies WHERE productID = @productID AND rented = 1";
+                    string queryString = "SELECT productID, serialNumber FROM ProductCopies WHERE productID = @productID";
                     using (SqlCommand command = new SqlCommand(queryString, con))
                     {
                         command.Parameters.AddWithValue("@productID", productID);

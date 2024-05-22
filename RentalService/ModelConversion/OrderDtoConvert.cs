@@ -19,7 +19,13 @@ namespace RentalService.ModelConversion
                 EndTime = (TimeSpan)order.EndTime,
                 TotalHours = (int)order.TotalHours,
                 SubTotalPrice = (decimal)order.SubTotalPrice,
-                TotalOrderPrice = (decimal)order.TotalOrderPrice
+                TotalOrderPrice = (decimal)order.TotalOrderPrice,
+                OrderLines = order.OrderLines?.Select(ol => new OrderLineDto
+                {
+                    OrderID = ol.OrderID,
+                    SerialNumber = ol.SerialNumber,
+                    Product = ProductDtoConvert.FromProduct(ol.Product)  // Assuming you have a ProductDtoConvert class
+                }).ToList()
             };
         }
 
@@ -46,7 +52,13 @@ namespace RentalService.ModelConversion
                 EndTime = orderDto.EndTime,
                 TotalHours = orderDto.TotalHours,
                 SubTotalPrice = orderDto.SubTotalPrice,
-                TotalOrderPrice = orderDto.TotalOrderPrice
+                TotalOrderPrice = orderDto.TotalOrderPrice,
+                OrderLines = orderDto.OrderLines?.Select(ol => new OrderLine
+                {
+                    OrderID = ol.OrderID,
+                    SerialNumber = ol.SerialNumber,
+                    Product = ProductDtoConvert.ToProduct(ol.Product)  // Assuming you have a ProductDtoConvert class
+                }).ToList()
             };
         }
     }

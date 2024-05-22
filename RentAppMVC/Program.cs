@@ -30,6 +30,8 @@ builder.Services.AddScoped<ProductCopyLogic>();
 builder.Services.AddScoped<OrderLogic>();
 builder.Services.AddScoped<OrderLineLogic>();
 builder.Services.AddScoped<IOrderAccess, OrderAccess>();
+builder.Services.AddScoped<IProductCopyAccess, ProductCopyAccess>();
+
 
 
 

@@ -1,4 +1,6 @@
-﻿namespace RentAppMVC.Models
+﻿using Newtonsoft.Json;
+
+namespace RentAppMVC.Models
 {
     public class Order
     {
@@ -41,6 +43,7 @@
         public int TotalHours { get; set; }
         public decimal SubTotalPrice { get; set; }
         public decimal TotalOrderPrice { get; set; }
+        public List<OrderLine> OrderLines { get; set; }
     }
 
 }

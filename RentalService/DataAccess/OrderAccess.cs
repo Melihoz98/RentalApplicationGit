@@ -10,69 +10,20 @@ namespace RentalService.DataAccess
     public class OrderAccess : IOrderAccess
     {
         private readonly string _connectionString;
+        private readonly IProductCopyAccess _productCopyAccess;
 
-        public OrderAccess(IConfiguration configuration)
+        public OrderAccess(IConfiguration configuration, IProductCopyAccess productCopyAccess)
         {
             _connectionString = configuration.GetConnectionString("RentalConnection");
             if (string.IsNullOrEmpty(_connectionString))
             {
                 throw new InvalidOperationException("Database connection string is not configured.");
             }
+
+            _productCopyAccess = productCopyAccess ?? throw new ArgumentNullException(nameof(productCopyAccess));
         }
 
-        //public int AddOrder(Order entity)
-        //{
-        //    int insertedID = -1;
-        //    using (TransactionScope transactionScope = new TransactionScope())
-        //    {
-        //        using (SqlConnection con = new SqlConnection(_connectionString))
-        //        {
-        //            con.Open();
-        //            using (SqlCommand cmdOrder = con.CreateCommand())
-        //            {
-        //                cmdOrder.CommandText = @"
-        //                    INSERT INTO Orders 
-        //                    (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) 
-        //                    OUTPUT INSERTED.orderID 
-        //                    VALUES 
-        //                    (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
-
-        //                cmdOrder.Parameters.AddWithValue("@CustomerID", entity.CustomerID);
-        //                cmdOrder.Parameters.AddWithValue("@OrderDate", entity.OrderDate);
-        //                cmdOrder.Parameters.AddWithValue("@StartDate", entity.StartDate);
-        //                cmdOrder.Parameters.AddWithValue("@EndDate", entity.EndDate);
-        //                cmdOrder.Parameters.AddWithValue("@StartTime", entity.StartTime);
-        //                cmdOrder.Parameters.AddWithValue("@EndTime", entity.EndTime);
-        //                cmdOrder.Parameters.AddWithValue("@TotalHours", entity.TotalHours);
-        //                cmdOrder.Parameters.AddWithValue("@SubTotalPrice", entity.SubTotalPrice);
-        //                cmdOrder.Parameters.AddWithValue("@TotalOrderPrice", entity.TotalOrderPrice);
-
-        //                insertedID = (int)cmdOrder.ExecuteScalar();
-        //                entity.OrderID = insertedID; // Ensure the entity has the new OrderID
-        //            }
-
-        //            foreach (OrderLine ol in entity.OrderLines)
-        //            {
-        //                using (SqlCommand cmdOl = con.CreateCommand())
-        //                {
-        //                    cmdOl.CommandText = @"
-        //                        INSERT INTO OrderLine 
-        //                        (orderID, serialNumber) 
-        //                        VALUES 
-        //                        (@orderID, @serialNumber)";
-        //                    cmdOl.Parameters.AddWithValue("@orderID", insertedID); // Correct parameter name
-        //                    cmdOl.Parameters.AddWithValue("@serialNumber", ol.SerialNumber); // Correct parameter name
-
-        //                    cmdOl.ExecuteNonQuery();
-        //                }
-        //            }
-        //        }
-        //        transactionScope.Complete();
-        //    }
-        //    return insertedID;
-        //}
-
-        public int AddOrder(Order entity)
+        public int AddOrder(Order orderToAdd)
         {
             int insertedID = -1;
             using (TransactionScope transactionScope = new TransactionScope(
@@ -80,41 +31,71 @@ namespace RentalService.DataAccess
                 new TransactionOptions
                 {
                     IsolationLevel = IsolationLevel.Serializable
-                }))
+                },
+                TransactionScopeAsyncFlowOption.Enabled))
             {
-                using (SqlConnection con = new SqlConnection(_connectionString))
+                try
                 {
-                    con.Open();
-                    using (SqlCommand cmdOrder = con.CreateCommand())
+                    foreach (var orderLine in orderToAdd.OrderLines.ToList())
                     {
-                        cmdOrder.CommandText = "INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) OUTPUT INSERTED.orderID VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
-                        cmdOrder.Parameters.AddWithValue("@CustomerID", entity.CustomerID);
-                        cmdOrder.Parameters.AddWithValue("@OrderDate", entity.OrderDate);
-                        cmdOrder.Parameters.AddWithValue("@StartDate", entity.StartDate);
-                        cmdOrder.Parameters.AddWithValue("@EndDate", entity.EndDate);
-                        cmdOrder.Parameters.AddWithValue("@StartTime", entity.StartTime);
-                        cmdOrder.Parameters.AddWithValue("@EndTime", entity.EndTime);
-                        cmdOrder.Parameters.AddWithValue("@TotalHours", entity.TotalHours);
-                        cmdOrder.Parameters.AddWithValue("@SubTotalPrice", entity.SubTotalPrice);
-                        cmdOrder.Parameters.AddWithValue("@TotalOrderPrice", entity.TotalOrderPrice);
-                        insertedID = (int)cmdOrder.ExecuteScalar();
-                    }
-
-                    foreach (OrderLine ol in entity.OrderLines)
-                    {
-                        using (SqlCommand cmdOl = con.CreateCommand())
+                        bool isProductAvailable = CheckProductCopyAvailability(orderLine.SerialNumber, orderToAdd.StartDate, orderToAdd.EndDate, orderToAdd.StartTime, orderToAdd.EndTime);
+                        if (!isProductAvailable)
                         {
-                            cmdOl.CommandText = "INSERT INTO OrderLine (orderID, serialNumber) VALUES (@orderID, @serialNumber)";
-                            cmdOl.Parameters.AddWithValue("@orderID", insertedID);
-                            cmdOl.Parameters.AddWithValue("@serialNumber", ol.SerialNumber);
-                            cmdOl.ExecuteNonQuery();
+                            var availableCopy = _productCopyAccess.GetAllAvailableProductCopyByProductID(orderLine.Product.ProductID, orderToAdd.StartDate, orderToAdd.EndDate, orderToAdd.StartTime, orderToAdd.EndTime);
+                            if (availableCopy != null && availableCopy.Count > 0)
+                            {
+                                orderToAdd.OrderLines.Remove(orderLine);
+                                OrderLine newOrderLine = new OrderLine(-1, availableCopy[0].SerialNumber, orderLine.Product);
+                                orderToAdd.OrderLines.Add(newOrderLine);
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException($"No available product copies for product ID {orderLine.Product.ProductID}.");
+                            }
                         }
                     }
+
+                    using (SqlConnection con = new SqlConnection(_connectionString))
+                    {
+                        con.Open();
+                        using (SqlCommand cmdOrder = con.CreateCommand())
+                        {
+                            cmdOrder.CommandText = "INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice) OUTPUT INSERTED.orderID VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice)";
+                            cmdOrder.Parameters.AddWithValue("@CustomerID", orderToAdd.CustomerID);
+                            cmdOrder.Parameters.AddWithValue("@OrderDate", orderToAdd.OrderDate);
+                            cmdOrder.Parameters.AddWithValue("@StartDate", orderToAdd.StartDate);
+                            cmdOrder.Parameters.AddWithValue("@EndDate", orderToAdd.EndDate);
+                            cmdOrder.Parameters.AddWithValue("@StartTime", orderToAdd.StartTime);
+                            cmdOrder.Parameters.AddWithValue("@EndTime", orderToAdd.EndTime);
+                            cmdOrder.Parameters.AddWithValue("@TotalHours", orderToAdd.TotalHours);
+                            cmdOrder.Parameters.AddWithValue("@SubTotalPrice", orderToAdd.SubTotalPrice);
+                            cmdOrder.Parameters.AddWithValue("@TotalOrderPrice", orderToAdd.TotalOrderPrice);
+                            insertedID = (int)cmdOrder.ExecuteScalar();
+                        }
+
+                        foreach (OrderLine ol in orderToAdd.OrderLines)
+                        {
+                            using (SqlCommand cmdOl = con.CreateCommand())
+                            {
+                                cmdOl.CommandText = "INSERT INTO OrderLines (orderID, serialNumber) VALUES (@orderID, @serialNumber)";
+                                cmdOl.Parameters.AddWithValue("@orderID", insertedID);
+                                cmdOl.Parameters.AddWithValue("@serialNumber", ol.SerialNumber);
+                                cmdOl.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    transactionScope.Complete();
                 }
-                transactionScope.Complete();
+                catch
+                {
+                    // Hvis der opstår en undtagelse, rulles transaktionen tilbage automatisk
+                    throw;
+                }
             }
             return insertedID;
         }
+
+
 
 
         public Order GetOrderById(int orderId)
@@ -186,6 +167,21 @@ namespace RentalService.DataAccess
 
             return foundOrders;
         }
+
+        public bool CheckProductCopyAvailability(string serialNumber, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            var productCopy = _productCopyAccess.GetProductCopyBySerialNumber(serialNumber);
+
+            if (productCopy == null)
+            {
+                return false;
+            }
+
+            var availableProductCopies = _productCopyAccess.GetAllAvailableProductCopyByProductID(productCopy.ProductID, startDate, endDate, startTime, endTime);
+
+            return availableProductCopies.Any(pc => pc.SerialNumber == serialNumber);
+        }
+
 
         private Order GetOrderFromReader(SqlDataReader orderReader)
         {

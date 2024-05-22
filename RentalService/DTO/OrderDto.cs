@@ -4,7 +4,7 @@
     {
         public OrderDto() { }
 
-        public OrderDto(string customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice)
+        public OrderDto(string customerID, DateTime orderDate, DateTime startDate, DateTime endDate, TimeSpan startTime, TimeSpan endTime, int totalHours, decimal subTotalPrice, decimal totalOrderPrice, List<OrderLineDto> orderLines)
         {
             CustomerID = customerID;
             OrderDate = orderDate;
@@ -15,6 +15,8 @@
             TotalHours = totalHours;
             SubTotalPrice = subTotalPrice;
             TotalOrderPrice = totalOrderPrice;
+            OrderLines = orderLines;
+            OrderLines = orderLines;
         }
 
         public int OrderID { get; set; }
@@ -27,5 +29,6 @@
         public int TotalHours { get; set; }
         public decimal SubTotalPrice { get; set; }
         public decimal TotalOrderPrice { get; set; }
+        public List<OrderLineDto> OrderLines { get; set; }
     }
 }
