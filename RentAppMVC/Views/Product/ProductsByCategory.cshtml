@@ -1,48 +1,69 @@
 ﻿@model List<Product>
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-<h1>Products By Category</h1>
 
-@if (Model.Count == 0)
-{
-    <p>No products available in this category.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Hourly Price</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model)
-            {
-                <tr>
-                    <td>@product.ProductID</td>
-                    <td>@product.ProductName</td>
-                    <td>@product.Description</td>
-                    <td>$@product.HourlyPrice</td>
-                    <td>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
-                                <input type="hidden" name="productId" value="@product.ProductID" />
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <span class="text-danger">Please login to add to cart</span>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<style>
+    .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .product-card {
+        width: 300px;
+        margin: 20px 10px;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .product-image {
+        max-width: 100%;
+        max-height: 200px;
+        margin-bottom: 20px;
+    }
+
+    .product-name {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .product-description {
+        margin-bottom: 10px;
+    }
+
+    .product-price {
+        margin-bottom: 10px;
+    }
+
+    .add-to-cart-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .add-to-cart-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="product-container">
+    @foreach (var product in Model)
+    {
+        <div class="product-card">
+            <img src="@product.ImagePath" alt="@product.ProductName" class="product-image" />
+            <div class="product-name">@product.ProductName</div>
+            <div class="product-description">@product.Description</div>
+            <div class="product-price">$@product.HourlyPrice</div>
+            <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
+                <input type="hidden" name="productId" value="@product.ProductID" />
+                <button type="submit" class="add-to-cart-button">Add to Cart</button>
+            </form>
+        </div>
+    }
+</div>

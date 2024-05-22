@@ -15,12 +15,10 @@
         {
             SerialNumber = serialNumber;
             ProductID = productID;
-        
         }
 
         public string SerialNumber { get; set; }
         public int ProductID { get; set; }
-     
     }
 
 

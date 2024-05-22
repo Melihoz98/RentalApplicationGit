@@ -119,8 +119,6 @@ namespace RentalService.DataAccess
             return foundProductCopies;
         }
 
-
-
         public void AddProductCopy(ProductCopy productCopy)
         {
             try
@@ -230,7 +228,6 @@ namespace RentalService.DataAccess
             }
             catch (Exception ex)
             {
-                
                 Console.WriteLine($"Error getting all available product copies by product ID: {ex.Message}");
                 throw;
             }
