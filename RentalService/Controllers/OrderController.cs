@@ -87,7 +87,5 @@ namespace RentalService.Controllers
             }
         }
 
-
-
     }
 }

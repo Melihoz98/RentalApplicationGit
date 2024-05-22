@@ -42,7 +42,6 @@ namespace RentAppMVC.Controllers
         {
             try
             {
-                // Send order object to the business logic layer to process the order
                 int orderId = await _orderLogic.CreateOrder(order);
 
                 if (orderId > 0)

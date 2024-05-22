@@ -34,7 +34,6 @@ namespace RentAppMVC.BusinessLogicLayer
                 var currentUser = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
                 bool cartUpdated = false;
 
-                // Check availability and update shopping cart if necessary
                 foreach (var orderLine in shoppingCart.Items.ToList())
                 {
                     bool isProductAvailable = await CheckProductCopyAvailability(orderLine.SerialNumber, shoppingCart.StartDate, shoppingCart.EndDate, shoppingCart.StartTime, shoppingCart.EndTime);
@@ -61,7 +60,6 @@ namespace RentAppMVC.BusinessLogicLayer
                     CookieUtility.UpdateCart(_httpContextAccessor.HttpContext, shoppingCart);
                 }
 
-                // Create the order object
                 order.CustomerID = currentUser.Id;
                 order.OrderDate = DateTime.Now;
                 order.StartDate = shoppingCart.StartDate;
@@ -73,10 +71,8 @@ namespace RentAppMVC.BusinessLogicLayer
                 order.TotalOrderPrice = shoppingCart.TotalOrderPrice;
                 order.OrderLines = shoppingCart.Items.ToList();
 
-                // Add order to database via data access layer
                 int orderId = await _orderAccess.AddOrder(order);
 
-                // Empty the shopping cart
                 CookieUtility.EmptyCart(_httpContextAccessor.HttpContext);
 
                 return orderId;

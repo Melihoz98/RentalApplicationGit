@@ -88,14 +88,11 @@ namespace RentalService.DataAccess
                 }
                 catch
                 {
-                    // Hvis der opstår en undtagelse, rulles transaktionen tilbage automatisk
                     throw;
                 }
             }
             return insertedID;
         }
-
-
 
 
         public Order GetOrderById(int orderId)
