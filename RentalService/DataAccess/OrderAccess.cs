@@ -12,6 +12,16 @@ namespace RentalService.DataAccess
         private readonly string _connectionString;
         private readonly IProductCopyAccess _productCopyAccess;
 
+        public OrderAccess(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetConnectionString("RentalConnection");
+            if (string.IsNullOrEmpty(_connectionString))
+            {
+                throw new InvalidOperationException("Database connection string is not configured.");
+            }
+
+        }
+
         public OrderAccess(IConfiguration configuration, IProductCopyAccess productCopyAccess)
         {
             _connectionString = configuration.GetConnectionString("RentalConnection");
@@ -23,6 +33,42 @@ namespace RentalService.DataAccess
             _productCopyAccess = productCopyAccess ?? throw new ArgumentNullException(nameof(productCopyAccess));
         }
 
+        public int CreateOrder(Order newOrder)
+        {
+            try
+            {
+                string insertQuery = @"
+ INSERT INTO Orders (customerID, orderDate, startDate, endDate, startTime, endTime, totalHours, subTotalPrice, totalOrderPrice)
+ VALUES (@CustomerID, @OrderDate, @StartDate, @EndDate, @StartTime, @EndTime, @TotalHours, @SubTotalPrice, @TotalOrderPrice);
+ SELECT SCOPE_IDENTITY();";
+
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand insertCommand = new SqlCommand(insertQuery, con))
+                {
+                    insertCommand.Parameters.AddWithValue("@CustomerID", newOrder.CustomerID);
+                    insertCommand.Parameters.AddWithValue("@OrderDate", newOrder.OrderDate);
+                    insertCommand.Parameters.AddWithValue("@StartDate", newOrder.StartDate);
+                    insertCommand.Parameters.AddWithValue("@EndDate", newOrder.EndDate);
+                    insertCommand.Parameters.AddWithValue("@StartTime", newOrder.StartTime);
+                    insertCommand.Parameters.AddWithValue("@EndTime", newOrder.EndTime);
+                    insertCommand.Parameters.AddWithValue("@TotalHours", newOrder.TotalHours);
+                    insertCommand.Parameters.AddWithValue("@SubTotalPrice", newOrder.SubTotalPrice);
+                    insertCommand.Parameters.AddWithValue("@TotalOrderPrice", newOrder.TotalOrderPrice);
+
+                    con.Open();
+
+                    int newOrderID = Convert.ToInt32(insertCommand.ExecuteScalar());
+                    newOrder.OrderID = newOrderID;
+                    return newOrderID;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error adding order: {ex.Message}");
+                throw;
+            }
+        }
         public int AddOrder(Order orderToAdd)
         {
             int insertedID = -1;

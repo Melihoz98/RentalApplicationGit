@@ -69,7 +69,7 @@ namespace RentalService.Controllers
         {
             try
             {
-                int orderID = _orderData.AddOrder(newOrder);
+                int orderID = _orderData.CreateOrder(newOrder);
                 if (orderID > 0)
                 {
                     return Ok(orderID);

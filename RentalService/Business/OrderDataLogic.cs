@@ -47,17 +47,33 @@ namespace RentalService.Business
             }
         }
 
-        public int AddOrder(OrderDto newOrder)
+        public int CreateOrder(OrderDto newOrder)
         {
             try
             {
                 Order order = OrderDtoConvert.ToOrder(newOrder);
-                int newOrderID = _orderAccess.AddOrder(order);
+                int newOrderID = _orderAccess.CreateOrder(order);
                 return newOrderID;
             }
             catch (Exception ex)
             {
                 
+                Console.WriteLine($"Error adding order: {ex.Message}");
+                throw;
+            }
+        }
+
+        public int AddOrder(OrderDto newOrder)
+        {
+            try
+            {
+                Order order = OrderDtoConvert.ToOrder(newOrder);
+                int newOrderID = _orderAccess.CreateOrder(order);
+                return newOrderID;
+            }
+            catch (Exception ex)
+            {
+
                 Console.WriteLine($"Error adding order: {ex.Message}");
                 throw;
             }
