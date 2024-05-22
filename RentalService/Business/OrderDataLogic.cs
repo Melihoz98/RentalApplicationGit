@@ -52,7 +52,7 @@ namespace RentalService.Business
             try
             {
                 Order order = OrderDtoConvert.ToOrder(newOrder);
-                int newOrderID = _orderAccess.CreateOrder(order);
+                int newOrderID = _orderAccess.AddOrder(order);
                 return newOrderID;
             }
             catch (Exception ex)
