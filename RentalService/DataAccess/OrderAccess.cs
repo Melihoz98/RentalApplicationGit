@@ -179,6 +179,27 @@ namespace RentalService.DataAccess
             return availableProductCopies.Any(pc => pc.SerialNumber == serialNumber);
         }
 
+        public void RemoveOrder(int orderId)
+        {
+            try
+            {
+                string deleteQuery = "DELETE FROM Orders WHERE orderID = @Id";
+
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, con))
+                {
+                    deleteCommand.Parameters.AddWithValue("@Id", orderId);
+
+                    con.Open();
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing order: {ex.Message}");
+                throw;
+            }
+        }
 
         private Order GetOrderFromReader(SqlDataReader orderReader)
         {
