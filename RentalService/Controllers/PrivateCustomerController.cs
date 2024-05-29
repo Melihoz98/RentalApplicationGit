@@ -61,7 +61,7 @@ namespace RentalService.Controllers
         {
             try
             {
-                _privateCustomerLogicCtrl.createPrivateCustomer(privateCustomerDto);
+                _privateCustomerLogicCtrl.CreatePrivateCustomer(privateCustomerDto);
                 // Return 201 Created status without including PrivateCustomerDto in response
                 return StatusCode(StatusCodes.Status201Created);
             }

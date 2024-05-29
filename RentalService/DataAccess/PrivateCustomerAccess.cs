@@ -19,38 +19,31 @@ namespace RentalService.DataAccess
             }
         }
 
-        public int AddPrivateCustomer(PrivateCustomer privateCustomer)
+        public void AddPrivateCustomer(PrivateCustomer customer)
         {
-            int insertedId = -1;
-
             try
             {
-                string insertString = "INSERT INTO PrivateCustomers (firstName, lastName, phoneNumber) OUTPUT INSERTED.customerID VALUES (@FirstName, @LastName, @PhoneNumber)";
-
+                string insertString = "INSERT INTO PrivateCustomers (customerID, firstName, lastName, phoneNumber) VALUES (@CustomerID, @FirstName, @LastName, @PhoneNumber)";
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand createCommand = new SqlCommand(insertString, con))
                 {
-                    // Prepare SQL
-                    createCommand.Parameters.AddWithValue("@FirstName", privateCustomer.FirstName);
-                    createCommand.Parameters.AddWithValue("@LastName", privateCustomer.LastName);
-                    createCommand.Parameters.AddWithValue("@PhoneNumber", privateCustomer.PhoneNumber);
-
+                    createCommand.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                    createCommand.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                    createCommand.Parameters.AddWithValue("@LastName", customer.LastName);
+                    createCommand.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
                     con.Open();
-                    // Execute save and read generated key (ID)
-                    insertedId = (int)createCommand.ExecuteScalar();
+                    createCommand.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
             {
-                // Handle exception
-                Console.WriteLine($"Error adding private customer: {ex.Message}");
+                // Handle exception (log, return error response, etc.)
+                Console.WriteLine($"Error creating private customer: {ex.Message}");
                 throw;
             }
-
-            return insertedId;
         }
 
-        public PrivateCustomer GetPrivateCustomerById(string id)
+            public PrivateCustomer GetPrivateCustomerById(string id)
         {
             PrivateCustomer foundCustomer = null;
 

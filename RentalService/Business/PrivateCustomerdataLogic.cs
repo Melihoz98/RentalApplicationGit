@@ -48,25 +48,22 @@ namespace RentalService.Business
             return foundDtos;
         }
 
-        public int createPrivateCustomer(PrivateCustomerDto privateCustomerDto)
+        public void CreatePrivateCustomer(PrivateCustomerDto customerToAdd)
         {
-            int insertedId = 0;
+           
             try
             {
-                PrivateCustomer? dbCustomer = PrivateCustomerDtoConvert.ToPrivateCustomer(privateCustomerDto);
-                if (dbCustomer != null)
-                {
-                    insertedId = _privateCustomerAccess.AddPrivateCustomer(dbCustomer);
-                }
+                PrivateCustomer customer = PrivateCustomerDtoConvert.ToPrivateCustomer(customerToAdd);
+                _privateCustomerAccess.AddPrivateCustomer(customer);
             }
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
                 // Handle exception
             }
-            return insertedId;
+ 
         }
-
+       
         public void UpdatePrivateCustomer(PrivateCustomerDto privateCustomerDto)
         {
             try
