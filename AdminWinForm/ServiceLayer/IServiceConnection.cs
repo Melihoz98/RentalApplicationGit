@@ -19,7 +19,6 @@ namespace AdminWinForm.ServiceLayer
 
         Task<HttpResponseMessage?> CallServiceGet();
         Task<HttpResponseMessage?> CallServicePost(StringContent postJson);
-        Task<HttpResponseMessage?> CallServicePut(StringContent postJson);
         Task<HttpResponseMessage?> CallServiceDelete(string deleteUrl);
         Task<HttpResponseMessage?> CallServiceDelete();
     }
