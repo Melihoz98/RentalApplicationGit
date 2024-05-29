@@ -48,7 +48,7 @@ namespace RentalService.Business
             return foundDtos;
         }
 
-        public void createPrivateCustomer(PrivateCustomerDto privateCustomerDto)
+        public void CreatePrivateCustomer(PrivateCustomerDto privateCustomerDto)
         {
 
             try

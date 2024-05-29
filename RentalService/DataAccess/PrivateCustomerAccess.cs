@@ -19,13 +19,11 @@ namespace RentalService.DataAccess
             }
         }
 
-        public int AddPrivateCustomer(PrivateCustomer privateCustomer)
+        public void AddPrivateCustomer(PrivateCustomer privateCustomer)
         {
-            int insertedId = -1;
-
             try
             {
-                string insertString = "INSERT INTO PrivateCustomers (customerID, firstName, lastName, phoneNumber)  VALUES (@CustomerID, @FirstName, @LastName, @PhoneNumber)";
+                string insertString = "INSERT INTO PrivateCustomers (customerID, firstName, lastName, phoneNumber) VALUES (@CustomerID, @FirstName, @LastName, @PhoneNumber)";
 
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand createCommand = new SqlCommand(insertString, con))
@@ -36,18 +34,14 @@ namespace RentalService.DataAccess
                     createCommand.Parameters.AddWithValue("@PhoneNumber", privateCustomer.PhoneNumber);
 
                     con.Open();
-                    
-                    insertedId = (int)createCommand.ExecuteScalar();
+                    createCommand.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
             {
-               
                 Console.WriteLine($"Error adding private customer: {ex.Message}");
                 throw;
             }
-
-            return insertedId;
         }
 
         public PrivateCustomer GetPrivateCustomerById(string id)
