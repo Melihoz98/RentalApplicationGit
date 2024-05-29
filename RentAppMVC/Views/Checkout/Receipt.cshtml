@@ -1,0 +1,24 @@
+﻿@model RentAppMVC.Models.Order
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Receipt</title>
+</head>
+<body>
+    <h1>Order Receipt</h1>
+    <div>
+        <p><strong>Order ID:</strong> @Model.OrderID</p>
+        <p><strong>Customer ID:</strong> @Model.CustomerID</p>
+        <p><strong>Order Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</p>
+        <p><strong>Start Date:</strong> @Model.StartDate.ToString("yyyy-MM-dd")</p>
+        <p><strong>End Date:</strong> @Model.EndDate.ToString("yyyy-MM-dd")</p>
+        <p><strong>Start Time:</strong> @Model.StartTime.ToString(@"hh\:mm")</p>
+        <p><strong>End Time:</strong> @Model.EndTime.ToString(@"hh\:mm")</p>
+        <p><strong>Total Hours:</strong> @Model.TotalHours</p>
+        <p><strong>Subtotal Price:</strong> @Model.SubTotalPrice.ToString("C")</p>
+        <p><strong>Total Order Price:</strong> @Model.TotalOrderPrice.ToString("C")</p>
+        <!-- Legg til flere attributter etter behov -->
+    </div>
+</body>
+</html>

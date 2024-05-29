@@ -46,14 +46,14 @@ namespace RentAppMVC.Controllers
 
                 if (orderId > 0)
                 {
-                    TempData["SuccessMessage"] = "Your order has been processed successfully.";
+                    // Redirect til bekreftelsessiden med ordre-ID
+                    return RedirectToAction("Confirmation", new { orderId });
                 }
                 else
                 {
                     TempData["ErrorMessage"] = "An error occurred while processing your order. Please try again later.";
+                    return RedirectToAction("Index");
                 }
-
-                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -63,10 +63,20 @@ namespace RentAppMVC.Controllers
         }
 
 
+
         [HttpGet("Confirmation")]
-        public IActionResult Confirmation()
+        public async Task<IActionResult> Confirmation(int orderId)
         {
-            return View();
+            var order = await _orderLogic.GetOrderById(orderId);
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Order not found.";
+                return RedirectToAction("Index");
+            }
+
+            return View("Receipt", order);
         }
+
+
     }
 }
