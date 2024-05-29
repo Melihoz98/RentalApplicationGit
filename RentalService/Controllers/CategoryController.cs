@@ -63,7 +63,7 @@ namespace RentalService.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public IActionResult CreateCategory([FromBody] CategoryDto categoryDto)
         {
             try

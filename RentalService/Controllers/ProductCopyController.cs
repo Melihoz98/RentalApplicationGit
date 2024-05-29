@@ -89,7 +89,6 @@ namespace RentalService.Controllers
 
 
         [HttpPost]
-        [Authorize]
         public IActionResult CreateProductCopy([FromBody] ProductCopyDto productCopyDto)
         {
             try

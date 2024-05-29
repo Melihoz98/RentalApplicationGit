@@ -65,7 +65,6 @@ namespace RentalService.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult CreateProduct([FromBody] ProductDto productDto)
         {
             try
