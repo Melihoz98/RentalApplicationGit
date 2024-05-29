@@ -61,13 +61,12 @@ namespace RentalService.Controllers
             try
             {
                 _businessCustomerData.CreateBusinessCustomer(customerDto);
-                return CreatedAtRoute("GetBusinessCustomerByCustomerID", new { customerID = customerDto.CustomerID }, customerDto);
+                return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception ex)
             {
-                
-                Console.WriteLine($"Error creating business customer: {ex.Message}");
-                return StatusCode(500, "Internal server error");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

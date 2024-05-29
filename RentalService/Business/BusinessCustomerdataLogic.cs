@@ -54,7 +54,7 @@ namespace RentalService.Business
         {
             try
             {
-                BusinessCustomer customer = BusinessCustomerDtoConvert.ToBusinessCustomer(customerToAdd);
+                BusinessCustomer? customer = BusinessCustomerDtoConvert.ToBusinessCustomer(customerToAdd);
                 _businessCustomerAccess.CreateBusinessCustomer(customer);
             }
             catch (Exception ex)

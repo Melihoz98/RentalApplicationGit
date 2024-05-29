@@ -29,10 +29,8 @@ namespace RentAppMVC.ServiceLayer
             return customer;
         }
 
-        public async Task<int> AddPrivateCustomer(PrivateCustomer customer)
+        public async Task AddPrivateCustomer(PrivateCustomer customer)
         {
-            int insertedCustomerId = -1;
-
             try
             {
                 string customerJson = JsonConvert.SerializeObject(customer);
@@ -40,22 +38,16 @@ namespace RentAppMVC.ServiceLayer
 
                 var serviceResponse = await _privateCustomerService.CallServicePost(httpContent);
 
-                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                if (serviceResponse == null || !serviceResponse.IsSuccessStatusCode)
                 {
-                    string idString = await serviceResponse.Content.ReadAsStringAsync();
-                    bool idNumOk = int.TryParse(idString, out insertedCustomerId);
-                    if (!idNumOk)
-                    {
-                        insertedCustomerId = -2;
-                    }
+                    throw new Exception("Failed to add private customer.");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                insertedCustomerId = -3;
+                Console.WriteLine($"Error adding private customer: {ex.Message}");
+                throw;
             }
-
-            return insertedCustomerId;
         }
 
         public async Task<bool> UpdatePrivateCustomer(PrivateCustomer customer)

@@ -29,10 +29,8 @@ namespace RentAppMVC.ServiceLayer
             return customer;
         }
 
-        public async Task<int> AddBusinessCustomer(BusinessCustomer customer)
+        public async Task AddBusinessCustomer(BusinessCustomer customer)
         {
-            int insertedCustomerId = -1;
-
             try
             {
                 string customerJson = JsonConvert.SerializeObject(customer);
@@ -40,23 +38,18 @@ namespace RentAppMVC.ServiceLayer
 
                 var serviceResponse = await _businessCustomerService.CallServicePost(httpContent);
 
-                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                if (serviceResponse == null || !serviceResponse.IsSuccessStatusCode)
                 {
-                    string idString = await serviceResponse.Content.ReadAsStringAsync();
-                    bool idNumOk = int.TryParse(idString, out insertedCustomerId);
-                    if (!idNumOk)
-                    {
-                        insertedCustomerId = -2;
-                    }
+                    throw new Exception("Failed to add business customer.");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                insertedCustomerId = -3;
+                Console.WriteLine($"Error adding business customer: {ex.Message}");
+                throw;
             }
-
-            return insertedCustomerId;
         }
+
 
         public async Task<bool> UpdateBusinessCustomer(BusinessCustomer customer)
         {
