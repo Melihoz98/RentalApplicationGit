@@ -23,10 +23,6 @@ namespace RentAppMVC.BusinessLogicLayer
             await _privateCustomerAccess.AddPrivateCustomer(customer);
         }
 
-        public async Task UpdatePrivateCustomer(PrivateCustomer customer)
-        {
-            await _privateCustomerAccess.UpdatePrivateCustomer(customer);
-        }
         public async Task<bool> CustomerExists(string customerId)
         {
             var privateCustomer = await GetPrivateCustomerById(customerId);

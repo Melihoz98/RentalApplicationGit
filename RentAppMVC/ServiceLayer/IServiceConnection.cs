@@ -9,11 +9,8 @@
         Task<HttpResponseMessage?> CallServicePost(StringContent postJson);
         Task<HttpResponseMessage?> CallServicePut(StringContent postJson);
         Task<HttpResponseMessage?> CallServiceDelete();
-
-        
         Task<HttpResponseMessage?> GetById(int id);
         Task<HttpResponseMessage?> GetById(string id);
-
         Task<HttpResponseMessage?> Get(string url);
        
     }

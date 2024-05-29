@@ -6,7 +6,6 @@ namespace RentAppMVC.ServiceLayer
     {
         Task<BusinessCustomer> GetBusinessCustomerById(string customerId);
         Task AddBusinessCustomer(BusinessCustomer customer);
-        Task<bool> UpdateBusinessCustomer(BusinessCustomer customer);
         Task<bool> CustomerExists(string customerId);
     }
 }

@@ -53,15 +53,6 @@ namespace AdminWinForm.ServiceLayer
             return hrm;
         }
 
-        public async Task<HttpResponseMessage?> CallServicePut(StringContent postJson)
-        {
-            HttpResponseMessage? hrm = null;
-            if (UseUrl != null)
-            {
-                hrm = await HttpEnabler.PutAsync(UseUrl, postJson);
-            }
-            return hrm;
-        }
 
         public async Task<HttpResponseMessage?> CallServiceDelete()
         {

@@ -51,13 +51,6 @@ namespace RentAppMVC.ServiceLayer
         }
 
 
-        public async Task<bool> UpdateBusinessCustomer(BusinessCustomer customer)
-        {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(customer), Encoding.UTF8, "application/json");
-
-            HttpResponseMessage? response = await _businessCustomerService.CallServicePut(content);
-            return response != null && response.IsSuccessStatusCode;
-        }
 
         public async Task<bool> CustomerExists(string customerId)
         {
