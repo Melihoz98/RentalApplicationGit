@@ -89,7 +89,7 @@ namespace RentalService.Controllers
 
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateProductCopy([FromBody] ProductCopyDto productCopyDto)
         {
             try
@@ -108,6 +108,7 @@ namespace RentalService.Controllers
         
 
         [HttpDelete("{serialNumber}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteProductCopy(string serialNumber)
         {
             try

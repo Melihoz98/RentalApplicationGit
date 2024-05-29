@@ -63,7 +63,7 @@ namespace RentalService.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public IActionResult CreateCategory([FromBody] CategoryDto categoryDto)
         {
             try
@@ -81,6 +81,7 @@ namespace RentalService.Controllers
         
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteCategory(int id)
         {
             try
