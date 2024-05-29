@@ -36,59 +36,81 @@ namespace RentAppMVC.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SavePrivateCustomer(ProfileViewModel model)
-        {
-            var userId = _userManager.GetUserId(User);
-            if (ModelState.IsValid)
-            {
-                var exists = await _privateCustomerLogic.CustomerExists(userId);
-                if (exists)
-                {
-                    ModelState.AddModelError(string.Empty, "Customer with this ID already exists as either Private or Business.");
-                    return View("Index", model);
-                }
+        //[HttpPost]
+        //public async Task<IActionResult> SavePrivateCustomer(ProfileViewModel model)
+        //{
+        //    var userId = _userManager.GetUserId(User);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var exists = await _privateCustomerLogic.CustomerExists(userId);
+        //        if (exists)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "Customer with this ID already exists as either Private or Business.");
+        //            return View("Index", model);
+        //        }
 
-                var existingPrivateCustomer = await _privateCustomerLogic.GetPrivateCustomerById(userId);
-                if (existingPrivateCustomer == null)
-                {
-                    model.PrivateCustomer.CustomerID = userId;
-                    await _privateCustomerLogic.AddPrivateCustomer(model.PrivateCustomer);
-                }
-                else
-                {
-                    model.PrivateCustomer.CustomerID = userId;
-                    await _privateCustomerLogic.UpdatePrivateCustomer(model.PrivateCustomer);
-                }
+        //        var existingPrivateCustomer = await _privateCustomerLogic.GetPrivateCustomerById(userId);
+        //        if (existingPrivateCustomer == null)
+        //        {
+        //            model.PrivateCustomer.CustomerID = userId;
+        //            await _privateCustomerLogic.AddPrivateCustomer(model.PrivateCustomer);
+        //        }
+        //        else
+        //        {
+        //            model.PrivateCustomer.CustomerID = userId;
+        //            await _privateCustomerLogic.UpdatePrivateCustomer(model.PrivateCustomer);
+        //        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View("Index", model);
+        //}
+
+        [HttpPost]
+        public async Task<IActionResult> SavePrivateCustomer(PrivateCustomer model)
+        {
+            if(ModelState.IsValid)
+            {
+                await _privateCustomerLogic.AddPrivateCustomer(model);
                 return RedirectToAction("Index");
             }
-            return View("Index", model);
+            return View("index", model);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> SaveBusinessCustomer(ProfileViewModel model)
+        //{
+        //    var userId = _userManager.GetUserId(User);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var exists = await _privateCustomerLogic.CustomerExists(userId);
+        //        if (exists)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "Customer with this ID already exists as either Private or Business.");
+        //            return View("Index", model);
+        //        }
+
+        //        var existingBusinessCustomer = await _businessCustomerLogic.GetBusinessCustomerById(userId);
+        //        if (existingBusinessCustomer == null)
+        //        {
+        //            model.BusinessCustomer.CustomerID = userId;
+        //            await _businessCustomerLogic.AddBusinessCustomer(model.BusinessCustomer);
+        //        }
+        //        else
+        //        {
+        //            model.BusinessCustomer.CustomerID = userId;
+        //            await _businessCustomerLogic.UpdateBusinessCustomer(model.BusinessCustomer);
+        //        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View("Index", model);
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> SaveBusinessCustomer(ProfileViewModel model)
+        public async Task<IActionResult> SaveBusinessCustomer(BusinessCustomer model)
         {
-            var userId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
-                var exists = await _privateCustomerLogic.CustomerExists(userId);
-                if (exists)
-                {
-                    ModelState.AddModelError(string.Empty, "Customer with this ID already exists as either Private or Business.");
-                    return View("Index", model);
-                }
-
-                var existingBusinessCustomer = await _businessCustomerLogic.GetBusinessCustomerById(userId);
-                if (existingBusinessCustomer == null)
-                {
-                    model.BusinessCustomer.CustomerID = userId;
-                    await _businessCustomerLogic.AddBusinessCustomer(model.BusinessCustomer);
-                }
-                else
-                {
-                    model.BusinessCustomer.CustomerID = userId;
-                    await _businessCustomerLogic.UpdateBusinessCustomer(model.BusinessCustomer);
-                }
+                await _businessCustomerLogic.AddBusinessCustomer(model);
                 return RedirectToAction("Index");
             }
             return View("Index", model);

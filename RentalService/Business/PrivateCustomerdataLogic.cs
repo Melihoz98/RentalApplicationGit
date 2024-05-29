@@ -48,12 +48,12 @@ namespace RentalService.Business
             return foundDtos;
         }
 
-        public void CreatePrivateCustomer(PrivateCustomerDto privateCustomerDto)
+        public void CreatePrivateCustomer(PrivateCustomerDto customerToAdd)
         {
 
             try
             {
-                PrivateCustomer? customer = PrivateCustomerDtoConvert.ToPrivateCustomer(privateCustomerDto);
+                PrivateCustomer? customer = PrivateCustomerDtoConvert.ToPrivateCustomer(customerToAdd);
                 _privateCustomerAccess.AddPrivateCustomer(customer);
             }
             catch (Exception ex)

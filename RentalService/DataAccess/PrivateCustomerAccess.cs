@@ -19,7 +19,7 @@ namespace RentalService.DataAccess
             }
         }
 
-        public void AddPrivateCustomer(PrivateCustomer privateCustomer)
+        public void AddPrivateCustomer(PrivateCustomer customer)
         {
             try
             {
@@ -28,10 +28,10 @@ namespace RentalService.DataAccess
                 using (SqlConnection con = new SqlConnection(_connectionString))
                 using (SqlCommand createCommand = new SqlCommand(insertString, con))
                 {
-                    createCommand.Parameters.AddWithValue("@CustomerID", privateCustomer.CustomerID);
-                    createCommand.Parameters.AddWithValue("@FirstName", privateCustomer.FirstName);
-                    createCommand.Parameters.AddWithValue("@LastName", privateCustomer.LastName);
-                    createCommand.Parameters.AddWithValue("@PhoneNumber", privateCustomer.PhoneNumber);
+                    createCommand.Parameters.AddWithValue("@CustomerID", customer.CustomerID);
+                    createCommand.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                    createCommand.Parameters.AddWithValue("@LastName", customer.LastName);
+                    createCommand.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
 
                     con.Open();
                     createCommand.ExecuteNonQuery();
