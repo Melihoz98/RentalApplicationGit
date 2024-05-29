@@ -65,7 +65,6 @@ namespace RentalService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public IActionResult CreateProduct([FromBody] ProductDto productDto)
         {
             try
@@ -84,7 +83,6 @@ namespace RentalService.Controllers
         
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
         public IActionResult DeleteProduct(int id)
         {
             try

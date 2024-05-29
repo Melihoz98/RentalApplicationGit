@@ -81,7 +81,6 @@ namespace RentalService.Controllers
         
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
         public IActionResult DeleteCategory(int id)
         {
             try
