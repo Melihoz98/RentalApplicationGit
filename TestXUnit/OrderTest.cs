@@ -32,7 +32,7 @@ namespace RentalService.Tests
             // Arrange
             var orderDto = new OrderDto
             {
-                CustomerID = "b6a153f9-1632-409b-8cbf-9fea955d58e4",
+                CustomerID = "ca960629-d465-46f0-bae8-df6bf6f3562f",
                 OrderDate = DateTime.Now.Date,
                 StartDate = DateTime.Now.Date,
                 EndDate = DateTime.Now.Date.AddDays(1),

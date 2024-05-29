@@ -32,14 +32,14 @@ namespace RentalService.Tests
             // Arrange
             var customerDto = new PrivateCustomerDto
             {
-                CustomerID = "ce02d268-d4fd-4659-9bcc-b382b95ab5c4",
+                CustomerID = "d88e95b8-ac1e-4194-a04f-5074df735af4",
                 FirstName = "John",
                 LastName = "Doe",
                 PhoneNumber = "+1234567890"
             };
 
             // Act
-            _privateCustomerDataLogic.createPrivateCustomer(customerDto);
+            _privateCustomerDataLogic.CreatePrivateCustomer(customerDto);
 
             // Assert
             var retrievedCustomer = _privateCustomerDataLogic.GetPrivateCustomerById(customerDto.CustomerID);
@@ -59,13 +59,13 @@ namespace RentalService.Tests
             // Arrange
             var customerDto = new PrivateCustomerDto
             {
-                CustomerID = "ce02d268-d4fd-4659-9bcc-b382b95ab5c4",
+                CustomerID = "d88e95b8-ac1e-4194-a04f-5074df735af4",
                 FirstName = "John",
                 LastName = "Doe",
                 PhoneNumber = "+1234567890"
             };
 
-            _privateCustomerDataLogic.createPrivateCustomer(customerDto);
+            _privateCustomerDataLogic.CreatePrivateCustomer(customerDto);
             _createdCustomerIDs.Add(customerDto.CustomerID);
 
             // Act
@@ -85,13 +85,13 @@ namespace RentalService.Tests
             // Arrange
             var customerDto = new PrivateCustomerDto
             {
-                CustomerID = "ce02d268-d4fd-4659-9bcc-b382b95ab5c4",
+                CustomerID = "d88e95b8-ac1e-4194-a04f-5074df735af4",
                 FirstName = "John",
                 LastName = "Doe",
                 PhoneNumber = "+1234567890"
             };
 
-            _privateCustomerDataLogic.createPrivateCustomer(customerDto);
+            _privateCustomerDataLogic.CreatePrivateCustomer(customerDto);
             _createdCustomerIDs.Add(customerDto.CustomerID);
 
             // Act
@@ -124,13 +124,13 @@ namespace RentalService.Tests
             // Arrange
             var customerDto = new PrivateCustomerDto
             {
-                CustomerID = "ce02d268-d4fd-4659-9bcc-b382b95ab5c4",
+                CustomerID = "d88e95b8-ac1e-4194-a04f-5074df735af4",
                 FirstName = "John",
                 LastName = "Doe",
                 PhoneNumber = "+1234567890"
             };
 
-            _privateCustomerDataLogic.createPrivateCustomer(customerDto);
+            _privateCustomerDataLogic.CreatePrivateCustomer(customerDto);
             _createdCustomerIDs.Add(customerDto.CustomerID);
 
             // Act

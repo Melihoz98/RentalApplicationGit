@@ -33,7 +33,7 @@ namespace RentalService.Tests
             var productCopyDto = new ProductCopyDto
             {
                 SerialNumber = "TestSerialNumber",
-                ProductID = 17,
+                ProductID = 9,
              
             };
 
@@ -55,19 +55,19 @@ namespace RentalService.Tests
             // Arrange
             var productCopyDto = new ProductCopyDto
             {
-                SerialNumber = "TestSerialNumber2",
-                ProductID = 17,
+                SerialNumber = "TestSerialNumber",
+                ProductID = 9,
                
             };
             _productCopyDataLogic.CreateProductCopy(productCopyDto);
-            _createdProductCopySerialNumbers.Add("TestSerialNumber2");
+            _createdProductCopySerialNumbers.Add("TestSerialNumber");
 
             // Act
-            var retrievedProductCopy = _productCopyDataLogic.GetBySerialNumber("TestSerialNumber2");
+            var retrievedProductCopy = _productCopyDataLogic.GetBySerialNumber("TestSerialNumber");
 
             // Assert
             Assert.NotNull(retrievedProductCopy);
-            Assert.Equal("TestSerialNumber2", retrievedProductCopy.SerialNumber);
+            Assert.Equal("TestSerialNumber", retrievedProductCopy.SerialNumber);
         }
 
         [Fact]
@@ -108,14 +108,14 @@ namespace RentalService.Tests
             var productCopyDto = new ProductCopyDto
             {
                 SerialNumber = "TestSerialNumber3",
-                ProductID = 17
+                ProductID = 9
               
             };
             _productCopyDataLogic.CreateProductCopy(productCopyDto);
             _createdProductCopySerialNumbers.Add("TestSerialNumber3");
 
             // Act
-            var productCopies = _productCopyDataLogic.GetAllProductCopiesByProductID(17);
+            var productCopies = _productCopyDataLogic.GetAllProductCopiesByProductID(9);
 
             // Assert
             Assert.NotNull(productCopies);
@@ -129,7 +129,7 @@ namespace RentalService.Tests
             var productCopyDto = new ProductCopyDto
             {
                 SerialNumber = "TestSerialNumber4",
-                ProductID = 17
+                ProductID = 9
               
             };
             _productCopyDataLogic.CreateProductCopy(productCopyDto);
@@ -141,7 +141,7 @@ namespace RentalService.Tests
             var endTime = new TimeSpan(17, 0, 0);
 
             // Act
-            var productCopies = _productCopyDataLogic.GetAllAvailableProductCopyByProductID(17, startDate, endDate, startTime, endTime);
+            var productCopies = _productCopyDataLogic.GetAllAvailableProductCopyByProductID(9, startDate, endDate, startTime, endTime);
 
             // Assert
             Assert.NotNull(productCopies);

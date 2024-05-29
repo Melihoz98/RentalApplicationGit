@@ -32,8 +32,8 @@ namespace RentalService.Tests
             // Arrange
             var customerDto = new BusinessCustomerDto
             {
-                CustomerID = "dfe92186-6586-4c5a-b7f2-2f465bec239c",
-                CompanyName = "Test Company",
+                CustomerID = "d2a1c808-1e92-44cd-9693-b1fe2c04e5a1",
+                CompanyName = "Test Company1",
                 CVR = "12345678",
                 PhoneNumber = "+1234567890"
             };
@@ -56,7 +56,7 @@ namespace RentalService.Tests
             // Arrange
             var customerDto = new BusinessCustomerDto
             {
-                CustomerID = "dfe92186-6586-4c5a-b7f2-2f465bec239c",
+                CustomerID = "d2a1c808-1e92-44cd-9693-b1fe2c04e5a1",
                 CompanyName = "Test Company",
                 CVR = "12345678",
                 PhoneNumber = "+1234567890"
