@@ -71,7 +71,7 @@
             <img src="@product.ImagePath" alt="@product.ProductName" class="product-image" />
             <div class="product-name">@product.ProductName</div>
             <div class="product-description">@product.Description</div>
-            <div class="product-price">$@product.HourlyPrice</div>
+            <div class="product-price">Hourly Price: @product.HourlyPrice$</div>
             @if (SignInManager.IsSignedIn(User))
             {
                 <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
