@@ -50,8 +50,11 @@
         </form>
     </div>
     <div class="col-md-6 text-md-end">
-        <form asp-controller="Checkout" asp-action="CreateOrder" method="post">
-            <button type="submit" class="btn btn-primary">Checkout</button>
-        </form>
+        @if (Model.StartDate != default && Model.EndDate != default && Model.StartTime != default && Model.EndTime != default && Model.Items.Any())
+        {
+            <form asp-controller="Checkout" asp-action="CreateOrder" method="post">
+                <button type="submit" class="btn btn-primary">Checkout</button>
+            </form>
+        }
     </div>
 </div>
