@@ -44,7 +44,7 @@ namespace RentalService.Tests
             };
 
             // Act
-            int newOrderId = _orderDataLogic.CreateOrder(orderDto);
+            int newOrderId = _orderDataLogic.AddOrder(orderDto);
 
             // Assert
             Assert.True(newOrderId > 0);

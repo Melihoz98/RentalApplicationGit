@@ -16,7 +16,6 @@
             SubTotalPrice = subTotalPrice;
             TotalOrderPrice = totalOrderPrice;
             OrderLines = orderLines;
-            OrderLines = orderLines;
         }
 
         public int OrderID { get; set; }
