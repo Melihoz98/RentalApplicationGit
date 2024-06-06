@@ -1,5 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Rent Equipment";
+    var now = DateTime.Now;
+    var minDate = now.ToString("yyyy-MM-dd");
+    var minTimeHour = now.Hour + (now.Minute > 0 ? 1 : 0); 
 }
 
 <h1>Select Date and Time Interval</h1>
@@ -12,19 +15,87 @@
 <form method="post" asp-action="ConfirmDateTime">
     <div class="form-group">
         <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate" class="form-control" required />
+        <input type="date" id="startDate" name="startDate" class="form-control" required min="@minDate" onchange="updateStartDate()" />
     </div>
     <div class="form-group">
         <label for="startTime">Start Time:</label>
-        <input type="time" id="startTime" name="startTime" class="form-control" required />
+        <select id="startTime" name="startTime" class="form-control" required onchange="updateStartTime()">
+            @for (int hour = 0; hour < 24; hour++)
+            {
+                var timeValue = hour.ToString("00") + ":00";
+                if (hour >= minTimeHour)
+                {
+                    <option value="@timeValue">@timeValue</option>
+                }
+                else
+                {
+                    <option value="@timeValue" disabled>@timeValue</option>
+                }
+            }
+        </select>
     </div>
     <div class="form-group">
         <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate" class="form-control" required />
+        <input type="date" id="endDate" name="endDate" class="form-control" required min="@minDate" onchange="updateEndDate()" />
     </div>
     <div class="form-group">
         <label for="endTime">End Time:</label>
-        <input type="time" id="endTime" name="endTime" class="form-control" required />
+        <select id="endTime" name="endTime" class="form-control" required>
+            @for (int hour = 0; hour < 24; hour++)
+            {
+                var timeValue = hour.ToString("00") + ":00";
+                <option value="@timeValue">@timeValue</option>
+            }
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+    function updateStartDate() {
+        var startDate = document.getElementById('startDate').value;
+        var endDate = document.getElementById('endDate');
+        var now = new Date();
+        var startTime = document.getElementById('startTime');
+        var minTimeHour = now.getHours() + (now.getMinutes() > 0 ? 1 : 0);
+
+        if (startDate === now.toISOString().split('T')[0]) {
+            for (var i = 0; i < startTime.options.length; i++) {
+                startTime.options[i].disabled = parseInt(startTime.options[i].value.split(':')[0]) < minTimeHour;
+            }
+        } else {
+            for (var i = 0; i < startTime.options.length; i++) {
+                startTime.options[i].disabled = false;
+            }
+        }
+
+        endDate.min = startDate;
+        updateEndTime();
+    }
+
+    function updateEndDate() {
+        var endDate = document.getElementById('endDate').value;
+        var startDate = document.getElementById('startDate').value;
+        var startTime = document.getElementById('startTime').value;
+        var endTime = document.getElementById('endTime');
+
+        if (endDate === startDate) {
+            for (var i = 0; i < endTime.options.length; i++) {
+                endTime.options[i].disabled = endTime.options[i].value <= startTime;
+            }
+        } else {
+            for (var i = 0; i < endTime.options.length; i++) {
+                endTime.options[i].disabled = false;
+            }
+        }
+    }
+
+    function updateStartTime() {
+        updateEndDate();
+    }
+
+
+    window.onload = function () {
+        updateStartDate();
+    };
+</script>
