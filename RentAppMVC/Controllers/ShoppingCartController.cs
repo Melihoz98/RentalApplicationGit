@@ -115,7 +115,6 @@ namespace RentAppMVC.Controllers
         private ShoppingCart _shoppingCart;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly PrivateCustomerLogic _privateCustomerLogic;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly BusinessCustomerLogic _businessCustomerLogic;
 
         public ShoppingCartController(ShoppingCart shoppingCart, ShoppingCartLogic shoppingCartLogic, UserManager<IdentityUser> userManager, PrivateCustomerLogic privateCustomerLogic, BusinessCustomerLogic businessCustomerLogic)
