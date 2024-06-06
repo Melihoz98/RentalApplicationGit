@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentAppMVC.Models;
-using RentAppMVC.Utilities;
 using RentAppMVC.BusinessLogicLayer;
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace RentAppMVC.Controllers
 {
@@ -38,7 +35,7 @@ namespace RentAppMVC.Controllers
         }
 
         [HttpPost("ProcessOrder")]
-        public async Task<ActionResult> CreateOrder(Order order)
+        public async Task<IActionResult> CreateOrder(Order order)
         {
             try
             {
@@ -46,7 +43,6 @@ namespace RentAppMVC.Controllers
 
                 if (orderId > 0)
                 {
-                    // Redirect til bekreftelsessiden med ordre-ID
                     return RedirectToAction("Confirmation", new { orderId });
                 }
                 else

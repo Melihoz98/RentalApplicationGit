@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RentAppMVC.BusinessLogicLayer;
 using RentAppMVC.Models;
-using System.Threading.Tasks;
 
 namespace RentAppMVC.Controllers
 {

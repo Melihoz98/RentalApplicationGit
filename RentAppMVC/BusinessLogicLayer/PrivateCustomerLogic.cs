@@ -40,6 +40,11 @@ namespace RentAppMVC.BusinessLogicLayer
             return false;
         }
 
-   
+        public async Task<bool> IsPrivateCustomer(string customerId)
+        {
+            var privateCustomer = await GetPrivateCustomerById(customerId);
+            return privateCustomer != null && !string.IsNullOrEmpty(privateCustomer.CustomerID);
+        }
+
     }
 }

@@ -104,6 +104,7 @@ using RentAppMVC.BusinessLogicLayer;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace RentAppMVC.Controllers
 {
@@ -112,11 +113,18 @@ namespace RentAppMVC.Controllers
     {
         private readonly ShoppingCartLogic _shoppingCartLogic;
         private ShoppingCart _shoppingCart;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly PrivateCustomerLogic _privateCustomerLogic;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly BusinessCustomerLogic _businessCustomerLogic;
 
-        public ShoppingCartController(ShoppingCart shoppingCart, ShoppingCartLogic shoppingCartLogic)
+        public ShoppingCartController(ShoppingCart shoppingCart, ShoppingCartLogic shoppingCartLogic, UserManager<IdentityUser> userManager, PrivateCustomerLogic privateCustomerLogic, BusinessCustomerLogic businessCustomerLogic)
         {
             _shoppingCart = shoppingCart;
             _shoppingCartLogic = shoppingCartLogic;
+            _userManager = userManager;
+            _privateCustomerLogic = privateCustomerLogic;
+            _businessCustomerLogic = businessCustomerLogic;
         }
 
         public IActionResult Index()
@@ -126,8 +134,19 @@ namespace RentAppMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddToCart(int productId)
+        public async Task<IActionResult> AddToCart(int productId)
         {
+            string userId = _userManager.GetUserId(User);
+            bool isPrivateCustomer = await _privateCustomerLogic.IsPrivateCustomer(userId);
+            bool isBusinessCustomer = await _businessCustomerLogic.IsBusinessCustomer(userId);
+
+
+            if (!isPrivateCustomer && !isBusinessCustomer)
+            {
+                TempData["ErrorMessage"] = "You need to register as a customer first.";
+                return RedirectToAction("Index", "Profile");
+            }
+
             try
             {
                 var updatedCart = await _shoppingCartLogic.AddToCart(HttpContext, productId);
@@ -145,14 +164,14 @@ namespace RentAppMVC.Controllers
         }
 
         [HttpPost("RemoveItem")]
-        public ActionResult RemoveItem(string serialNumber)
+        public IActionResult RemoveItem(string serialNumber)
         {
             _shoppingCartLogic.RemoveItem(HttpContext, serialNumber);
             return RedirectToAction("Index");
         }
 
         [HttpPost("EmptyCart")]
-        public ActionResult EmptyCart()
+        public IActionResult EmptyCart()
         {
             _shoppingCartLogic.EmptyCart(HttpContext);
             return RedirectToAction("Index");
