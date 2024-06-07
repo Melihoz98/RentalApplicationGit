@@ -28,35 +28,12 @@ namespace AdminWinForm.ServiceLayer
             if (response != null && response.IsSuccessStatusCode)
             {
                 string jsonString = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine($"Received JSON response: {jsonString}");
-
-                // Check if JSON data represents a single object or a list
-                if (jsonString.StartsWith("[") && jsonString.EndsWith("]"))
-                {
-                    Console.WriteLine("JSON response represents a list.");
-                    // JSON data represents a list
-                    orderLines = JsonConvert.DeserializeObject<List<OrderLine>>(jsonString);
-                }
-                else
-                {
-                    Console.WriteLine("JSON response represents a single object.");
-                    // JSON data represents a single object
-                    OrderLine orderLine = JsonConvert.DeserializeObject<OrderLine>(jsonString);
-                    orderLines.Add(orderLine);
-                }
+                orderLines = JsonConvert.DeserializeObject<List<OrderLine>>(jsonString);
             }
-            else
-            {
-                Console.WriteLine("Failed to receive a successful response from the API.");
-            }
-
+          
             return orderLines;
         }
 
-
-
-          
 
     }
 }
