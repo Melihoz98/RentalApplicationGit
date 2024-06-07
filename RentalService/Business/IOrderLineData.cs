@@ -10,5 +10,6 @@ namespace RentalService.Business
        
         OrderLineDto GetOrderLineByOrderID(int orderID);
         List<OrderLineDto> GetOrderLinesBySerialNumber(string serialNumber);
+        List<OrderLineDto> GetOrderLinesByOrderID(int orderID);
     }
 }

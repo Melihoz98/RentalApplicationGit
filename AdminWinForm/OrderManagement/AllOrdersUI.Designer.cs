@@ -18,7 +18,7 @@ namespace AdminWinForm.OrderManagement
             base.Dispose(disposing);
         }
 
-     
+
 
         #region Windows Form Designer generated code
 
@@ -40,7 +40,11 @@ namespace AdminWinForm.OrderManagement
             Column9 = new DataGridViewTextBoxColumn();
             Column10 = new DataGridViewTextBoxColumn();
             button1 = new Button();
+            dataGridView2 = new DataGridView();
+            orderID = new DataGridViewTextBoxColumn();
+            serialNumber = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
@@ -125,7 +129,7 @@ namespace AdminWinForm.OrderManagement
             // 
             // button1
             // 
-            button1.Location = new Point(64, 394);
+            button1.Location = new Point(32, 604);
             button1.Name = "button1";
             button1.Size = new Size(207, 34);
             button1.TabIndex = 1;
@@ -133,16 +137,42 @@ namespace AdminWinForm.OrderManagement
             button1.UseVisualStyleBackColor = true;
             button1.Click += back_Click;
             // 
+            // dataGridView2
+            // 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { orderID, serialNumber });
+            dataGridView2.Location = new Point(608, 413);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.RowHeadersWidth = 62;
+            dataGridView2.Size = new Size(364, 225);
+            dataGridView2.TabIndex = 2;
+            // 
+            // orderID
+            // 
+            orderID.HeaderText = "OrderID";
+            orderID.MinimumWidth = 8;
+            orderID.Name = "orderID";
+            orderID.Width = 150;
+            // 
+            // serialNumber
+            // 
+            serialNumber.HeaderText = "Serial Number";
+            serialNumber.MinimumWidth = 8;
+            serialNumber.Name = "serialNumber";
+            serialNumber.Width = 150;
+            // 
             // AllOrdersUI
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1568, 450);
+            ClientSize = new Size(1568, 661);
+            Controls.Add(dataGridView2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
             Name = "AllOrdersUI";
             Text = "AllOrdersUI";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
         }
 
@@ -160,5 +190,8 @@ namespace AdminWinForm.OrderManagement
         private DataGridViewTextBoxColumn Column9;
         private DataGridViewTextBoxColumn Column10;
         private Button button1;
+        private DataGridView dataGridView2;
+        private DataGridViewTextBoxColumn orderID;
+        private DataGridViewTextBoxColumn serialNumber;
     }
 }

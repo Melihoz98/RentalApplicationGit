@@ -131,6 +131,39 @@ namespace RentalService.DataAccess
 
             return orderLines;
         }
+        public List<OrderLine> GetOrderLinesByOrderID(int orderID)
+        {
+            List<OrderLine> orderLines = new List<OrderLine>();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_connectionString))
+                using (SqlCommand command = con.CreateCommand())
+                {
+                    command.CommandText = "SELECT orderID, serialNumber FROM OrderLines WHERE orderID = @OrderID";
+                    command.Parameters.AddWithValue("@OrderID", orderID);
+
+                    con.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            OrderLine orderLine = GetOrderLineFromReader(reader);
+                            orderLines.Add(orderLine);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error getting order lines by orderID: {ex.Message}");
+                throw;
+            }
+
+            return orderLines;
+        }
+
 
         private OrderLine GetOrderLineFromReader(SqlDataReader reader)
         {
@@ -138,5 +171,7 @@ namespace RentalService.DataAccess
             string serialNumber = reader.GetString(reader.GetOrdinal("serialNumber"));
             return new OrderLine(orderID, serialNumber);
         }
+
+
     }
 }

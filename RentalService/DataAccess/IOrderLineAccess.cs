@@ -10,5 +10,6 @@ namespace RentalService.DataAccess
         
         OrderLine GetOrderLineByOrderID(int orderID);
         List<OrderLine> GetOrderLinesBySerialNumber(string serialNumber);
+        List<OrderLine> GetOrderLinesByOrderID(int orderID);
     }
 }

@@ -16,15 +16,19 @@ namespace AdminWinForm.OrderManagement
     public partial class AllOrdersUI : Form
     {
         readonly OrderLogic _orderLogic;
+        readonly OrderLineLogic _orderLineLogic;
         public AllOrdersUI()
         {
             InitializeComponent();
 
             _orderLogic = new OrderLogic();
+            _orderLineLogic = new OrderLineLogic();
 
             this.Load += AllOrdersUI_Load;
+            dataGridView1.CellClick += DataGridView1_CellClick;
 
         }
+
         private async void LoadOrders()
         {
             try
@@ -43,6 +47,33 @@ namespace AdminWinForm.OrderManagement
             }
         }
 
+        private async void LoadOrderLines(int orderID)
+        {
+            try
+            {
+                List<OrderLine> orderLines = await _orderLineLogic.GetOrderLinesByOrderId(orderID);
+                dataGridView2.Rows.Clear();
+                foreach (OrderLine orderLine in orderLines)
+                {
+                    dataGridView2.Rows.Add(orderLine.OrderID, orderLine.SerialNumber);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fejl ved indlæsning af ordrer: {ex.Message}", "Fejl", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                int selectedOrderID = (int)dataGridView1.Rows[e.RowIndex].Cells["Column1"].Value;
+                LoadOrderLines(selectedOrderID);
+            }
+        }
+
+
         private void AllOrdersUI_Load(object sender, EventArgs e)
         {
             LoadOrders();
@@ -51,5 +82,6 @@ namespace AdminWinForm.OrderManagement
         {
             this.Close();
         }
+
     }
 }

@@ -81,5 +81,25 @@ namespace RentalService.Business
                 throw;
             }
         }
+
+        public List<OrderLineDto> GetOrderLinesByOrderID(int orderID)
+        {
+            try
+            {
+                List<OrderLine> orderLines = _orderLineAccess.GetOrderLinesByOrderID(orderID);
+                List<OrderLineDto> orderLineDtos = new List<OrderLineDto>();
+                foreach (var orderLine in orderLines)
+                {
+                    orderLineDtos.Add(new OrderLineDto { OrderID = orderLine.OrderID, SerialNumber = orderLine.SerialNumber });
+                }
+                return orderLineDtos;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error getting order lines by orderID: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

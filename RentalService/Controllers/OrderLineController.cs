@@ -96,5 +96,28 @@ namespace RentalService.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpGet("order/{orderID}")]
+        public IActionResult GetOrderLinesByOrderID(int orderID)
+        {
+            try
+            {
+                List<OrderLineDto> orderLineDtos = _orderLineData.GetOrderLinesByOrderID(orderID);
+                if (orderLineDtos != null && orderLineDtos.Count > 0)
+                {
+                    return Ok(orderLineDtos);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error getting order lines by orderID: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
